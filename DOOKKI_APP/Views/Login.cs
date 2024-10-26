@@ -55,16 +55,25 @@ namespace DOOKKI_APP.Views
                     this.Hide();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Error at class Login(Form) and function btnLogin_Click : {ex.Message}");
             }
-            
+
 
         }
         private void CloseLoginForm(object sender, FormClosedEventArgs e)
         {
             this.Close(); // Close the login form when MainForm closes
         }
+
+        private void Login_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnLogin.PerformClick();
+            }
+        }
+        
     }
 }
