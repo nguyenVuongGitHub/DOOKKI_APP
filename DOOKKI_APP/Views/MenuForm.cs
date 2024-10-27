@@ -93,7 +93,17 @@ namespace DOOKKI_APP.Views
                     };
                     flowLayoutPanel1.Controls.Add(ticketControl);
                 }
+                UpdateTotalSum();
             }
+        }
+
+        private void UpdateTotalSum()
+        {
+            decimal totalSum = flowLayoutPanel1.Controls
+                .OfType<ucTicketDetail>()
+                .Sum(ctrl => ctrl.ticketPrice * ctrl.ticketQuantity); // Calculate total price
+
+            lblSum.Text = totalSum.ToString("#,##0 VND"); // Update lblSum
         }
 
         private void btnCooking_Click(object sender, EventArgs e)
@@ -125,12 +135,14 @@ namespace DOOKKI_APP.Views
                 }
 
                 flowLayoutPanel1.Controls.Clear(); // Xóa các item sau khi đặt bàn
+                lblSum.Text = "0 VND";
                 LoadComboBox(); // Cập nhật lại ComboBox để loại bỏ bàn đã đặt
             }
         }
         private void btnDeleteAll_Click(object sender, EventArgs e)
         {
             flowLayoutPanel1.Controls.Clear();
+            lblSum.Text = "0 VND";
         }
     }
 }
