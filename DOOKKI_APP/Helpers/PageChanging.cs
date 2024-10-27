@@ -8,36 +8,51 @@ using System.Threading.Tasks;
 
 namespace DOOKKI_APP.Helpers
 {
-    internal class PageChanging
+    internal class PageChanging<ModelT> where ModelT : class
     {
-        //private readonly DookkiContext _context;
+        // danh sách mà class này thực hiện tới
+        private List<ModelT> _listOfModel;
 
-        //private int currentPageIndex = 1;
-        //private int totalPages;
-        //public PageChanging(DookkiContext context)
-        //{
-        //    _context = context;
-        //}
-        //public void UpdateTotalPages(int pageSize)
-        //{
-        //    int totalRecords = _context.Set<ModelT>().Count();
-        //    totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
-        //}
-        //public void NextPage()
-        //{
-        //    if (currentPageIndex + 1 < totalPages)
-        //        currentPageIndex++;
-        //    else
-        //        currentPageIndex = 1;
-        //}
-        //public void PreviousPage()
-        //{
-        //    if (currentPageIndex > 1 && currentPageIndex <= totalPages)
-        //        currentPageIndex--;
-        //    else
-        //        currentPageIndex = totalPages;
-        //}
-        //public int CurrentPageIndex => currentPageIndex;
-        //public int TotalPages => totalPages;
+        private int currentPageIndex = 1;
+        private int totalPages;
+        public PageChanging(List<ModelT> listOfModel)
+        {
+            _listOfModel = listOfModel;
+        }
+
+        /// <summary>
+        /// // khi danh sách hiển thị có thay đổi, gọi hàm này
+        /// </summary>
+        /// <param name="listOfNewModel"> danh sách mới </param>
+        public void UpdateListOfModel(List<ModelT> listOfNewModel)
+        {
+            _listOfModel.Clear();
+            _listOfModel = listOfNewModel;
+        }
+        /// <summary>
+        /// Tính tổng trang hiện có nếu chia theo pagesize
+        /// </summary>
+        /// <param name="pageSize"> số dòng hiển thị trên gridview </param>
+        public void UpdateTotalPages(int pageSize)
+        {
+            int totalRecords = _listOfModel.Count();
+            totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+        }
+        public void NextPage()
+        {
+            if (currentPageIndex + 1 <= totalPages)
+                currentPageIndex++;
+            else
+                currentPageIndex = 1;
+        }
+        public void PreviousPage()
+        {
+            if (currentPageIndex > 1 && currentPageIndex <= totalPages)
+                currentPageIndex--;
+            else
+                currentPageIndex = totalPages;
+        }
+        public int CurrentPageIndex => currentPageIndex;
+        public int TotalPages => totalPages;
     }
 }

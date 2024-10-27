@@ -8,38 +8,34 @@ using System.Threading.Tasks;
 
 namespace DOOKKI_APP.Controllers
 {
-    /// <summary>
-    /// This class handle admin model
-    /// </summary>
-    internal class AdminController : AbstractController<Admin>
+    internal class CategoryController : AbstractController<Category>
     {
-
-        public AdminController(DookkiContext context)
+        public CategoryController(DookkiContext context)
         {
-           _context = context;
+            _context = context;
         }
 
-        public override void Add(Admin element)
+        public override void Add(Category element)
         {
             throw new NotImplementedException();
         }
 
-        public override DbSet<Admin> GetModel()
+        public override DbSet<Category> GetModel()
         {
-            return _context.Admins;
+            return _context.Categories;
         }
 
-        public override void Remove(Admin element)
+        public override void Remove(Category element)
         {
             throw new NotImplementedException();
         }
 
         public override void SaveChanges()
         {
-            _context.SaveChanges();
+            //_context.SaveChanges();
         }
 
-        public override void Update(Admin element)
+        public override void Update(Category element)
         {
             throw new NotImplementedException();
         }
