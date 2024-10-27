@@ -30,6 +30,7 @@
         {
             pnBody = new Panel();
             panel4 = new Panel();
+            tableLayoutPanel1 = new TableLayoutPanel();
             lblTableListEmptyText = new Label();
             comboBox1 = new ComboBox();
             button4 = new Button();
@@ -43,6 +44,7 @@
             lblQuantity = new Label();
             lblNameTicket = new Label();
             panel5 = new Panel();
+            lblTable = new Label();
             label1 = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
             pnBody.SuspendLayout();
@@ -65,6 +67,7 @@
             // panel4
             // 
             panel4.BackColor = Color.White;
+            panel4.Controls.Add(tableLayoutPanel1);
             panel4.Controls.Add(lblTableListEmptyText);
             panel4.Controls.Add(comboBox1);
             panel4.Controls.Add(button4);
@@ -79,6 +82,31 @@
             panel4.Name = "panel4";
             panel4.Size = new Size(262, 437);
             panel4.TabIndex = 4;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.AllowDrop = true;
+            tableLayoutPanel1.AutoScroll = true;
+            tableLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            tableLayoutPanel1.ColumnCount = 3;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 76.5625F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 23.4375F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 90F));
+            tableLayoutPanel1.Location = new Point(11, 128);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 10;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Size = new Size(246, 210);
+            tableLayoutPanel1.TabIndex = 12;
             // 
             // lblTableListEmptyText
             // 
@@ -175,7 +203,7 @@
             // 
             lblQuantity.AutoSize = true;
             lblQuantity.Font = new Font("Segoe UI", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblQuantity.Location = new Point(100, 13);
+            lblQuantity.Location = new Point(111, 13);
             lblQuantity.Name = "lblQuantity";
             lblQuantity.Size = new Size(39, 12);
             lblQuantity.TabIndex = 1;
@@ -193,11 +221,22 @@
             // 
             // panel5
             // 
+            panel5.Controls.Add(lblTable);
             panel5.Controls.Add(label1);
             panel5.Location = new Point(11, 13);
             panel5.Name = "panel5";
             panel5.Size = new Size(231, 59);
             panel5.TabIndex = 1;
+            // 
+            // lblTable
+            // 
+            lblTable.BackColor = Color.Red;
+            lblTable.ForeColor = Color.White;
+            lblTable.Location = new Point(50, 13);
+            lblTable.Name = "lblTable";
+            lblTable.Size = new Size(136, 36);
+            lblTable.TabIndex = 1;
+            lblTable.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
@@ -211,6 +250,7 @@
             // 
             // flowLayoutPanel1
             // 
+            flowLayoutPanel1.AllowDrop = true;
             flowLayoutPanel1.AutoScroll = true;
             flowLayoutPanel1.Location = new Point(17, 3);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -253,5 +293,7 @@
         private Panel panel5;
         private Label label1;
         private FlowLayoutPanel flowLayoutPanel1;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Label lblTable;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DOOKKI_APP.Controllers;
 using DOOKKI_APP.Helpers;
+using DOOKKI_APP.Models;
 using DOOKKI_APP.Models.Entities;
 using DOOKKI_APP.Views.UserControls;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,10 +20,14 @@ namespace DOOKKI_APP.Views
     {
         DookkiContext context = new DookkiContext(); 
         IServiceProvider serviceProvider;
+
+        public Dictionary<string, bool> TableStatus { get; private set; } = new Dictionary<string, bool>();
+        public Dictionary<string, List<OrderInfo>> TableOrders { get; private set; } = new Dictionary<string, List<OrderInfo>>();
         public ManageOrders()
         {
             InitializeComponent();
-            openChildForm(new MenuForm(context, serviceProvider));
+            InitializeTableStatus();
+            openChildForm(new MenuForm(context, serviceProvider, this));
         }
         private Form currentFormChild;
         private void openChildForm(Form childForm)
@@ -41,15 +46,24 @@ namespace DOOKKI_APP.Views
             childForm.Show();
         }
 
+        private void InitializeTableStatus()
+        {
+            for (int i = 1; i <= 29; i++)
+            {
+                string tableName = "Bàn " + i;
+                TableStatus[tableName] = false;
+            }
+        }
+
         private void btnMenu_Click(object sender, EventArgs e)
         {
-            openChildForm(new MenuForm(context, serviceProvider));
+            openChildForm(new MenuForm(context, serviceProvider, this));
             lblTitle.Text = btnMenu.Text;
         }
 
         private void btnTable_Click(object sender, EventArgs e)
         {
-            openChildForm(new TableForm());
+            openChildForm(new TableForm(this));
             lblTitle.Text = btnTable.Text;
         }
     }

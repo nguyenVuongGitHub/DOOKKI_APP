@@ -1,6 +1,6 @@
 ﻿namespace DOOKKI_APP.Views.UserControls
 {
-    partial class ucTables
+    partial class ucOrderDetails
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,32 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnTable = new Button();
+            tableLayoutPanel1 = new TableLayoutPanel();
             SuspendLayout();
             // 
-            // btnTable
+            // tableLayoutPanel1
             // 
-            btnTable.Cursor = Cursors.Hand;
-            btnTable.Dock = DockStyle.Fill;
-            btnTable.Location = new Point(0, 0);
-            btnTable.Name = "btnTable";
-            btnTable.Size = new Size(148, 95);
-            btnTable.TabIndex = 0;
-            btnTable.Text = "Bàn 1";
-            btnTable.UseVisualStyleBackColor = false;
+            tableLayoutPanel1.AllowDrop = true;
+            tableLayoutPanel1.AutoScroll = true;
+            tableLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            tableLayoutPanel1.ColumnCount = 3;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64.55696F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.44304F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 82F));
+            tableLayoutPanel1.Location = new Point(3, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Size = new Size(220, 43);
+            tableLayoutPanel1.TabIndex = 0;
             // 
-            // ucTables
+            // ucOrderDetails
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(btnTable);
-            Name = "ucTables";
-            Size = new Size(148, 95);
+            Controls.Add(tableLayoutPanel1);
+            Name = "ucOrderDetails";
+            Size = new Size(226, 43);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Button btnTable;
+        private TableLayoutPanel tableLayoutPanel1;
     }
 }

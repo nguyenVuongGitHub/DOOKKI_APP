@@ -12,11 +12,30 @@ namespace DOOKKI_APP.Views.UserControls
 {
     public partial class ucTables : UserControl
     {
-        public bool IsOccupied = false;
+        private bool _isOccupied;
         public ucTables()
         {
             InitializeComponent();
-            btnTable.BackColor = Color.Green;
+            UpdateTableColor(); ;
+
+            //Registrate event click
+            btnTable.Click += (s, e) => OnClick(e);
+        }
+
+        //Update table empty or full
+        public bool IsOccupied
+        {
+            get { return _isOccupied; }
+            set
+            {
+                _isOccupied = value;
+                UpdateTableColor();
+            }
+        }
+
+        private void UpdateTableColor()
+        {
+            btnTable.BackColor = _isOccupied ? Color.Red : Color.Green;
         }
 
         public string TableName
@@ -26,7 +45,6 @@ namespace DOOKKI_APP.Views.UserControls
         }
         public void BookTable()
         {
-            btnTable.BackColor = Color.Red;
             IsOccupied = true;
         }
     }
