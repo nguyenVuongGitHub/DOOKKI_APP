@@ -34,9 +34,43 @@ namespace DOOKKI_APP.Views
                         MessageBox.Show("Xuat file thanh cong");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Day ne: " + ex.Message);
+            }
+        }
+
+        private void btnExportSalary_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ExportFile export = new ExportFile(_context);
+                export.ExportSalaryByMonthToExcel(DateTimePicker);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Loi loi le: ", ex.Message);
+            }
+            finally
+            {
+                MessageBox.Show("Xuat roi");
+            }
+        }
+
+        private void btnRevenueByMonth_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ExportFile export = new ExportFile(_context);
+                export.ExportRevenueByYearToDoc(DTPRevenue);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Loi loi le: ", ex.Message);
+            }
+            finally
+            {
+                MessageBox.Show("Xuat roi");
             }
         }
     }

@@ -7,6 +7,8 @@ using DOOKKI_APP.Models.Entities;
 using Spire.Doc;
 using System.IO;
 using System.Diagnostics;
+using Spire.Xls;
+using Guna.UI2.WinForms;
 
 namespace DOOKKI_APP.Helpers
 {
@@ -16,6 +18,7 @@ namespace DOOKKI_APP.Helpers
         private string assetsDirectory;
         private string OutputFileDirectory;
         private string fileTemplateBill;
+        private string fileTemplateRevenue;
         private DookkiContext _context;
         public ExportFile(DookkiContext context)
         {
@@ -24,6 +27,7 @@ namespace DOOKKI_APP.Helpers
             assetsDirectory = Path.Combine(solutionDirectory, "Assets");
             OutputFileDirectory = Path.Combine(solutionDirectory, "OutputFile");
             fileTemplateBill = Path.Combine(assetsDirectory, "Template", "Bill.docx");
+            fileTemplateRevenue = Path.Combine(assetsDirectory, "Template", "RevenueTemplate.docx");
             _context = context;
         }
         /// <summary>
@@ -85,7 +89,7 @@ namespace DOOKKI_APP.Helpers
                 document.Replace("{TotalBill}", $"{totalBill}", false, true);
 
                 string outputFilePath = Path.Combine(OutputFileDirectory, "Bill_" + order?.OrderId + ".pdf");
-                document.SaveToFile(outputFilePath, FileFormat.PDF);
+                document.SaveToFile(outputFilePath, Spire.Doc.FileFormat.PDF);
                 return true;
             }
             catch (Exception ex)
@@ -100,15 +104,81 @@ namespace DOOKKI_APP.Helpers
         /// <summary>
         /// export employee salary
         /// </summary>
-        public void ExportToExcel()
+        public void ExportSalaryByMonthToExcel(Guna2DateTimePicker dateTimePickerFilter)
         {
+            try
+            {
+                int selectedMonth = dateTimePickerFilter.Value.Month;
+                int selectedYear = dateTimePickerFilter.Value.Year;
+
+                // LINQ query salary of employee by choosed month
+                var query = from e in _context.Employees
+                            join w in _context.DayWorks on e.EmployeeId equals w.EmployeeId
+                            where w.Day.Value.Month == selectedMonth &&
+                                  w.Day.Value.Year == selectedYear
+                            group w by new { e.EmployeeId, e.EmployeeName, e.AmountWage} into g
+                            select new
+                            {
+                                EmployeeID = g.Key.EmployeeId,
+                                Name = g.Key.EmployeeName,
+                                TotalSalary = g.Sum(w => w.TimeWork * g.Key.AmountWage)
+                            };
+                Workbook workbook = new Workbook();
+                Worksheet sheet = workbook.Worksheets[0];
+
+                // Init Headder
+                sheet.Range["A1"].Text = "Employee ID";
+                sheet.Range["B1"].Text = "Name";
+                sheet.Range["C1"].Text = "Total Salary";
+
+                // Export data
+                int row = 2;
+                foreach (var item in query)
+                {
+                    sheet.Range["A" + row].NumberValue = item.EmployeeID;
+                    sheet.Range["B" + row].Text = item.Name;
+                    sheet.Range["C" + row].NumberValue = (double)item.TotalSalary;
+                    row++;
+                }
+
+                // Format salary column
+                sheet.Range["C2:C" + (row - 1)].NumberFormat = "#,###";
+
+                // Save file
+                string filePath = Path.Combine(OutputFileDirectory, "Salary_" + dateTimePickerFilter?.Value.Month + ".Xlsm");
+                workbook.SaveToFile(filePath, Spire.Xls.FileFormat.Xlsm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
         }
         /// <summary>
         /// export company's income 
         /// </summary>
-        public void ExportToDoc()
+        public void ExportRevenueByYearToDoc(Guna2DateTimePicker dateTimePickerFilterRevenue)
         {
+            try
+            {
+                int selectedYear = dateTimePickerFilterRevenue.Value.Year;
+                Document doc = new Document();
+                doc.LoadFromFile(fileTemplateRevenue);
+                var query = _context.Payments
+                    .Where(p => p.Day.Year == selectedYear)
+                    .Sum(p => p.Amount);
+                doc.Replace("{YearBegin}", (selectedYear - 1).ToString(), false, true);
+                doc.Replace("{YearEnd}", selectedYear.ToString(), false, true);
+                doc.Replace("{TotalPayment}", $"{query:F2}", false, true);
+                doc.Replace("{Total}", $"{query:F2}", false, true);
+
+                string outputFilePath = Path.Combine(OutputFileDirectory, "Revenue_" + selectedYear + ".docx");
+                doc.SaveToFile(outputFilePath, Spire.Doc.FileFormat.Docx);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

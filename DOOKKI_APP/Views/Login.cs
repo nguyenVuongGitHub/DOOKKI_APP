@@ -49,7 +49,7 @@ namespace DOOKKI_APP.Views
                 {
                     //move on to another form
 
-                    var mainForm = _serviceProvider.GetRequiredService<MainForm>();
+                    var mainForm = _serviceProvider.GetRequiredService<TestForm>();
                     mainForm.FormClosed += CloseLoginForm; // khi form chính đóng sẽ gọi hàm này
                     mainForm.Show();
                     this.Hide();
