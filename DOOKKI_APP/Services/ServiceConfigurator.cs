@@ -25,6 +25,7 @@ namespace DOOKKI_APP.Services
             services.AddTransient<MainForm>(); // Register MainForm for DI
             services.AddTransient<Views.Login>();
             services.AddTransient<Views.ManageProducts>();
+            services.AddTransient<Views.ManageOrders>();
 
 
             // Apply pending migrations at startup
