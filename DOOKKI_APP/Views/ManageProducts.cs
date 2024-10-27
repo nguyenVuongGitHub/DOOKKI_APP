@@ -28,9 +28,74 @@ namespace DOOKKI_APP.Views
             _serviceProvider = serviceProvider;
             _pageChanging = new PageChanging<Product>(_productController.BindingList.ToList());
             _categoryController = new CategoryController(context);
+            if(!CheckAccessRole())
+            {
+                dgvProducts.Enabled = false;
+                label1.Enabled = false;
+                txtSearch.Enabled = false;
+                btnPrePage.Enabled = false;
+                btnNextPage.Enabled = false;
+                lbTotalPages.Enabled = false;
+                panel1.Enabled = false;
+                label3.Enabled = false;
+                label2.Enabled = false;
+                label5.Enabled = false;
+                label4.Enabled = false;
+                label6.Enabled = false;
+                txtName.Enabled = false;
+                label7.Enabled = false;
+                dtpk_Mfg.Enabled = false;
+                txtUnitInStock.Enabled = false;
+                cbCategory.Enabled = false;
+                dtpk_Exp.Enabled = false;
+                btnInsert.Enabled = false;
+                btnUpdate.Enabled = false;
+                contextMenuStrip.Enabled = false;
+                EditToolStripMenuItem.Enabled = false;
+                DeleteToolStripMenuItem.Enabled = false;
+                MessageBox.Show("Bạn không có quyền truy cập vào đây!!");
+            }
+            else
+            {
+                dgvProducts.Enabled = true;
+                label1.Enabled = true;
+                txtSearch.Enabled = true;
+                btnPrePage.Enabled = true;
+                btnNextPage.Enabled = true;
+                lbTotalPages.Enabled = true;
+                panel1.Enabled = true;
+                label3.Enabled = true;
+                label2.Enabled = true;
+                label5.Enabled = true;
+                label4.Enabled = true;
+                label6.Enabled = true;
+                txtName.Enabled = true;
+                label7.Enabled = true;
+                dtpk_Mfg.Enabled = true;
+                txtUnitInStock.Enabled = true;
+                cbCategory.Enabled = true;
+                dtpk_Exp.Enabled = true;
+                btnInsert.Enabled = true;
+                btnUpdate.Enabled = true;
+                contextMenuStrip.Enabled = true;
+                EditToolStripMenuItem.Enabled = true;
+                DeleteToolStripMenuItem.Enabled = true;
+            }
         }
         // local method
-
+        public bool CheckAccessRole()
+        {
+            if (User.Role == Roles.admin)
+            {
+                return true;
+            }
+            else if (User.Role == Roles.cashier)
+            {
+                return false;
+            }
+            else
+                return false;
+        }
         private int GetPageSize()
         {
             return 10; // have no choice
