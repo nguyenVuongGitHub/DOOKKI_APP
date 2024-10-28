@@ -14,7 +14,6 @@ namespace DOOKKI_APP.Views.UserControls
 {
     public partial class ucTicketDetail : UserControl
     {
-        public string ticketName { get; set; }
         public decimal ticketPrice { get; set; }
         private int _ticketQuantity;
         public ucTicketDetail()
@@ -27,14 +26,15 @@ namespace DOOKKI_APP.Views.UserControls
             set
             {
                 _ticketQuantity = value;
+                lblQuantity.Text = _ticketQuantity.ToString();
                 lblPrice.Text = (ticketPrice * _ticketQuantity).ToString("#,##0 VND"); // Update price label
             }
         }
-        //public string ticketName
-        //{
-        //    get { return lblTicketName.Text; }
-        //    set { lblTicketName.Text = value; }
-        //}
+        public string ticketName
+        {
+            get { return lblTicketName.Text; }
+            set { lblTicketName.Text = value; }
+        }
         //public int ticketQuantity
         //{
         //    get { return int.Parse(lblQuantity.Text); }

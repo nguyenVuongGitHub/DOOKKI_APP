@@ -94,7 +94,7 @@
             btnMenu.TabIndex = 4;
             btnMenu.Text = "Menu";
             btnMenu.UseVisualStyleBackColor = true;
-            btnMenu.Click += btnMenu_Click;
+            //btnMenu.Click += btnMenu_Click;
             // 
             // btnTable
             // 

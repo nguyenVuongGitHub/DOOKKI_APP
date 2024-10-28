@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            button1 = new Button();
             panel2 = new Panel();
             flowLayoutPanel1 = new FlowLayoutPanel();
             btnCooking = new Button();
@@ -37,7 +38,6 @@
             label1 = new Label();
             label3 = new Label();
             panel3 = new Panel();
-            cbTable = new ComboBox();
             txtDate = new TextBox();
             lblTitleText = new Label();
             dgvTicket = new DataGridView();
@@ -50,12 +50,23 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(button1);
             panel1.Controls.Add(panel2);
             panel1.Controls.Add(dgvTicket);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(799, 450);
             panel1.TabIndex = 0;
+            // 
+            // button1
+            // 
+            button1.Image = Properties.Resources.icons8_login_50;
+            button1.Location = new Point(12, 12);
+            button1.Name = "button1";
+            button1.Size = new Size(36, 40);
+            button1.TabIndex = 4;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // panel2
             // 
@@ -114,7 +125,7 @@
             lblSum.Name = "lblSum";
             lblSum.Size = new Size(40, 15);
             lblSum.TabIndex = 8;
-            lblSum.Text = "1 VND";
+            lblSum.Text = "0 VND";
             // 
             // label1
             // 
@@ -137,7 +148,6 @@
             // panel3
             // 
             panel3.BackColor = Color.RoyalBlue;
-            panel3.Controls.Add(cbTable);
             panel3.Controls.Add(txtDate);
             panel3.Controls.Add(lblTitleText);
             panel3.Location = new Point(3, 20);
@@ -145,25 +155,13 @@
             panel3.Size = new Size(278, 81);
             panel3.TabIndex = 0;
             // 
-            // cbTable
-            // 
-            cbTable.BackColor = Color.RoyalBlue;
-            cbTable.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbTable.FlatStyle = FlatStyle.Popup;
-            cbTable.ForeColor = Color.White;
-            cbTable.FormattingEnabled = true;
-            cbTable.Location = new Point(178, 26);
-            cbTable.Name = "cbTable";
-            cbTable.Size = new Size(65, 23);
-            cbTable.TabIndex = 2;
-            // 
             // txtDate
             // 
             txtDate.BackColor = Color.RoyalBlue;
             txtDate.BorderStyle = BorderStyle.None;
             txtDate.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtDate.ForeColor = Color.White;
-            txtDate.Location = new Point(17, 46);
+            txtDate.Location = new Point(132, 26);
             txtDate.Name = "txtDate";
             txtDate.ReadOnly = true;
             txtDate.Size = new Size(139, 16);
@@ -173,7 +171,7 @@
             // 
             lblTitleText.AutoSize = true;
             lblTitleText.ForeColor = Color.White;
-            lblTitleText.Location = new Point(17, 17);
+            lblTitleText.Location = new Point(17, 26);
             lblTitleText.Name = "lblTitleText";
             lblTitleText.Size = new Size(64, 15);
             lblTitleText.TabIndex = 0;
@@ -187,8 +185,10 @@
             dgvTicket.BackgroundColor = Color.White;
             dgvTicket.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvTicket.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTicket.Location = new Point(12, 49);
+            dgvTicket.Location = new Point(12, 58);
             dgvTicket.Name = "dgvTicket";
+            dgvTicket.RowHeadersWidth = 51;
+            dgvTicket.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvTicket.Size = new Size(427, 341);
             dgvTicket.TabIndex = 0;
             dgvTicket.CellClick += dgvTicket_CellClick;
@@ -224,8 +224,8 @@
         private Label label1;
         private Label label3;
         private Panel panel3;
-        private ComboBox cbTable;
         private TextBox txtDate;
         private Label lblTitleText;
+        private Button button1;
     }
 }

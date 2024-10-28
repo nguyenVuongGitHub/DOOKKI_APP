@@ -27,10 +27,11 @@ namespace DOOKKI_APP.Views
         {
             InitializeComponent();
             InitializeTableStatus();
-            openChildForm(new MenuForm(context, serviceProvider, this));
+            //openChildForm(new MenuForm(context, serviceProvider, this));
+            openChildForm(new TableForm(context, this));
         }
         private Form currentFormChild;
-        private void openChildForm(Form childForm)
+        public void openChildForm(Form childForm)
         {
             if (currentFormChild != null)
             {
@@ -55,15 +56,15 @@ namespace DOOKKI_APP.Views
             }
         }
 
-        private void btnMenu_Click(object sender, EventArgs e)
-        {
-            openChildForm(new MenuForm(context, serviceProvider, this));
-            lblTitle.Text = btnMenu.Text;
-        }
+        //private void btnMenu_Click(object sender, EventArgs e)
+        //{
+        //    openChildForm(new MenuForm(context, serviceProvider, this));
+        //    lblTitle.Text = btnMenu.Text;
+        //}
 
         private void btnTable_Click(object sender, EventArgs e)
         {
-            openChildForm(new TableForm(this));
+            openChildForm(new TableForm(context, this));
             lblTitle.Text = btnTable.Text;
         }
     }

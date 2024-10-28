@@ -17,33 +17,40 @@ namespace DOOKKI_APP.Views
 {
     public partial class MenuForm : Form
     {
-        private readonly IServiceProvider _serviceProvider;
+        //private readonly IServiceProvider _serviceProvider;
         private readonly TicketController _ticketController;
+        private readonly string _selectedTable;
+        private readonly TableForm _tableForm;
         private ManageOrders _manageOrders;
-        public MenuForm(DookkiContext context, IServiceProvider serviceProvider, ManageOrders manageOrders)
+        private readonly DookkiContext _context;
+        //public MenuForm(DookkiContext context, IServiceProvider serviceProvider, ManageOrders manageOrders)
+        public MenuForm(DookkiContext context, string selectedTable, TableForm tableForm, ManageOrders manageOrders)
         {
             InitializeComponent();
             _ticketController = new TicketController(context);
-            _serviceProvider = serviceProvider;
+            //_serviceProvider = serviceProvider;
+            _selectedTable = selectedTable;
+            _tableForm = tableForm;
             _manageOrders = manageOrders;
+            _context = context;
         }
         private void MenuForm_Load(object sender, EventArgs e)
         {
             LoadDataGridView();
             txtDate.Text = DateTime.Now.ToString("dddd, dd/MM/yyyy", new System.Globalization.CultureInfo("en-US"));
-            LoadComboBox();
+            //LoadComboBox();
         }
 
-        private void LoadComboBox()
-        {
-            cbTable.Items.Clear();
+        //private void LoadComboBox()
+        //{
+        //    cbTable.Items.Clear();
 
-            // Lấy danh sách các bàn có trạng thái trống (IsOccupied = false) từ TableStatus
-            foreach (var table in _manageOrders.TableStatus.Where(t => !t.Value))
-            {
-                cbTable.Items.Add(table.Key);
-            }
-        }
+        //    // Lấy danh sách các bàn có trạng thái trống (IsOccupied = false) từ TableStatus
+        //    foreach (var table in _manageOrders.TableStatus.Where(t => !t.Value))
+        //    {
+        //        cbTable.Items.Add(table.Key);
+        //    }
+        //}
 
         private void LoadDataGridView()
         {
@@ -108,12 +115,11 @@ namespace DOOKKI_APP.Views
 
         private void btnCooking_Click(object sender, EventArgs e)
         {
-            var selectedTable = cbTable.SelectedItem?.ToString();
-            if (!string.IsNullOrEmpty(selectedTable))
+            if (!string.IsNullOrEmpty(_selectedTable))
             {
-                _manageOrders.TableStatus[selectedTable] = true; // Cập nhật trạng thái bàn thành đã đặt
+                _manageOrders.TableStatus[_selectedTable] = true; // Update table status in ManageOrders to booked
 
-                // Cập nhật các thông tin đặt hàng như trước (cập nhật các chi tiết vé đã chọn)
+                // Get order details from selected tickets
                 var orderDetails = flowLayoutPanel1.Controls
                     .OfType<ucTicketDetail>()
                     .Select(ticketDetail => new OrderInfo
@@ -124,25 +130,35 @@ namespace DOOKKI_APP.Views
                     })
                     .ToList();
 
-                // Thêm chi tiết đơn hàng vào ManageOrders
-                if (_manageOrders.TableOrders.ContainsKey(selectedTable))
+                // Add or update the order details
+                if (_manageOrders.TableOrders.ContainsKey(_selectedTable))
                 {
-                    _manageOrders.TableOrders[selectedTable].AddRange(orderDetails);
+                    _manageOrders.TableOrders[_selectedTable].AddRange(orderDetails);
                 }
                 else
                 {
-                    _manageOrders.TableOrders[selectedTable] = orderDetails;
+                    _manageOrders.TableOrders[_selectedTable] = orderDetails;
                 }
 
-                flowLayoutPanel1.Controls.Clear(); // Xóa các item sau khi đặt bàn
+                flowLayoutPanel1.Controls.Clear();
                 lblSum.Text = "0 VND";
-                LoadComboBox(); // Cập nhật lại ComboBox để loại bỏ bàn đã đặt
+
+                //Update the table status
+                _tableForm.UpdateTableStatus(_selectedTable, true);
+                var tableForm = new TableForm(_context, _manageOrders);
+                _manageOrders.openChildForm(tableForm);
             }
         }
         private void btnDeleteAll_Click(object sender, EventArgs e)
         {
             flowLayoutPanel1.Controls.Clear();
             lblSum.Text = "0 VND";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var tableForm = new TableForm(_context, _manageOrders);
+            _manageOrders.openChildForm(tableForm);
         }
     }
 }

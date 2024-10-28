@@ -32,10 +32,10 @@
             panel4 = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
             lblTableListEmptyText = new Label();
-            comboBox1 = new ComboBox();
-            button4 = new Button();
-            button1 = new Button();
-            label5 = new Label();
+            cbEmptyTable = new ComboBox();
+            btnTableChange = new Button();
+            btnPay = new Button();
+            lblSum = new Label();
             label4 = new Label();
             label3 = new Label();
             label2 = new Label();
@@ -69,10 +69,10 @@
             panel4.BackColor = Color.White;
             panel4.Controls.Add(tableLayoutPanel1);
             panel4.Controls.Add(lblTableListEmptyText);
-            panel4.Controls.Add(comboBox1);
-            panel4.Controls.Add(button4);
-            panel4.Controls.Add(button1);
-            panel4.Controls.Add(label5);
+            panel4.Controls.Add(cbEmptyTable);
+            panel4.Controls.Add(btnTableChange);
+            panel4.Controls.Add(btnPay);
+            panel4.Controls.Add(lblSum);
             panel4.Controls.Add(label4);
             panel4.Controls.Add(label3);
             panel4.Controls.Add(label2);
@@ -117,40 +117,50 @@
             lblTableListEmptyText.TabIndex = 11;
             lblTableListEmptyText.Text = "DANH SÁCH BÀN TRỐNG";
             // 
-            // comboBox1
+            // cbEmptyTable
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(140, 372);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(102, 23);
-            comboBox1.TabIndex = 10;
+            cbEmptyTable.FormattingEnabled = true;
+            cbEmptyTable.Location = new Point(140, 372);
+            cbEmptyTable.Name = "cbEmptyTable";
+            cbEmptyTable.Size = new Size(102, 23);
+            cbEmptyTable.TabIndex = 10;
             // 
-            // button4
+            // btnTableChange
             // 
-            button4.Location = new Point(11, 404);
-            button4.Name = "button4";
-            button4.Size = new Size(96, 23);
-            button4.TabIndex = 9;
-            button4.Text = "CHUYỂN BẢN";
-            button4.UseVisualStyleBackColor = true;
+            btnTableChange.BackColor = Color.RoyalBlue;
+            btnTableChange.FlatStyle = FlatStyle.Popup;
+            btnTableChange.ForeColor = Color.White;
+            btnTableChange.Location = new Point(11, 404);
+            btnTableChange.Name = "btnTableChange";
+            btnTableChange.Size = new Size(96, 23);
+            btnTableChange.TabIndex = 9;
+            btnTableChange.Text = "CHUYỂN BẢN";
+            btnTableChange.UseVisualStyleBackColor = false;
+            btnTableChange.Click += btnTableChange_Click;
             // 
-            // button1
+            // btnPay
             // 
-            button1.Location = new Point(11, 375);
-            button1.Name = "button1";
-            button1.Size = new Size(96, 23);
-            button1.TabIndex = 8;
-            button1.Text = "THANH TOÁN";
-            button1.UseVisualStyleBackColor = true;
+            btnPay.BackColor = Color.Red;
+            btnPay.Cursor = Cursors.Hand;
+            btnPay.Enabled = false;
+            btnPay.FlatStyle = FlatStyle.Popup;
+            btnPay.ForeColor = Color.White;
+            btnPay.Location = new Point(11, 375);
+            btnPay.Name = "btnPay";
+            btnPay.Size = new Size(96, 23);
+            btnPay.TabIndex = 8;
+            btnPay.Text = "THANH TOÁN";
+            btnPay.UseVisualStyleBackColor = false;
+            btnPay.Click += btnPay_Click;
             // 
-            // label5
+            // lblSum
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(188, 354);
-            label5.Name = "label5";
-            label5.Size = new Size(40, 15);
-            label5.TabIndex = 7;
-            label5.Text = "0 VND";
+            lblSum.AutoSize = true;
+            lblSum.Location = new Point(171, 354);
+            lblSum.Name = "lblSum";
+            lblSum.Size = new Size(40, 15);
+            lblSum.TabIndex = 7;
+            lblSum.Text = "0 VND";
             // 
             // label4
             // 
@@ -279,10 +289,10 @@
         private Panel pnBody;
         private Panel panel4;
         private Label lblTableListEmptyText;
-        private ComboBox comboBox1;
-        private Button button4;
-        private Button button1;
-        private Label label5;
+        private ComboBox cbEmptyTable;
+        private Button btnTableChange;
+        private Button btnPay;
+        private Label lblSum;
         private Label label4;
         private Label label3;
         private Label label2;
