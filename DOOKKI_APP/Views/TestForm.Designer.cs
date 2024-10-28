@@ -59,8 +59,6 @@
             cbAccount = new ComboBox();
             label5 = new Label();
             cbRoles2 = new ComboBox();
-            panel1.SuspendLayout();
-            panel2.SuspendLayout();
             btnExportSalary = new Guna.UI2.WinForms.Guna2Button();
             DateTimePicker = new Guna.UI2.WinForms.Guna2DateTimePicker();
             guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
@@ -69,6 +67,8 @@
             guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             btnRevenueByMonth = new Guna.UI2.WinForms.Guna2Button();
             DTPRevenue = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            panel1.SuspendLayout();
+            panel2.SuspendLayout();
             guna2Panel1.SuspendLayout();
             guna2Panel2.SuspendLayout();
             SuspendLayout();
@@ -82,132 +82,6 @@
             button1.Text = "Xuất bill";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
-            // 
-            // btnExportSalary
-            // 
-            btnExportSalary.Animated = true;
-            btnExportSalary.BorderRadius = 5;
-            btnExportSalary.CustomizableEdges = customizableEdges1;
-            btnExportSalary.DisabledState.BorderColor = Color.DarkGray;
-            btnExportSalary.DisabledState.CustomBorderColor = Color.DarkGray;
-            btnExportSalary.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            btnExportSalary.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnExportSalary.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            btnExportSalary.ForeColor = Color.White;
-            btnExportSalary.Location = new Point(38, 157);
-            btnExportSalary.Name = "btnExportSalary";
-            btnExportSalary.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            btnExportSalary.Size = new Size(344, 45);
-            btnExportSalary.TabIndex = 1;
-            btnExportSalary.Text = "Export Salary By Month";
-            btnExportSalary.Click += btnExportSalary_Click;
-            // 
-            // DateTimePicker
-            // 
-            DateTimePicker.BorderRadius = 10;
-            DateTimePicker.Checked = true;
-            DateTimePicker.CustomizableEdges = customizableEdges3;
-            DateTimePicker.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            DateTimePicker.Format = DateTimePickerFormat.Long;
-            DateTimePicker.Location = new Point(38, 89);
-            DateTimePicker.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            DateTimePicker.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            DateTimePicker.Name = "DateTimePicker";
-            DateTimePicker.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            DateTimePicker.Size = new Size(344, 36);
-            DateTimePicker.TabIndex = 2;
-            DateTimePicker.Value = new DateTime(2024, 10, 27, 10, 42, 22, 613);
-            // 
-            // guna2Panel1
-            // 
-            guna2Panel1.BackColor = Color.Transparent;
-            guna2Panel1.BorderRadius = 20;
-            guna2Panel1.Controls.Add(guna2HtmlLabel1);
-            guna2Panel1.Controls.Add(btnExportSalary);
-            guna2Panel1.Controls.Add(DateTimePicker);
-            guna2Panel1.CustomizableEdges = customizableEdges5;
-            guna2Panel1.FillColor = Color.FromArgb(255, 224, 192);
-            guna2Panel1.Location = new Point(383, 90);
-            guna2Panel1.Name = "guna2Panel1";
-            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            guna2Panel1.ShadowDecoration.Depth = 50;
-            guna2Panel1.Size = new Size(442, 239);
-            guna2Panel1.TabIndex = 3;
-            // 
-            // guna2HtmlLabel1
-            // 
-            guna2HtmlLabel1.AutoSize = false;
-            guna2HtmlLabel1.AutoSizeHeightOnly = true;
-            guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI", 16F);
-            guna2HtmlLabel1.Location = new Point(142, 23);
-            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(155, 31);
-            guna2HtmlLabel1.TabIndex = 3;
-            guna2HtmlLabel1.Text = "Salary by month";
-            // 
-            // guna2Panel2
-            // 
-            guna2Panel2.BackColor = Color.Transparent;
-            guna2Panel2.BorderRadius = 20;
-            guna2Panel2.Controls.Add(guna2HtmlLabel2);
-            guna2Panel2.Controls.Add(btnRevenueByMonth);
-            guna2Panel2.Controls.Add(DTPRevenue);
-            guna2Panel2.CustomizableEdges = customizableEdges11;
-            guna2Panel2.FillColor = Color.FromArgb(255, 224, 192);
-            guna2Panel2.Location = new Point(76, 409);
-            guna2Panel2.Name = "guna2Panel2";
-            guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            guna2Panel2.ShadowDecoration.Depth = 50;
-            guna2Panel2.Size = new Size(442, 239);
-            guna2Panel2.TabIndex = 4;
-            // 
-            // guna2HtmlLabel2
-            // 
-            guna2HtmlLabel2.AutoSize = false;
-            guna2HtmlLabel2.AutoSizeHeightOnly = true;
-            guna2HtmlLabel2.BackColor = Color.Transparent;
-            guna2HtmlLabel2.Font = new Font("Segoe UI", 16F);
-            guna2HtmlLabel2.Location = new Point(130, 29);
-            guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(183, 31);
-            guna2HtmlLabel2.TabIndex = 3;
-            guna2HtmlLabel2.Text = "Revenue by year";
-            // 
-            // btnRevenueByMonth
-            // 
-            btnRevenueByMonth.Animated = true;
-            btnRevenueByMonth.BorderRadius = 5;
-            btnRevenueByMonth.CustomizableEdges = customizableEdges7;
-            btnRevenueByMonth.DisabledState.BorderColor = Color.DarkGray;
-            btnRevenueByMonth.DisabledState.CustomBorderColor = Color.DarkGray;
-            btnRevenueByMonth.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            btnRevenueByMonth.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnRevenueByMonth.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            btnRevenueByMonth.ForeColor = Color.White;
-            btnRevenueByMonth.Location = new Point(56, 157);
-            btnRevenueByMonth.Name = "btnRevenueByMonth";
-            btnRevenueByMonth.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            btnRevenueByMonth.Size = new Size(326, 45);
-            btnRevenueByMonth.TabIndex = 1;
-            btnRevenueByMonth.Text = "Export Revenue By Year";
-            btnRevenueByMonth.Click += btnRevenueByMonth_Click;
-            // 
-            // DTPRevenue
-            // 
-            DTPRevenue.BorderRadius = 10;
-            DTPRevenue.Checked = true;
-            DTPRevenue.CustomizableEdges = customizableEdges9;
-            DTPRevenue.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            DTPRevenue.Format = DateTimePickerFormat.Long;
-            DTPRevenue.Location = new Point(56, 89);
-            DTPRevenue.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            DTPRevenue.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            DTPRevenue.Name = "DTPRevenue";
-            DTPRevenue.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            DTPRevenue.Size = new Size(326, 36);
-            DTPRevenue.TabIndex = 2;
-            DTPRevenue.Value = new DateTime(2024, 10, 27, 10, 42, 22, 613);
             // 
             // btnCreateAccount
             // 
@@ -332,7 +206,7 @@
             panel2.Controls.Add(cbAccount);
             panel2.Controls.Add(label5);
             panel2.Controls.Add(cbRoles2);
-            panel2.Location = new Point(477, 14);
+            panel2.Location = new Point(475, 14);
             panel2.Name = "panel2";
             panel2.Size = new Size(238, 239);
             panel2.TabIndex = 4;
@@ -385,27 +259,152 @@
             cbRoles2.Size = new Size(121, 23);
             cbRoles2.TabIndex = 9;
             // 
+            // btnExportSalary
+            // 
+            btnExportSalary.Animated = true;
+            btnExportSalary.BorderRadius = 5;
+            btnExportSalary.CustomizableEdges = customizableEdges1;
+            btnExportSalary.DisabledState.BorderColor = Color.DarkGray;
+            btnExportSalary.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnExportSalary.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnExportSalary.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnExportSalary.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            btnExportSalary.ForeColor = Color.White;
+            btnExportSalary.Location = new Point(38, 157);
+            btnExportSalary.Name = "btnExportSalary";
+            btnExportSalary.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnExportSalary.Size = new Size(344, 45);
+            btnExportSalary.TabIndex = 1;
+            btnExportSalary.Text = "Export Salary By Month";
+            btnExportSalary.Click += btnExportSalary_Click;
+            // 
+            // DateTimePicker
+            // 
+            DateTimePicker.BorderRadius = 10;
+            DateTimePicker.Checked = true;
+            DateTimePicker.CustomizableEdges = customizableEdges3;
+            DateTimePicker.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            DateTimePicker.Format = DateTimePickerFormat.Long;
+            DateTimePicker.Location = new Point(38, 89);
+            DateTimePicker.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            DateTimePicker.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            DateTimePicker.Name = "DateTimePicker";
+            DateTimePicker.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            DateTimePicker.Size = new Size(344, 36);
+            DateTimePicker.TabIndex = 2;
+            DateTimePicker.Value = new DateTime(2024, 10, 27, 10, 42, 22, 613);
+            // 
+            // guna2Panel1
+            // 
+            guna2Panel1.BackColor = Color.Transparent;
+            guna2Panel1.BorderRadius = 20;
+            guna2Panel1.Controls.Add(guna2HtmlLabel1);
+            guna2Panel1.Controls.Add(btnExportSalary);
+            guna2Panel1.Controls.Add(DateTimePicker);
+            guna2Panel1.CustomizableEdges = customizableEdges5;
+            guna2Panel1.FillColor = Color.FromArgb(255, 224, 192);
+            guna2Panel1.Location = new Point(535, 409);
+            guna2Panel1.Name = "guna2Panel1";
+            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            guna2Panel1.ShadowDecoration.Depth = 50;
+            guna2Panel1.Size = new Size(442, 239);
+            guna2Panel1.TabIndex = 3;
+            // 
+            // guna2HtmlLabel1
+            // 
+            guna2HtmlLabel1.AutoSize = false;
+            guna2HtmlLabel1.AutoSizeHeightOnly = true;
+            guna2HtmlLabel1.BackColor = Color.Transparent;
+            guna2HtmlLabel1.Font = new Font("Segoe UI", 16F);
+            guna2HtmlLabel1.Location = new Point(142, 23);
+            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
+            guna2HtmlLabel1.Size = new Size(155, 31);
+            guna2HtmlLabel1.TabIndex = 3;
+            guna2HtmlLabel1.Text = "Salary by month";
+            // 
+            // guna2Panel2
+            // 
+            guna2Panel2.BackColor = Color.Transparent;
+            guna2Panel2.BorderRadius = 20;
+            guna2Panel2.Controls.Add(guna2HtmlLabel2);
+            guna2Panel2.Controls.Add(btnRevenueByMonth);
+            guna2Panel2.Controls.Add(DTPRevenue);
+            guna2Panel2.CustomizableEdges = customizableEdges11;
+            guna2Panel2.FillColor = Color.FromArgb(255, 224, 192);
+            guna2Panel2.Location = new Point(76, 409);
+            guna2Panel2.Name = "guna2Panel2";
+            guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            guna2Panel2.ShadowDecoration.Depth = 50;
+            guna2Panel2.Size = new Size(442, 239);
+            guna2Panel2.TabIndex = 4;
+            // 
+            // guna2HtmlLabel2
+            // 
+            guna2HtmlLabel2.AutoSize = false;
+            guna2HtmlLabel2.AutoSizeHeightOnly = true;
+            guna2HtmlLabel2.BackColor = Color.Transparent;
+            guna2HtmlLabel2.Font = new Font("Segoe UI", 16F);
+            guna2HtmlLabel2.Location = new Point(130, 29);
+            guna2HtmlLabel2.Name = "guna2HtmlLabel2";
+            guna2HtmlLabel2.Size = new Size(183, 31);
+            guna2HtmlLabel2.TabIndex = 3;
+            guna2HtmlLabel2.Text = "Revenue by year";
+            // 
+            // btnRevenueByMonth
+            // 
+            btnRevenueByMonth.Animated = true;
+            btnRevenueByMonth.BorderRadius = 5;
+            btnRevenueByMonth.CustomizableEdges = customizableEdges7;
+            btnRevenueByMonth.DisabledState.BorderColor = Color.DarkGray;
+            btnRevenueByMonth.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnRevenueByMonth.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnRevenueByMonth.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnRevenueByMonth.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            btnRevenueByMonth.ForeColor = Color.White;
+            btnRevenueByMonth.Location = new Point(56, 157);
+            btnRevenueByMonth.Name = "btnRevenueByMonth";
+            btnRevenueByMonth.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnRevenueByMonth.Size = new Size(326, 45);
+            btnRevenueByMonth.TabIndex = 1;
+            btnRevenueByMonth.Text = "Export Revenue By Year";
+            btnRevenueByMonth.Click += btnRevenueByMonth_Click;
+            // 
+            // DTPRevenue
+            // 
+            DTPRevenue.BorderRadius = 10;
+            DTPRevenue.Checked = true;
+            DTPRevenue.CustomizableEdges = customizableEdges9;
+            DTPRevenue.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            DTPRevenue.Format = DateTimePickerFormat.Long;
+            DTPRevenue.Location = new Point(56, 89);
+            DTPRevenue.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            DTPRevenue.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            DTPRevenue.Name = "DTPRevenue";
+            DTPRevenue.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            DTPRevenue.Size = new Size(326, 36);
+            DTPRevenue.TabIndex = 2;
+            DTPRevenue.Value = new DateTime(2024, 10, 27, 10, 42, 22, 613);
+            // 
             // TestForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(867, 642);
+            ClientSize = new Size(989, 774);
             Controls.Add(panel2);
             Controls.Add(button2);
             Controls.Add(panel1);
             Controls.Add(btnCreateAccount);
-            ClientSize = new Size(902, 743);
             Controls.Add(guna2Panel2);
             Controls.Add(guna2Panel1);
             Controls.Add(button1);
             Name = "TestForm";
             Text = "TestForm";
-            guna2Panel1.ResumeLayout(false);
-            guna2Panel2.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            guna2Panel1.ResumeLayout(false);
+            guna2Panel2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
