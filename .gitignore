@@ -7,7 +7,7 @@
 appsettings.json
 
 # Ignore DookkiContext.cs
-DookkiContext.cs
+Models/Entities/DookkiContext.cs
 
 
 # User-specific files
