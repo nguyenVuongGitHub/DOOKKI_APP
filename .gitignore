@@ -7,7 +7,7 @@
 appsettings.json
 
 # Ignore DookkiContext.cs
-DookkiContext.cs
+Models/Entities/DookkiContext.cs
 
 
 # User-specific files
@@ -368,5 +368,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/DOOKKI_APP/appsettings.json
-/DOOKKI_APP/Models/Entities/DookkiContext.cs
+
