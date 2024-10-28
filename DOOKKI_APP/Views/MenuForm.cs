@@ -145,6 +145,7 @@ namespace DOOKKI_APP.Views
 
                 //Update the table status
                 _tableForm.UpdateTableStatus(_selectedTable, true);
+                MessageBox.Show("Đã đặt thành công");
                 var tableForm = new TableForm(_context, _manageOrders);
                 _manageOrders.openChildForm(tableForm);
             }

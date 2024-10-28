@@ -128,6 +128,7 @@
             // btnTableChange
             // 
             btnTableChange.BackColor = Color.RoyalBlue;
+            btnTableChange.Cursor = Cursors.Hand;
             btnTableChange.FlatStyle = FlatStyle.Popup;
             btnTableChange.ForeColor = Color.White;
             btnTableChange.Location = new Point(11, 404);
@@ -142,7 +143,6 @@
             // 
             btnPay.BackColor = Color.Red;
             btnPay.Cursor = Cursors.Hand;
-            btnPay.Enabled = false;
             btnPay.FlatStyle = FlatStyle.Popup;
             btnPay.ForeColor = Color.White;
             btnPay.Location = new Point(11, 375);

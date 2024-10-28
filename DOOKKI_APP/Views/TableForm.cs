@@ -139,7 +139,7 @@ namespace DOOKKI_APP.Views
             if (table != null)
             {
                 table.IsOccupied = isOccupied;
-                table.BookTable(); // Assume this updates the UI for occupied status
+                //table.BookTable(); // Assume this updates the UI for occupied status
             }
         }
 
@@ -150,7 +150,17 @@ namespace DOOKKI_APP.Views
 
         private void btnTableChange_Click(object sender, EventArgs e)
         {
+            var currentTableName = lblTable.Text; // Assuming lblSelectedTable displays the selected table
+            var newTableName = cbEmptyTable.SelectedItem?.ToString();
 
+            if (string.IsNullOrEmpty(newTableName))
+            {
+                MessageBox.Show("Hãy chọn bàn muốn chuyển");
+                return;
+            }
+
+            // Perform table transfer
+            TransferTable(currentTableName, newTableName);
         }
 
         private void LoadComboBox()
@@ -163,5 +173,37 @@ namespace DOOKKI_APP.Views
                 cbEmptyTable.Items.Add(table.Key);
             }
         }
+
+        private void TransferTable(string fromTable, string toTable)
+        {
+            if (!_manageOrders.TableOrders.ContainsKey(fromTable)) return;
+
+            // Get orders from the original table
+            var ordersToTransfer = _manageOrders.TableOrders[fromTable];
+
+            // Transfer orders to the new table
+            if (_manageOrders.TableOrders.ContainsKey(toTable))
+            {
+                _manageOrders.TableOrders[toTable].AddRange(ordersToTransfer);
+            }
+            else
+            {
+                _manageOrders.TableOrders[toTable] = new List<OrderInfo>(ordersToTransfer);
+            }
+
+            // Clear the original table's orders and update statuses
+            _manageOrders.TableOrders.Remove(fromTable);
+            _manageOrders.TableStatus[fromTable] = false; // Mark the original table as free
+            _manageOrders.TableStatus[toTable] = true; // Mark the new table as occupied
+
+            // Refresh the UI
+            UpdateTableStatus(fromTable, false); // Update the original table status to free
+            UpdateTableStatus(toTable, true); // Update the new table status to occupied
+
+            LoadComboBox(); // Refresh the ComboBox with available tables
+
+            MessageBox.Show($"Bàn {fromTable} đã chuyển thành công đến bàn {toTable}.");
+        }
+
     }
 }
