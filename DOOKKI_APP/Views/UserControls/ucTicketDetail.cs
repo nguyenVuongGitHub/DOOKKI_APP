@@ -35,15 +35,5 @@ namespace DOOKKI_APP.Views.UserControls
             get { return lblTicketName.Text; }
             set { lblTicketName.Text = value; }
         }
-        //public int ticketQuantity
-        //{
-        //    get { return int.Parse(lblQuantity.Text); }
-        //    set { lblQuantity.Text = value.ToString(); }
-        //}
-        //public decimal ticketPrice
-        //{
-        //    get { return decimal.Parse(lblPrice.Text); }
-        //    set { lblPrice.Text = value.ToString(); }
-        //}
     }
 }

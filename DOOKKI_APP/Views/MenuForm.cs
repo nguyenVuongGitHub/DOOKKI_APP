@@ -18,17 +18,17 @@ namespace DOOKKI_APP.Views
     public partial class MenuForm : Form
     {
         //private readonly IServiceProvider _serviceProvider;
+        private bool _isUpdateMode;
         private readonly TicketController _ticketController;
         private readonly string _selectedTable;
         private readonly TableForm _tableForm;
-        private ManageOrders _manageOrders;
+        private MainForm _manageOrders;
         private readonly DookkiContext _context;
-        //public MenuForm(DookkiContext context, IServiceProvider serviceProvider, ManageOrders manageOrders)
-        public MenuForm(DookkiContext context, string selectedTable, TableForm tableForm, ManageOrders manageOrders)
+        public MenuForm(DookkiContext context, string selectedTable, TableForm tableForm, MainForm manageOrders, bool isUpdateMode = false)
         {
             InitializeComponent();
+            _isUpdateMode = isUpdateMode;
             _ticketController = new TicketController(context);
-            //_serviceProvider = serviceProvider;
             _selectedTable = selectedTable;
             _tableForm = tableForm;
             _manageOrders = manageOrders;
@@ -38,19 +38,7 @@ namespace DOOKKI_APP.Views
         {
             LoadDataGridView();
             txtDate.Text = DateTime.Now.ToString("dddd, dd/MM/yyyy", new System.Globalization.CultureInfo("en-US"));
-            //LoadComboBox();
         }
-
-        //private void LoadComboBox()
-        //{
-        //    cbTable.Items.Clear();
-
-        //    // Lấy danh sách các bàn có trạng thái trống (IsOccupied = false) từ TableStatus
-        //    foreach (var table in _manageOrders.TableStatus.Where(t => !t.Value))
-        //    {
-        //        cbTable.Items.Add(table.Key);
-        //    }
-        //}
 
         private void LoadDataGridView()
         {
@@ -113,7 +101,7 @@ namespace DOOKKI_APP.Views
             lblSum.Text = totalSum.ToString("#,##0 VND"); // Update lblSum
         }
 
-        private void btnCooking_Click(object sender, EventArgs e)
+        private void btnBooking_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(_selectedTable))
             {
@@ -131,7 +119,7 @@ namespace DOOKKI_APP.Views
                     .ToList();
 
                 // Add or update the order details
-                if (_manageOrders.TableOrders.ContainsKey(_selectedTable))
+                if (_isUpdateMode && _manageOrders.TableOrders.ContainsKey(_selectedTable))
                 {
                     _manageOrders.TableOrders[_selectedTable].AddRange(orderDetails);
                 }
@@ -148,6 +136,10 @@ namespace DOOKKI_APP.Views
                 MessageBox.Show("Đã đặt thành công");
                 var tableForm = new TableForm(_context, _manageOrders);
                 _manageOrders.openChildForm(tableForm);
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn vé");
             }
         }
         private void btnDeleteAll_Click(object sender, EventArgs e)

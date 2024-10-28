@@ -17,10 +17,11 @@ namespace DOOKKI_APP.Views
 {
     public partial class TableForm : Form
     {
-        private readonly ManageOrders _manageOrders;
+        private readonly MainForm _manageOrders;
         private readonly DookkiContext _context;
+        private ucTables _selectedTable;
 
-        public TableForm(DookkiContext context, ManageOrders manageOrders)
+        public TableForm(DookkiContext context, MainForm manageOrders)
         {
             InitializeComponent();
             _manageOrders = manageOrders;
@@ -39,42 +40,21 @@ namespace DOOKKI_APP.Views
                 var table = new ucTables
                 {
                     TableName = tableName,
+                    //Kiểm tra nếu bàn ở khóa tableName có tồn tại => true, và kiểm tra trạng thái của bạn có trống hay không (trống => false), (full => true))
                     IsOccupied = _manageOrders.TableStatus.ContainsKey(tableName) && _manageOrders.TableStatus[tableName]
                 };
 
                 flowLayoutPanel1.Controls.Add(table);
+                table.ContextMenuStrip = contextMenuStrip1;
                 table.Click += Table_Click;
+                table.MouseUp += Table_MouseUp;
             }
         }
-        //Get a available table
-        //public List<string> GetAvailableTables()
-        //{
-        //    List<string> tables = new List<string>();
 
-        //    foreach (ucTables table in flowLayoutPanel1.Controls)
-        //    {
-        //        if (!table.IsOccupied)
-        //        {
-        //            tables.Add(table.TableName);
-        //        }
-        //    }
-        //    return tables;
-        //}
-        //public void BookTableByName(string tableName)
-        //{
-        //    var table = flowLayoutPanel1.Controls
-        //    .OfType<ucTables>()
-        //    .FirstOrDefault(t => t.TableName == tableName);
-
-        //    if (table != null)
-        //    {
-        //        table.IsOccupied = true;
-        //        _tableStatus[tableName] = true; // Cập nhật trạng thái bàn
-        //    }
-        //}
         private void Table_Click(object sender, EventArgs e)
         {
             var table = sender as ucTables;
+            //Kiểm tra nếu bàn đã full thì thực hiện xuất order details
             if (table != null && table.IsOccupied && _manageOrders.TableOrders.ContainsKey(table.TableName))
             {
                 tableLayoutPanel1.Controls.Clear();
@@ -111,9 +91,21 @@ namespace DOOKKI_APP.Views
             {
                 // Create and open MenuForm with the selected table number
                 var menuForm = new MenuForm(_context, table.TableName, this, _manageOrders);
-                //menuForm.ShowDialog(); // Open as a modal dialog
                 _manageOrders.openChildForm(menuForm);
                 LoadComboBox();
+            }
+        }
+
+        private void Table_MouseUp(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                var table = sender as ucTables;
+                if (table != null)
+                {
+                    // Optionally, perform any setup before showing the menu
+                    contextMenuStrip1.Show(table, e.Location); // Show menu at click location on the table
+                }
             }
         }
         public void SetTableName(string tableName)
@@ -139,13 +131,12 @@ namespace DOOKKI_APP.Views
             if (table != null)
             {
                 table.IsOccupied = isOccupied;
-                //table.BookTable(); // Assume this updates the UI for occupied status
             }
         }
 
         private void btnPay_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("Chua lm, day len database");
         }
 
         private void btnTableChange_Click(object sender, EventArgs e)
@@ -205,5 +196,53 @@ namespace DOOKKI_APP.Views
             MessageBox.Show($"Bàn {fromTable} đã chuyển thành công đến bàn {toTable}.");
         }
 
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void cậpNhậtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selectedTableName = lblTable.Text;
+
+            // Check if the table has an existing order to update
+            if (_manageOrders.TableOrders.ContainsKey(selectedTableName))
+            {
+                // Open MenuForm with the selected table to update tickets
+                var menuForm = new MenuForm(_context, selectedTableName, this, _manageOrders, isUpdateMode: true);
+                _manageOrders.openChildForm(menuForm);
+                LoadComboBox();
+            }
+            else
+            {
+                MessageBox.Show("No order exists for this table. Please place a new order first.");
+            }
+        }
+
+        private void xóaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Lấy bàn hiện tại từ contextMenuStrip
+            var table = contextMenuStrip1.SourceControl as ucTables;
+            if (table != null)
+            {
+                // Xóa hết vé của bàn đó
+                if (_manageOrders.TableOrders.ContainsKey(table.TableName))
+                {
+                    _manageOrders.TableOrders[table.TableName].Clear();
+                    lblTable.Text = "";
+                    tableLayoutPanel1.Controls.Clear();
+                    lblSum.Text = "0 VND";
+                    LoadComboBox();
+                }
+
+                // Cập nhật trạng thái bàn thành trống
+                _manageOrders.TableStatus[table.TableName] = false;
+                table.IsOccupied = false;
+
+                // Cập nhật hiển thị bàn để trông như ban đầu
+                table.Refresh(); // Gọi refresh để cập nhật lại trạng thái hiển thị của bàn nếu cần
+                MessageBox.Show($"Đã xóa hết vé của {table.TableName} và đặt lại trạng thái bàn.", "Xóa thành công");
+            }
+        }
     }
 }

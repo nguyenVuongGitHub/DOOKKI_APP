@@ -1,4 +1,5 @@
 ﻿using DOOKKI_APP.Models.Entities;
+using DOOKKI_APP.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,6 @@ namespace DOOKKI_APP.Services
             services.AddTransient<MainForm>(); // Register MainForm for DI
             services.AddTransient<Views.Login>();
             services.AddTransient<Views.ManageProducts>();
-            services.AddTransient<Views.ManageOrders>();
 
 
             // Apply pending migrations at startup

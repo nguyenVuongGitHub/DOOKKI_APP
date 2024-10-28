@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             pnBody = new Panel();
             panel4 = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
@@ -47,10 +48,14 @@
             lblTable = new Label();
             label1 = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            cậpNhậtToolStripMenuItem = new ToolStripMenuItem();
+            xóaToolStripMenuItem = new ToolStripMenuItem();
             pnBody.SuspendLayout();
             panel4.SuspendLayout();
             panel6.SuspendLayout();
             panel5.SuspendLayout();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // pnBody
@@ -241,8 +246,9 @@
             // lblTable
             // 
             lblTable.BackColor = Color.Red;
+            lblTable.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTable.ForeColor = Color.White;
-            lblTable.Location = new Point(50, 13);
+            lblTable.Location = new Point(54, 8);
             lblTable.Name = "lblTable";
             lblTable.Size = new Size(136, 36);
             lblTable.TabIndex = 1;
@@ -267,6 +273,26 @@
             flowLayoutPanel1.Size = new Size(491, 437);
             flowLayoutPanel1.TabIndex = 2;
             // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { cậpNhậtToolStripMenuItem, xóaToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(123, 48);
+            // 
+            // cậpNhậtToolStripMenuItem
+            // 
+            cậpNhậtToolStripMenuItem.Name = "cậpNhậtToolStripMenuItem";
+            cậpNhậtToolStripMenuItem.Size = new Size(122, 22);
+            cậpNhậtToolStripMenuItem.Text = "Cập nhật";
+            cậpNhậtToolStripMenuItem.Click += cậpNhậtToolStripMenuItem_Click;
+            // 
+            // xóaToolStripMenuItem
+            // 
+            xóaToolStripMenuItem.Name = "xóaToolStripMenuItem";
+            xóaToolStripMenuItem.Size = new Size(122, 22);
+            xóaToolStripMenuItem.Text = "Xóa";
+            xóaToolStripMenuItem.Click += xóaToolStripMenuItem_Click;
+            // 
             // TableForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -281,6 +307,7 @@
             panel6.ResumeLayout(false);
             panel6.PerformLayout();
             panel5.ResumeLayout(false);
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -305,5 +332,8 @@
         private FlowLayoutPanel flowLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel1;
         private Label lblTable;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem cậpNhậtToolStripMenuItem;
+        private ToolStripMenuItem xóaToolStripMenuItem;
     }
 }

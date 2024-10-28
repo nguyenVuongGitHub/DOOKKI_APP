@@ -32,7 +32,7 @@
             button1 = new Button();
             panel2 = new Panel();
             flowLayoutPanel1 = new FlowLayoutPanel();
-            btnCooking = new Button();
+            btnBooking = new Button();
             btnDeleteAll = new Button();
             lblSum = new Label();
             label1 = new Label();
@@ -71,7 +71,7 @@
             // panel2
             // 
             panel2.Controls.Add(flowLayoutPanel1);
-            panel2.Controls.Add(btnCooking);
+            panel2.Controls.Add(btnBooking);
             panel2.Controls.Add(btnDeleteAll);
             panel2.Controls.Add(lblSum);
             panel2.Controls.Add(label1);
@@ -90,19 +90,19 @@
             flowLayoutPanel1.Size = new Size(277, 262);
             flowLayoutPanel1.TabIndex = 11;
             // 
-            // btnCooking
+            // btnBooking
             // 
-            btnCooking.BackColor = Color.RoyalBlue;
-            btnCooking.Cursor = Cursors.Hand;
-            btnCooking.FlatStyle = FlatStyle.Popup;
-            btnCooking.ForeColor = Color.White;
-            btnCooking.Location = new Point(158, 403);
-            btnCooking.Name = "btnCooking";
-            btnCooking.Size = new Size(89, 23);
-            btnCooking.TabIndex = 10;
-            btnCooking.Text = "Đặt";
-            btnCooking.UseVisualStyleBackColor = false;
-            btnCooking.Click += btnCooking_Click;
+            btnBooking.BackColor = Color.RoyalBlue;
+            btnBooking.Cursor = Cursors.Hand;
+            btnBooking.FlatStyle = FlatStyle.Popup;
+            btnBooking.ForeColor = Color.White;
+            btnBooking.Location = new Point(158, 403);
+            btnBooking.Name = "btnBooking";
+            btnBooking.Size = new Size(89, 23);
+            btnBooking.TabIndex = 10;
+            btnBooking.Text = "Đặt";
+            btnBooking.UseVisualStyleBackColor = false;
+            btnBooking.Click += btnBooking_Click;
             // 
             // btnDeleteAll
             // 
@@ -218,7 +218,7 @@
         private DataGridView dgvTicket;
         private Panel panel2;
         private FlowLayoutPanel flowLayoutPanel1;
-        private Button btnCooking;
+        private Button btnBooking;
         private Button btnDeleteAll;
         private Label lblSum;
         private Label label1;

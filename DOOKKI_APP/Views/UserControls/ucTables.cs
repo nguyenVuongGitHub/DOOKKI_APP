@@ -43,9 +43,5 @@ namespace DOOKKI_APP.Views.UserControls
             get { return btnTable.Text; }
             set { btnTable.Text = value; }
         }
-        public void BookTable()
-        {
-            IsOccupied = true;
-        }
     }
 }
