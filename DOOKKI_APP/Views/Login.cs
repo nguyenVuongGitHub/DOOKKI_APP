@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using DOOKKI_APP.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using DOOKKI_APP.Helpers;
 
 namespace DOOKKI_APP.Views
 {
@@ -47,9 +48,11 @@ namespace DOOKKI_APP.Views
                 }
                 else
                 {
+                    // set role for user.
+                    User.SetRoles(checkLogin.Roles);
                     //move on to another form
 
-                    var mainForm = _serviceProvider.GetRequiredService<MainForm>();
+                    var mainForm = _serviceProvider.GetRequiredService<TestForm>();
                     mainForm.FormClosed += CloseLoginForm; // khi form chính đóng sẽ gọi hàm này
                     mainForm.Show();
                     this.Hide();
@@ -57,7 +60,7 @@ namespace DOOKKI_APP.Views
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error at class Login(Form) and function btnLogin_Click : {ex.Message}");
+                MessageBox.Show($"Error at class Login(Form) and function btnLogin_Click : {ex.Message}");
             }
 
 
