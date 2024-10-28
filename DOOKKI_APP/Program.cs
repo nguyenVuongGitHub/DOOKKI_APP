@@ -33,9 +33,8 @@ namespace DOOKKI_APP
 
             // Lấy một thể hiện của form Login từ nhà cung cấp dịch vụ
             var loginForm = serviceProvider.GetRequiredService<Login>();
-            var test = serviceProvider.GetRequiredService<MainForm>();
             // Chạy ứng dụng và hiển thị form Login
-            Application.Run(test);
+            Application.Run(loginForm);
         }
     }
 

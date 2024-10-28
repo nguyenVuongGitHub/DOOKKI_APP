@@ -19,16 +19,17 @@ namespace DOOKKI_APP.Views
     public partial class MainForm : Form
     {
         DookkiContext context = new DookkiContext();
-        IServiceProvider serviceProvider;
+        IServiceProvider _serviceProvider;
 
         //Dictionary để lưu thông tin trạng thái từng bàn
         public Dictionary<string, bool> TableStatus { get; private set; } = new Dictionary<string, bool>();
         //Dictionary để lưu thông tin đặt hàng theo từng bàn
         public Dictionary<string, List<OrderInfo>> TableOrders { get; private set; } = new Dictionary<string, List<OrderInfo>>();
-        public MainForm()
+        public MainForm(IServiceProvider serviceProvider)
         {
             InitializeComponent();
             InitializeTableStatus();
+            _serviceProvider = serviceProvider;
             openChildForm(new TableForm(context, this));
         }
 
@@ -86,6 +87,34 @@ namespace DOOKKI_APP.Views
         private void btnDashboard_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Thong ke");
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("BẠN CÓ CHẮC MUỐN ĐĂNG XUẤT KHÔNG!!!", "XÁC NHẬN", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                var login = _serviceProvider.GetRequiredService<Login>();
+                login.FormClosed += CloseMainForm; // khi form chính đóng sẽ gọi hàm này
+                login.Show();
+                this.Hide();
+            }
+        }
+
+        private void ptbLogout2_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("BẠN CÓ CHẮC MUỐN ĐĂNG XUẤT KHÔNG!!!", "XÁC NHẬN", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                var login = _serviceProvider.GetRequiredService<Login>();
+                login.FormClosed += CloseMainForm; // khi form chính đóng sẽ gọi hàm này
+                login.Show();
+                this.Hide();
+            }
+        }
+        private void CloseMainForm(object sender, FormClosedEventArgs e)
+        {
+            this.Close(); // Close the login form when MainForm closes
         }
     }
 }

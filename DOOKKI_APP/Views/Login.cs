@@ -52,7 +52,7 @@ namespace DOOKKI_APP.Views
                     User.SetRoles(checkLogin.Roles);
                     //move on to another form
 
-                    var mainForm = _serviceProvider.GetRequiredService<TestForm>();
+                    var mainForm = _serviceProvider.GetRequiredService<MainForm>();
                     mainForm.FormClosed += CloseLoginForm; // khi form chính đóng sẽ gọi hàm này
                     mainForm.Show();
                     this.Hide();

@@ -92,12 +92,13 @@
             // 
             // btnLogout
             // 
-            btnLogout.Location = new Point(98, 554);
+            btnLogout.Location = new Point(87, 542);
             btnLogout.Name = "btnLogout";
-            btnLogout.Size = new Size(88, 23);
+            btnLogout.Size = new Size(97, 35);
             btnLogout.TabIndex = 6;
-            btnLogout.Text = "button4";
+            btnLogout.Text = "Đăng xuất";
             btnLogout.UseVisualStyleBackColor = true;
+            btnLogout.Click += btnLogout_Click;
             // 
             // btnEmployee
             // 
@@ -190,6 +191,7 @@
             ptbLogout2.SizeMode = PictureBoxSizeMode.StretchImage;
             ptbLogout2.TabIndex = 4;
             ptbLogout2.TabStop = false;
+            ptbLogout2.Click += ptbLogout2_Click;
             // 
             // ptbUser
             // 
