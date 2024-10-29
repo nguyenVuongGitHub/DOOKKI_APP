@@ -80,7 +80,15 @@ namespace DOOKKI_APP.Views
         //Mở form con
         private void btnWarehouse_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Kho");
+            if(User.Role == Roles.admin)
+            {
+                openChildForm(new ManageProducts(context, _serviceProvider));
+                lblTitle.Text = btnTable.Text;
+            }else
+
+            {
+                MessageBox.Show("Bạn ko có quyền truy cập vào đây", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         //Mở form con
