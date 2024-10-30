@@ -19,5 +19,7 @@ public partial class Customer
 
     public string CustomerName { get; set; } = null!;
 
+    public int? CustomerMark { get; set; }
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }
