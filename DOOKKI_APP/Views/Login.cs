@@ -50,6 +50,7 @@ namespace DOOKKI_APP.Views
                 {
                     // set role for user.
                     User.SetRoles(checkLogin.Roles);
+                    User.Username = checkLogin.AdminUserName;
                     //move on to another form
 
                     var mainForm = _serviceProvider.GetRequiredService<MainForm>();

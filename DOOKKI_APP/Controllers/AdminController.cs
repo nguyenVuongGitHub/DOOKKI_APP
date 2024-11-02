@@ -13,15 +13,17 @@ namespace DOOKKI_APP.Controllers
     /// </summary>
     internal class AdminController : AbstractController<Admin>
     {
-
+        private IQueryable<Admin> query;
+        public IQueryable<Admin> Query { get => query; set => query = value; }
         public AdminController(DookkiContext context)
         {
            _context = context;
+            query = _context.Admins;
         }
 
         public override void Add(Admin element)
         {
-            throw new NotImplementedException();
+            _context.Admins.Add(element);
         }
 
         public override DbSet<Admin> GetModel()
@@ -31,7 +33,7 @@ namespace DOOKKI_APP.Controllers
 
         public override void Remove(Admin element)
         {
-            throw new NotImplementedException();
+            _context.Admins.Remove(element);
         }
 
         public override void SaveChanges()
@@ -41,7 +43,7 @@ namespace DOOKKI_APP.Controllers
 
         public override void Update(Admin element)
         {
-            throw new NotImplementedException();
+            _context.Admins.Update(element);
         }
     }
 }
