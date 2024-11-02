@@ -89,7 +89,7 @@
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(200, 32);
             txtSearch.TabIndex = 2;
-            txtSearch.TextChanged += textBox1_TextChanged;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // btnPrePage
             // 
