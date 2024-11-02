@@ -6,14 +6,13 @@ namespace DOOKKI_APP.Controllers
 {
     internal class ProductController : AbstractController<Product>
     {
-        private BindingList<Product> _bindingList;
-        public BindingList<Product> BindingList { get { return _bindingList; } set { _bindingList = value; } }
-
+        private IQueryable<Product> _products;
+        public IQueryable<Product> Products { get { return _products; } set {_products = value; } }
         private readonly CategoryController _categoryController;
         public ProductController(DookkiContext context)
         {
             _context = context;
-            _bindingList = new BindingList<Product>(_context.Products.ToList());
+            _products = context.Products;
             _categoryController = new CategoryController(context);
         }
 
@@ -25,7 +24,6 @@ namespace DOOKKI_APP.Controllers
         public override void SaveChanges()
         {
             _context.SaveChanges();
-            _bindingList = new BindingList<Product>(_context.Products.ToList());
         } 
         public override void Add(Product product)
         {
@@ -39,14 +37,9 @@ namespace DOOKKI_APP.Controllers
         {
             _context.Products.Update(product);
         }
-        public void UpdateBinDingList(List<Product> products)
-        {
-            _bindingList.Clear();
-            _bindingList = new BindingList<Product>(products);
-        }
         public void DisplayToGirdView(DataGridView gridView, int pageNumber, int pageSize)
         {
-            var productsPaged = _bindingList
+            var productsPaged = _products 
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
                     .ToList();
