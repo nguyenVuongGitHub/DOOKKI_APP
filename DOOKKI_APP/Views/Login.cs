@@ -49,22 +49,32 @@ namespace DOOKKI_APP.Views
                 {
                     //move on to another form
 
-                    var mainForm = _serviceProvider.GetRequiredService<MainForm>();
+                    var mainForm = _serviceProvider.GetRequiredService<ManageEployee>();
                     mainForm.FormClosed += CloseLoginForm; // khi form chính đóng sẽ gọi hàm này
                     mainForm.Show();
                     this.Hide();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Error at class Login(Form) and function btnLogin_Click : {ex.Message}");
             }
-            
+
 
         }
         private void CloseLoginForm(object sender, FormClosedEventArgs e)
         {
             this.Close(); // Close the login form when MainForm closes
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

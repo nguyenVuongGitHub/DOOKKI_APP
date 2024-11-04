@@ -15,5 +15,10 @@ namespace DOOKKI_APP
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
