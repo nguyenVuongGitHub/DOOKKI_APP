@@ -30,6 +30,28 @@ namespace DOOKKI_APP.Controllers
         /// Carefuly when use.
         /// </summary>
         public abstract void SaveChanges();
+
+        /// <summary>
+        /// remove 1 element in model
+        /// <br></br>
+        /// Remember saveChanges.
+        /// </summary>
+        public abstract void Remove(ModelT element);
+
+        /// <summary>
+        /// Add 1 element into model
+        /// <br></br>
+        /// Remember saveChanges.
+        /// </summary>
+        /// <param name="element"></param>
+        public abstract void Add(ModelT element);
+        /// <summary>
+        /// Update this element in model
+        /// <br></br>
+        /// Remember saveChanges.
+        /// </summary>
+        /// <param name="element"></param>
+        public abstract void Update(ModelT element);
     }
 
 }

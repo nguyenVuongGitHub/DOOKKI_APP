@@ -45,7 +45,7 @@ public partial class DookkiContext : DbContext
     {
         modelBuilder.Entity<Admin>(entity =>
         {
-            entity.HasKey(e => e.AdminId).HasName("PK__Admin__AD050086864B945D");
+            entity.HasKey(e => e.AdminId).HasName("PK__Admin__AD050086522F865B");
 
             entity.ToTable("Admin");
 
@@ -69,7 +69,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Category__23CAF1F88E68EB50");
+            entity.HasKey(e => e.CategoryId).HasName("PK__Category__23CAF1F87C0A18B0");
 
             entity.ToTable("Category");
 
@@ -81,7 +81,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__B611CB9D8EB5332B");
+            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__B611CB9DF8B2828E");
 
             entity.ToTable("Customer");
 
@@ -92,6 +92,9 @@ public partial class DookkiContext : DbContext
             entity.Property(e => e.CustomerEmail)
                 .HasMaxLength(255)
                 .HasColumnName("customerEmail");
+            entity.Property(e => e.CustomerMark)
+                .HasDefaultValue(0)
+                .HasColumnName("customerMark");
             entity.Property(e => e.CustomerName)
                 .HasMaxLength(255)
                 .HasColumnName("customerName");
@@ -108,7 +111,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<DayWork>(entity =>
         {
-            entity.HasKey(e => e.DayWorkId).HasName("PK__DayWork__20E29512D34E0759");
+            entity.HasKey(e => e.DayWorkId).HasName("PK__DayWork__20E2951247D73A06");
 
             entity.ToTable("DayWork");
 
@@ -124,7 +127,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__C134C9A18BF1270D");
+            entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__C134C9A15B6590AE");
 
             entity.ToTable("Employee");
 
@@ -148,12 +151,15 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Order__0809337D93EF8D14");
+            entity.HasKey(e => e.OrderId).HasName("PK__Order__0809337D2896F580");
 
             entity.ToTable("Order");
 
             entity.Property(e => e.OrderId).HasColumnName("orderID");
             entity.Property(e => e.CustomerId).HasColumnName("customerID");
+            entity.Property(e => e.Discount)
+                .HasDefaultValue(0)
+                .HasColumnName("discount");
             entity.Property(e => e.OrderTime).HasColumnName("orderTime");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
@@ -163,7 +169,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasKey(e => e.OrderDetailId).HasName("PK__OrderDet__E4FEDE2A5EC61C42");
+            entity.HasKey(e => e.OrderDetailId).HasName("PK__OrderDet__E4FEDE2AC674E088");
 
             entity.ToTable("OrderDetail");
 
@@ -190,7 +196,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.PaymentId).HasName("PK__Payment__A0D9EFA6DD297D31");
+            entity.HasKey(e => e.PaymentId).HasName("PK__Payment__A0D9EFA63A729DCE");
 
             entity.ToTable("Payment");
 
@@ -208,7 +214,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<PaymentMethod>(entity =>
         {
-            entity.HasKey(e => e.PaymentMethodId).HasName("PK__PaymentM__46612FD853267C01");
+            entity.HasKey(e => e.PaymentMethodId).HasName("PK__PaymentM__46612FD8278F4C31");
 
             entity.ToTable("PaymentMethod");
 
@@ -220,7 +226,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Product__2D10D14A792C951F");
+            entity.HasKey(e => e.ProductId).HasName("PK__Product__2D10D14AFAA1C02F");
 
             entity.ToTable("Product");
 
@@ -240,7 +246,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<Ticket>(entity =>
         {
-            entity.HasKey(e => e.TicketId).HasName("PK__Ticket__3333C67068EA046C");
+            entity.HasKey(e => e.TicketId).HasName("PK__Ticket__3333C670DB43B1FF");
 
             entity.ToTable("Ticket");
 
