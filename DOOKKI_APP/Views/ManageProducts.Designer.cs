@@ -53,30 +53,39 @@
             EditToolStripMenuItem = new ToolStripMenuItem();
             DeleteToolStripMenuItem = new ToolStripMenuItem();
             errorProvider = new ErrorProvider(components);
+            panel2 = new Panel();
+            panel4 = new Panel();
+            panel3 = new Panel();
             ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
             panel1.SuspendLayout();
             contextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
+            panel2.SuspendLayout();
+            panel4.SuspendLayout();
+            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // dgvProducts
             // 
             dgvProducts.AllowUserToAddRows = false;
             dgvProducts.AllowUserToDeleteRows = false;
+            dgvProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProducts.Location = new Point(65, 312);
+            dgvProducts.Location = new Point(10, 48);
+            dgvProducts.Margin = new Padding(10);
             dgvProducts.Name = "dgvProducts";
             dgvProducts.ReadOnly = true;
-            dgvProducts.Size = new Size(894, 212);
+            dgvProducts.Size = new Size(977, 275);
             dgvProducts.TabIndex = 0;
             dgvProducts.MouseDown += dgvProducts_MouseDown;
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 14F);
-            label1.Location = new Point(633, 255);
+            label1.Location = new Point(691, 6);
             label1.Name = "label1";
             label1.Size = new Size(88, 25);
             label1.TabIndex = 1;
@@ -84,8 +93,9 @@
             // 
             // txtSearch
             // 
+            txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtSearch.Font = new Font("Segoe UI", 14F);
-            txtSearch.Location = new Point(759, 252);
+            txtSearch.Location = new Point(785, 3);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(200, 32);
             txtSearch.TabIndex = 2;
@@ -95,7 +105,7 @@
             // 
             btnPrePage.AutoSize = true;
             btnPrePage.Font = new Font("Segoe UI", 14F);
-            btnPrePage.Location = new Point(65, 542);
+            btnPrePage.Location = new Point(14, 3);
             btnPrePage.Name = "btnPrePage";
             btnPrePage.Size = new Size(118, 35);
             btnPrePage.TabIndex = 3;
@@ -107,7 +117,7 @@
             // 
             btnNextPage.AutoSize = true;
             btnNextPage.Font = new Font("Segoe UI", 14F);
-            btnNextPage.Location = new Point(203, 542);
+            btnNextPage.Location = new Point(152, 3);
             btnNextPage.Name = "btnNextPage";
             btnNextPage.Size = new Size(103, 35);
             btnNextPage.TabIndex = 4;
@@ -119,7 +129,7 @@
             // 
             lbTotalPages.AutoSize = true;
             lbTotalPages.Font = new Font("Segoe UI", 14F);
-            lbTotalPages.Location = new Point(358, 547);
+            lbTotalPages.Location = new Point(307, 8);
             lbTotalPages.Name = "lbTotalPages";
             lbTotalPages.Size = new Size(59, 25);
             lbTotalPages.TabIndex = 5;
@@ -140,9 +150,10 @@
             panel1.Controls.Add(label4);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
-            panel1.Location = new Point(65, 24);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(894, 222);
+            panel1.Size = new Size(997, 222);
             panel1.TabIndex = 6;
             // 
             // btnUpdate
@@ -299,18 +310,45 @@
             // 
             errorProvider.ContainerControl = this;
             // 
+            // panel2
+            // 
+            panel2.Controls.Add(panel4);
+            panel2.Controls.Add(panel3);
+            panel2.Controls.Add(dgvProducts);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 222);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(997, 367);
+            panel2.TabIndex = 7;
+            // 
+            // panel4
+            // 
+            panel4.Controls.Add(txtSearch);
+            panel4.Controls.Add(label1);
+            panel4.Dock = DockStyle.Top;
+            panel4.Location = new Point(0, 0);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(997, 41);
+            panel4.TabIndex = 7;
+            // 
+            // panel3
+            // 
+            panel3.Controls.Add(btnNextPage);
+            panel3.Controls.Add(btnPrePage);
+            panel3.Controls.Add(lbTotalPages);
+            panel3.Dock = DockStyle.Bottom;
+            panel3.Location = new Point(0, 325);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(997, 42);
+            panel3.TabIndex = 6;
+            // 
             // ManageProducts
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(997, 589);
+            Controls.Add(panel2);
             Controls.Add(panel1);
-            Controls.Add(lbTotalPages);
-            Controls.Add(btnNextPage);
-            Controls.Add(btnPrePage);
-            Controls.Add(txtSearch);
-            Controls.Add(label1);
-            Controls.Add(dgvProducts);
             Name = "ManageProducts";
             Text = "ManageProducts";
             Load += ManageProducts_Load;
@@ -319,8 +357,12 @@
             panel1.PerformLayout();
             contextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
+            panel2.ResumeLayout(false);
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -349,5 +391,8 @@
         private ToolStripMenuItem EditToolStripMenuItem;
         private ToolStripMenuItem DeleteToolStripMenuItem;
         private ErrorProvider errorProvider;
+        private Panel panel2;
+        private Panel panel4;
+        private Panel panel3;
     }
 }

@@ -25,7 +25,7 @@ namespace DOOKKI_APP.Views
         public Dictionary<string, bool> TableStatus { get; private set; } = new Dictionary<string, bool>();
         //Dictionary để lưu thông tin đặt hàng theo từng bàn
         public Dictionary<string, List<OrderInfo>> TableOrders { get; private set; } = new Dictionary<string, List<OrderInfo>>();
-        public MainForm(DookkiContext context , IServiceProvider serviceProvider)
+        public MainForm(DookkiContext context, IServiceProvider serviceProvider)
         {
             InitializeComponent();
             InitializeTableStatus();
@@ -68,8 +68,8 @@ namespace DOOKKI_APP.Views
         //Mở form con
         private void btnTable_Click(object sender, EventArgs e)
         {
+            menuTransition.Start();
             openChildForm(new TableForm(_context, this));
-            lblTitle.Text = btnTable.Text;
         }
 
         //Mở form con
@@ -84,7 +84,6 @@ namespace DOOKKI_APP.Views
             if (User.Role == Roles.admin)
             {
                 openChildForm(new ManageProducts(_context, _serviceProvider));
-                lblTitle.Text = btnTable.Text;
             }
             else
 
@@ -116,14 +115,13 @@ namespace DOOKKI_APP.Views
             if (User.Role == Roles.admin)
             {
                 openChildForm(new TestForm(_context));
-                lblTitle.Text = btnTable.Text;
             }
             else
 
             {
                 MessageBox.Show("Bạn ko có quyền truy cập vào đây", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            
+
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -154,7 +152,32 @@ namespace DOOKKI_APP.Views
         {
             this.Close(); // Close the login form when MainForm closes
         }
+        bool menuExpand = false;
+        private void menuTransition_Tick(object sender, EventArgs e)
+        {
+            if (!menuExpand)
+            {
+                pnMenuContainer.Height += 10;
+                if (pnMenuContainer.Height >= 135)
+                {
+                    menuTransition.Stop();
+                    menuExpand = true;
+                }
+            }
+            else
+            {
+                pnMenuContainer.Height -= 10;
+                if (pnMenuContainer.Height <= 40)
+                {
+                    menuTransition.Stop();
+                    menuExpand = false;
+                }
+            }
+        }
+        bool sidebarExpand = false;
+        private void sidebarTransition_Tick(object sender, EventArgs e)
+        {
 
-        
+        }
     }
 }

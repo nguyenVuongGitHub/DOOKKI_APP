@@ -63,6 +63,56 @@ namespace DOOKKI_APP.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bar_chart_4_bars_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24 {
+            get {
+                object obj = ResourceManager.GetObject("bar_chart_4_bars_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap dookki_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("dookki-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap grid_view_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24 {
+            get {
+                object obj = ResourceManager.GetObject("grid_view_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap groups_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24 {
+            get {
+                object obj = ResourceManager.GetObject("groups_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap home_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24 {
+            get {
+                object obj = ResourceManager.GetObject("home_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_login_50 {
             get {
                 object obj = ResourceManager.GetObject("icons8-login-50", resourceCulture);
@@ -86,6 +136,46 @@ namespace DOOKKI_APP.Properties {
         internal static System.Drawing.Bitmap icons8_user_60 {
             get {
                 object obj = ResourceManager.GetObject("icons8-user-60", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logout_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24 {
+            get {
+                object obj = ResourceManager.GetObject("logout_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap menu_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24 {
+            get {
+                object obj = ResourceManager.GetObject("menu_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings_account_box_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24 {
+            get {
+                object obj = ResourceManager.GetObject("settings_account_box_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap warehouse_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24 {
+            get {
+                object obj = ResourceManager.GetObject("warehouse_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
