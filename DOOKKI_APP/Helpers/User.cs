@@ -16,6 +16,8 @@ namespace DOOKKI_APP.Helpers
     {
         private static Roles role;
         public static Roles Role { get => role; private set => role = value; }
+        private static string username;
+        public static string Username { get => username; set => username = value; }
         public static void SetRoles(string role)
         {
             switch (role.ToLower())
