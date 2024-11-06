@@ -53,7 +53,7 @@ namespace DOOKKI_APP.Views
                     User.Username = checkLogin.AdminUserName;
                     //move on to another form
 
-                    var mainForm = _serviceProvider.GetRequiredService<ManageEployee>();
+                    var mainForm = _serviceProvider.GetRequiredService<MainForm>();
                     mainForm.FormClosed += CloseLoginForm; // khi form chính đóng sẽ gọi hàm này
                     mainForm.Show();
                     this.Hide();

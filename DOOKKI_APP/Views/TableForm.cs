@@ -136,7 +136,22 @@ namespace DOOKKI_APP.Views
 
         private void btnPay_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Chua lm, day len database");
+            DialogResult dr = MessageBox.Show("TÀI KHOẢN KHÁCH HÀNG", "THông báo", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            if(dr == DialogResult.Yes)
+            {
+                // open form InputCustomer
+                Form newForm = new InputCustomer();
+                newForm.Show();
+            }
+            else if(dr == DialogResult.No)
+            {
+
+            }else
+            {
+                return;
+            }
+
+
         }
 
         private void btnTableChange_Click(object sender, EventArgs e)
