@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             pnLeft = new Panel();
+            btnAdmin = new Button();
             btnDashboard = new Button();
             btnWarehouse = new Button();
             btnLogout = new Button();
@@ -56,6 +57,7 @@
             // pnLeft
             // 
             pnLeft.BackColor = Color.White;
+            pnLeft.Controls.Add(btnAdmin);
             pnLeft.Controls.Add(btnDashboard);
             pnLeft.Controls.Add(btnWarehouse);
             pnLeft.Controls.Add(btnLogout);
@@ -69,6 +71,16 @@
             pnLeft.Name = "pnLeft";
             pnLeft.Size = new Size(200, 589);
             pnLeft.TabIndex = 0;
+            // 
+            // btnAdmin
+            // 
+            btnAdmin.Location = new Point(0, 412);
+            btnAdmin.Name = "btnAdmin";
+            btnAdmin.Size = new Size(200, 23);
+            btnAdmin.TabIndex = 9;
+            btnAdmin.Text = "Tài khoản";
+            btnAdmin.UseVisualStyleBackColor = true;
+            btnAdmin.Click += btnAdmin_Click;
             // 
             // btnDashboard
             // 
@@ -261,5 +273,6 @@
         private Panel pnBody;
         private Button btnDashboard;
         private Button btnWarehouse;
+        private Button btnAdmin;
     }
 }
