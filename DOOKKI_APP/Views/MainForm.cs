@@ -18,19 +18,20 @@ namespace DOOKKI_APP.Views
 {
     public partial class MainForm : Form
     {
-        DookkiContext context = new DookkiContext();
+        DookkiContext _context;
         IServiceProvider _serviceProvider;
 
         //Dictionary để lưu thông tin trạng thái từng bàn
         public Dictionary<string, bool> TableStatus { get; private set; } = new Dictionary<string, bool>();
         //Dictionary để lưu thông tin đặt hàng theo từng bàn
         public Dictionary<string, List<OrderInfo>> TableOrders { get; private set; } = new Dictionary<string, List<OrderInfo>>();
-        public MainForm(IServiceProvider serviceProvider)
+        public MainForm(DookkiContext context , IServiceProvider serviceProvider)
         {
             InitializeComponent();
             InitializeTableStatus();
+            _context = context;
             _serviceProvider = serviceProvider;
-            openChildForm(new TableForm(context, this));
+            openChildForm(new TableForm(_context, this));
         }
 
         private Form currentFormChild;
@@ -67,7 +68,7 @@ namespace DOOKKI_APP.Views
         //Mở form con
         private void btnTable_Click(object sender, EventArgs e)
         {
-            openChildForm(new TableForm(context, this));
+            openChildForm(new TableForm(_context, this));
             lblTitle.Text = btnTable.Text;
         }
 
@@ -80,11 +81,12 @@ namespace DOOKKI_APP.Views
         //Mở form con
         private void btnWarehouse_Click(object sender, EventArgs e)
         {
-            if(User.Role == Roles.admin)
+            if (User.Role == Roles.admin)
             {
-                openChildForm(new ManageProducts(context, _serviceProvider));
+                openChildForm(new ManageProducts(_context, _serviceProvider));
                 lblTitle.Text = btnTable.Text;
-            }else
+            }
+            else
 
             {
                 MessageBox.Show("Bạn ko có quyền truy cập vào đây", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -94,7 +96,34 @@ namespace DOOKKI_APP.Views
         //Mở form con
         private void btnDashboard_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Thong ke");
+            if (User.Role == Roles.admin)
+            {
+                //openChildForm(new ManageProducts(context, _serviceProvider));
+                //lblTitle.Text = btnTable.Text;
+                MessageBox.Show("thong ke");
+            }
+            else
+
+            {
+                MessageBox.Show("Bạn ko có quyền truy cập vào đây", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        //Mở form con
+        private void btnAdmin_Click(object sender, EventArgs e)
+        {
+
+            if (User.Role == Roles.admin)
+            {
+                openChildForm(new TestForm(_context));
+                lblTitle.Text = btnTable.Text;
+            }
+            else
+
+            {
+                MessageBox.Show("Bạn ko có quyền truy cập vào đây", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -120,9 +149,12 @@ namespace DOOKKI_APP.Views
                 this.Hide();
             }
         }
+
         private void CloseMainForm(object sender, FormClosedEventArgs e)
         {
             this.Close(); // Close the login form when MainForm closes
         }
+
+        
     }
 }
