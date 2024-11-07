@@ -75,7 +75,8 @@ namespace DOOKKI_APP.Views
         //Mở form con
         private void btnEmployee_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Nhan Vien");
+            menuTransition.Start();
+            openChildForm(new ManageEployee(_context));
         }
 
         //Mở form con
