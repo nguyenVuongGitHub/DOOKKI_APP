@@ -5,7 +5,7 @@ namespace DOOKKI_APP.Models.Entities;
 
 public partial class DayWork
 {
-    public int DayWorkId { get; set; }
+    public int Id { get; set; }
 
     public int? TimeWork { get; set; }
 

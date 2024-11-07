@@ -45,9 +45,9 @@ namespace DOOKKI_APP.Controllers
             var tickets = _context.Tickets
                                  .Select(t => new
                                  {
-                                     STT = t.TicketId,
-                                     Name = t.TicketName,
-                                     Price = t.TicketPrice
+                                     STT = t.Id,
+                                     Name = t.Name,
+                                     Price = t.Price
                                  })
                                  .ToList();
 

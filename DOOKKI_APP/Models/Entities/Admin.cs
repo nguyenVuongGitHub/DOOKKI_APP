@@ -5,15 +5,13 @@ namespace DOOKKI_APP.Models.Entities;
 
 public partial class Admin
 {
-    public int AdminId { get; set; }
+    public int Id { get; set; }
 
-    public string AdminUserName { get; set; } = null!;
+    public string Phone { get; set; } = null!;
 
-    public string AdminPassword { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
-    public string AdminPhone { get; set; } = null!;
+    public int? Idaccount { get; set; }
 
-    public string AdminName { get; set; } = null!;
-
-    public string Roles { get; set; } = null!;
+    public virtual Account? IdaccountNavigation { get; set; }
 }

@@ -114,7 +114,7 @@ namespace DOOKKI_APP.Views
 
             if (User.Role == Roles.admin)
             {
-                openChildForm(new TestForm(_context));
+                openChildForm(new AccountManagement(_context));
             }
             else
 

@@ -5,7 +5,7 @@ namespace DOOKKI_APP.Models.Entities;
 
 public partial class OrderDetail
 {
-    public int OrderDetailId { get; set; }
+    public int Id { get; set; }
 
     public decimal Quantily { get; set; }
 

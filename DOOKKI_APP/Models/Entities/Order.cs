@@ -5,9 +5,9 @@ namespace DOOKKI_APP.Models.Entities;
 
 public partial class Order
 {
-    public int OrderId { get; set; }
+    public int Id { get; set; }
 
-    public TimeOnly OrderTime { get; set; }
+    public TimeOnly Time { get; set; }
 
     public int? CustomerId { get; set; }
 

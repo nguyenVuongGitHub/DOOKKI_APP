@@ -45,11 +45,11 @@ namespace DOOKKI_APP.Helpers
 
                 
                 var query = (from od in _context.OrderDetails
-                             join o in _context.Orders on od.OrderId equals o.OrderId
-                             join t in _context.Tickets on od.TicketId equals t.TicketId
-                             join p in _context.Payments on od.PaymentId equals p.PaymentId
-                             join pm in _context.PaymentMethods on p.PaymentMethodId equals pm.PaymentMethodId
-                             where o.OrderId == order.OrderId
+                             join o in _context.Orders on od.OrderId equals o.Id
+                             join t in _context.Tickets on od.TicketId equals t.Id
+                             join p in _context.Payments on od.PaymentId equals p.Id
+                             join pm in _context.PaymentMethods on p.PaymentMethodId equals pm.Id
+                             where o.Id == order.Id
                              select new
                              {
                                  Ticket = t,
@@ -67,8 +67,8 @@ namespace DOOKKI_APP.Helpers
 
                 document.Replace("{EmployeeName}", "VuongDeptrai", false, true);
                 document.Replace("{Date}", query.ElementAt(0).Payment.Day.ToString(), false, true);
-                document.Replace("{CustomerName}", order?.Customer?.CustomerName ?? string.Empty, false, true);
-                document.Replace("{PaymentMethod}", query.ElementAt(0).PaymentMethod.PaymentMethodName, false, true);
+                document.Replace("{CustomerName}", order?.Customer?.Name ?? string.Empty, false, true);
+                document.Replace("{PaymentMethod}", query.ElementAt(0).PaymentMethod.Name, false, true);
 
                 string orderDetailsText = string.Empty;
                 decimal totalBill = 0;
@@ -76,8 +76,8 @@ namespace DOOKKI_APP.Helpers
                 foreach (var item in query)
                 {
                     // follow with format Template.
-                    orderDetailsText += $"{item.Ticket.TicketName}\t\t\t\t\t\t{item.OrderDetail.Quantily}\t\t{item.Ticket.TicketPrice}\n\t";
-                    totalBill += item.Ticket.TicketPrice * item.OrderDetail.Quantily;
+                    orderDetailsText += $"{item.Ticket.Name}\t\t\t\t\t\t{item.OrderDetail.Quantily}\t\t{item.Ticket.Price}\n\t";
+                    totalBill += item.Ticket.Price * item.OrderDetail.Quantily;
                 }
                 document.Replace("{OrderDetails}", orderDetailsText, false, true);
 
@@ -88,7 +88,7 @@ namespace DOOKKI_APP.Helpers
                 document.Replace("Change", $"{change}", false, true);
                 document.Replace("{TotalBill}", $"{totalBill}", false, true);
 
-                string outputFilePath = Path.Combine(OutputFileDirectory, "Bill_" + order?.OrderId + ".pdf");
+                string outputFilePath = Path.Combine(OutputFileDirectory, "Bill_" + order?.Id + ".pdf");
                 document.SaveToFile(outputFilePath, Spire.Doc.FileFormat.PDF);
                 return true;
             }
@@ -113,14 +113,14 @@ namespace DOOKKI_APP.Helpers
 
                 // LINQ query salary of employee by choosed month
                 var query = from e in _context.Employees
-                            join w in _context.DayWorks on e.EmployeeId equals w.EmployeeId
+                            join w in _context.DayWorks on e.Id equals w.EmployeeId
                             where w.Day.Value.Month == selectedMonth &&
                                   w.Day.Value.Year == selectedYear
-                            group w by new { e.EmployeeId, e.EmployeeName, e.AmountWage} into g
+                            group w by new { e.Id, e.Name, e.AmountWage} into g
                             select new
                             {
-                                EmployeeID = g.Key.EmployeeId,
-                                Name = g.Key.EmployeeName,
+                                EmployeeID = g.Key.Id,
+                                Name = g.Key.Name,
                                 TotalSalary = g.Sum(w => w.TimeWork * g.Key.AmountWage)
                             };
                 Workbook workbook = new Workbook();

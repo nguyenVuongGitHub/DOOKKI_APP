@@ -16,12 +16,12 @@ using System.Xml.Linq;
 
 namespace DOOKKI_APP.Views
 {
-    public partial class AdminManagement : Form
+    public partial class AccountManagement : Form
     {
         private readonly AdminController adminController;
         private readonly DookkiContext _context;
         bool isCurrentUser = false;
-        public AdminManagement(DookkiContext context)
+        public AccountManagement(DookkiContext context)
         {
             InitializeComponent();
             _context = context;
@@ -38,12 +38,11 @@ namespace DOOKKI_APP.Views
                     (x,index) => new AdminInfo
                 {
                     STT = index + 1,
-                    Name = x.AdminName,
-                    Phone = x.AdminPhone,
-                    UserName = x.AdminUserName,
-                    Password = x.AdminPassword,
-                    Role = x.Roles
-                }).ToList();
+                    Name = x.Name,
+                    Phone = x.Phone,
+                    UserName = x.IdaccountNavigation.UserName,
+                    Password = x.IdaccountNavigation.Password,
+                    }).ToList();
             }
             catch (Exception ex)
             {
@@ -118,12 +117,12 @@ namespace DOOKKI_APP.Views
                     var accounts = adminController.GetModel().ToList();
 
                     var account = (from ac in adminController.GetModel()
-                                   where ac.AdminId == accounts.ElementAt(index).AdminId
+                                   where ac.Id == accounts.ElementAt(index).Id
                                    select ac).SingleOrDefault();
 
                     if (account != null)
                     {
-                        DialogResult dr = MessageBox.Show($"Xác nhận xóa tài khoản {account.AdminName}?", "Thông báo xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult dr = MessageBox.Show($"Xác nhận xóa tài khoản {account.Name}?", "Thông báo xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                         if (dr == DialogResult.Yes)
                         {
@@ -160,15 +159,15 @@ namespace DOOKKI_APP.Views
                 var accounts = adminController.GetModel().ToList();
 
                 var account = (from ac in adminController.GetModel()
-                               where ac.AdminId == accounts.ElementAt(index).AdminId
+                               where ac.Id == accounts.ElementAt(index).Id
                                select ac).SingleOrDefault(); 
 
                 if (account != null)
                 {
-                    account.AdminName = txtName.Text;
-                    account.AdminUserName = txtUserName.Text;
-                    account.AdminPassword = txtPassword.Text;
-                    account.AdminPhone = txtPhone.Text;
+                    account.Name = txtName.Text;
+                    account.IdaccountNavigation.UserName = txtUserName.Text;
+                    account.IdaccountNavigation.Password = txtPassword.Text;
+                    account.Phone = txtPhone.Text;
                     adminController.Update(account);
                     adminController.SaveChanges();
                     MessageBox.Show("Thành công");
@@ -179,11 +178,11 @@ namespace DOOKKI_APP.Views
             }
             else if (isCurrentUser)
             {
-                var ad = (from a in _context.Admins where a.AdminUserName == User.Username select a).Single();
-                ad.AdminPhone = txtPhone.Text;
-                ad.AdminUserName = txtUserName.Text;
-                ad.AdminPassword = txtPassword.Text;
-                ad.AdminName = txtName.Text;
+                var ad = (from a in _context.Admins where a.IdaccountNavigation.UserName == User.Username select a).Single();
+                ad.Phone = txtPhone.Text;
+                ad.IdaccountNavigation.UserName = txtUserName.Text;
+                ad.IdaccountNavigation.Password = txtPassword.Text;
+                ad.Name = txtName.Text;
                 adminController.Update(ad);
                 adminController.SaveChanges();
                 MessageBox.Show("Thành công");
@@ -223,18 +222,10 @@ namespace DOOKKI_APP.Views
             try
             {
                 Admin ad = new Admin();
-                ad.AdminName = txtName.Text;
-                ad.AdminUserName = txtUserName.Text;
-                ad.AdminPassword = txtPassword.Text;
-                ad.AdminPhone = txtPhone.Text;
-                if (cbRoles.Text == "Admin")
-                {
-                    ad.Roles = "admin";
-                }
-                else if (cbRoles.Text == "Cashier")
-                {
-                    ad.Roles = "cashier";
-                }
+                ad.Name = txtName.Text;
+                ad.IdaccountNavigation.UserName = txtUserName.Text;
+                ad.IdaccountNavigation.Password = txtPassword.Text;
+                ad.Phone = txtPhone.Text;
                 adminController.Add(ad);
                 adminController.SaveChanges();
                 MessageBox.Show("Thành công");
@@ -266,13 +257,13 @@ namespace DOOKKI_APP.Views
             pnAddNewAccount.Visible = true;
             btnUpdate.Visible = true;
             btnCancel.Visible = true;
-            var ad = (from a in _context.Admins where a.AdminUserName == User.Username select a).Single();
+            var ad = (from a in _context.Admins where a.IdaccountNavigation.UserName == User.Username select a).Single();
             if (ad != null)
             {
-                txtUserName.Text = ad.AdminUserName;
-                txtPassword.Text = ad.AdminPassword;
-                txtName.Text = ad.AdminName;
-                txtPhone.Text = ad.AdminPhone;
+                txtUserName.Text = ad.IdaccountNavigation.UserName;
+                txtPassword.Text = ad.IdaccountNavigation.Password;
+                txtName.Text = ad.Name;
+                txtPhone.Text = ad.Phone;
             }
             isCurrentUser = true;
         }

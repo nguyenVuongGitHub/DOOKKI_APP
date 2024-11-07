@@ -29,8 +29,8 @@ namespace DOOKKI_APP.Views
                 var employees = _context.Employees
                                         .Select(e => new
                                         {
-                                            e.EmployeeId,
-                                            e.EmployeeName,
+                                            e.Id,
+                                            e.Name,
                                             e.Phone,
                                             e.Email,
                                             e.AmountWage,
@@ -54,7 +54,7 @@ namespace DOOKKI_APP.Views
                 {
                     var employee = new Employee
                     {
-                        EmployeeName = employeeName,
+                        Name = employeeName,
                         Phone = phone,
                         Email = email,
                         AmountWage = amountWage,
@@ -84,7 +84,7 @@ namespace DOOKKI_APP.Views
 
                     using (var context = new DookkiContext())
                     {
-                        var employee = context.Employees.FirstOrDefault(e => e.EmployeeId == employeeId);
+                        var employee = context.Employees.FirstOrDefault(e => e.Id == employeeId);
 
                         if (employee != null)
                         {
@@ -121,7 +121,7 @@ namespace DOOKKI_APP.Views
                     var employee = context.Employees.Find(employeeID);
                     if (employee != null)
                     {
-                        employee.EmployeeName = employeeName;
+                        employee.Name = employeeName;
                         employee.Phone = phone;
                         employee.Email = email;
                         employee.AmountWage = amountWage;

@@ -10,7 +10,8 @@ namespace DOOKKI_APP.Helpers
     public enum Roles
     {
         admin,
-        cashier
+        employee,
+        customer
     }
     internal class User
     {
@@ -25,8 +26,11 @@ namespace DOOKKI_APP.Helpers
                 case "admin":
                     Role = Roles.admin;
                     break;
-                case "cashier":
-                    Role = Roles.cashier;
+                case "employee":
+                    Role = Roles.employee;
+                    break;
+                case "customer":
+                    Role = Roles.customer;
                     break;
                 default:
                     throw new ArgumentException("Invalid role provided.");

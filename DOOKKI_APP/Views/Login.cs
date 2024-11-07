@@ -17,13 +17,17 @@ namespace DOOKKI_APP.Views
 {
     public partial class Login : Form
     {
+        private readonly AccountController _accountController;
         private readonly AdminController _adminController;
+        private readonly EmployeeController _employeeController;
         private readonly IServiceProvider _serviceProvider;
         public Login(DookkiContext context, IServiceProvider serviceProvider)
         {
             InitializeComponent();
-            _adminController = new AdminController(context);
             _serviceProvider = serviceProvider;
+            _accountController = new AccountController(context);
+            _adminController = new AdminController(context);
+            _employeeController = new EmployeeController(context);
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -38,8 +42,8 @@ namespace DOOKKI_APP.Views
                     return;
                 }
 
-                var checkLogin = (from c in _adminController.GetModel()
-                                  where c.AdminUserName == userName && c.AdminPassword == password
+                var checkLogin = (from c in _accountController.GetModel()
+                                  where c.UserName == userName && c.Password == password
                                   select c).SingleOrDefault();
 
                 if (checkLogin == null)
@@ -49,8 +53,24 @@ namespace DOOKKI_APP.Views
                 else
                 {
                     // set role for user.
-                    User.SetRoles(checkLogin.Roles);
-                    User.Username = checkLogin.AdminUserName;
+                    User.SetRoles(checkLogin.Role);
+                    string? username = "";
+                    if (User.Role == Roles.admin)
+                    {
+                        username = (from ad in _adminController.GetModel()
+                                    where ad.Idaccount == checkLogin.Id
+                                    select checkLogin.UserName).SingleOrDefault();
+                    }
+                    else if (User.Role == Roles.employee)
+                    {
+                        username = (from em in _employeeController.GetModel()
+                                    where em.Phone == checkLogin.UserName
+                                    select em.Name).SingleOrDefault();
+                    }
+                    if (username != null)
+                    {
+                        User.Username = username;
+                    }
                     //move on to another form
 
                     var mainForm = _serviceProvider.GetRequiredService<MainForm>();

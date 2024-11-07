@@ -5,7 +5,7 @@ namespace DOOKKI_APP.Models.Entities;
 
 public partial class Payment
 {
-    public int PaymentId { get; set; }
+    public int Id { get; set; }
 
     public DateOnly Day { get; set; }
 

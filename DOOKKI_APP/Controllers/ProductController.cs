@@ -48,12 +48,12 @@ namespace DOOKKI_APP.Controllers
                 .Select((p, index) => new
                 {
                     STT = index + 1 + ((pageNumber - 1) * pageSize), // Calculating the row number
-                    Name = p.ProductName,
+                    Name = p.Name,
                     Mfg = p.Mfg,
                     Exp = p.Exp,
                     UnitInStock = p.UnitInStock,
                     CategoryId = _categoryController.GetModel()
-                                    .FirstOrDefault(c => c.CategoryId == p.CategoryId)?.CategoryName
+                                    .FirstOrDefault(c => c.Id == p.CategoryId)?.Name
                 })
                 .ToList();
 

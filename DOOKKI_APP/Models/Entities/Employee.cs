@@ -5,9 +5,9 @@ namespace DOOKKI_APP.Models.Entities;
 
 public partial class Employee
 {
-    public int EmployeeId { get; set; }
+    public int Id { get; set; }
 
-    public string EmployeeName { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
     public string Phone { get; set; } = null!;
 

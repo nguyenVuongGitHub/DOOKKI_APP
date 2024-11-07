@@ -5,21 +5,21 @@ namespace DOOKKI_APP.Models.Entities;
 
 public partial class Customer
 {
-    public int CustomerId { get; set; }
+    public int Id { get; set; }
 
-    public string CustomerUserName { get; set; } = null!;
+    public string Phone { get; set; } = null!;
 
-    public string CustomerPassword { get; set; } = null!;
+    public string? Email { get; set; }
 
-    public string CustomerPhone { get; set; } = null!;
+    public string? Address { get; set; }
 
-    public string? CustomerEmail { get; set; }
+    public string Name { get; set; } = null!;
 
-    public string? CustomerAddress { get; set; }
+    public int? Marks { get; set; }
 
-    public string CustomerName { get; set; } = null!;
+    public int? Idaccount { get; set; }
 
-    public int? CustomerMark { get; set; }
+    public virtual Account? IdaccountNavigation { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

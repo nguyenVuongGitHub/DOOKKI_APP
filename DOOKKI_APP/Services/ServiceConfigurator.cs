@@ -27,7 +27,7 @@ namespace DOOKKI_APP.Services
             services.AddTransient<Views.Login>();
             services.AddTransient<Views.ManageProducts>();
             services.AddTransient<Views.TestForm>();
-            services.AddTransient<Views.AdminManagement>();
+            services.AddTransient<Views.AccountManagement>();
 
             services.AddTransient<Views.ManageEployee>();
             services.AddTransient<Views.InputCustomer>();

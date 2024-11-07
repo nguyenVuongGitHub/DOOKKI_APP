@@ -31,13 +31,13 @@ namespace DOOKKI_APP.Views
             admins = _context.Admins.ToList();
             foreach (Admin admin in admins)
             {
-                cbAccount.Items.Add(admin.AdminUserName);
+                cbAccount.Items.Add(admin.IdaccountNavigation.UserName);
             }
             cbAccount.SelectedIndex = 0;
         }
         private void LoadCBRoles2()
         {
-            string[] roles = { "admin", "cashier" };
+            string[] roles = { "admin", "employee" };
             foreach (string role in roles)
             {
                 cbRoles2.Items.Add(role);
@@ -51,7 +51,7 @@ namespace DOOKKI_APP.Views
             List<string> employeeStrings = new List<string>();
             foreach (Employee employee in employees)
             {
-                employeeStrings.Add(employee.EmployeeName + "(" + employee.Position + ")");
+                employeeStrings.Add(employee.Name + "(" + employee.Position + ")");
             }
 
             foreach (string employeeString in employeeStrings)
@@ -109,18 +109,16 @@ namespace DOOKKI_APP.Views
                     DialogResult dr = MessageBox.Show($"Xác nhận cấp tài khoản", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (dr == DialogResult.Yes)
                     {
-                        Admin newadmin = new Admin();
+                        Account newAccount = new Account();
                         var employee = (from em in _context.Employees
-                                        where em.EmployeeId == cbEmployee.SelectedIndex + 1
+                                        where em.Id == cbEmployee.SelectedIndex + 1
                                         select em).Single();
 
-                        newadmin.Roles = cbRole.SelectedItem.ToString();
+                        newAccount.Role = cbRole.SelectedItem.ToString();
 
-                        newadmin.AdminUserName = userName;
-                        newadmin.AdminPassword = pass;
-                        newadmin.AdminPhone = employee.Phone;
-                        newadmin.AdminName = employee.EmployeeName;
-                        _context.Admins.Add(newadmin);
+                        newAccount.UserName = userName;
+                        newAccount.Password = pass;
+                        _context.Accounts.Add(newAccount);
                         _context.SaveChanges();
                         MessageBox.Show("Cấp tài khoản thành công");
                         panel1.Visible = false;
@@ -134,7 +132,7 @@ namespace DOOKKI_APP.Views
         }
         private bool CheckAccountIsExist(string userName)
         {
-            var isExist = _context.Admins.Any(q => q.AdminUserName == userName);
+            var isExist = _context.Admins.Any(q => q.IdaccountNavigation.UserName == userName);
             return isExist;
         }
 
@@ -147,15 +145,15 @@ namespace DOOKKI_APP.Views
         {
             try
             {
-                string preRole = admins.ElementAt(cbAccount.SelectedIndex).Roles;
+                string preRole = admins.ElementAt(cbAccount.SelectedIndex).IdaccountNavigation.Role;
                 string newRole = cbRoles2.SelectedItem.ToString();
                 if (preRole != newRole)
                 {
                     DialogResult dr = MessageBox.Show("Xác nhận đổi vai trò?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (dr == DialogResult.Yes)
                     {
-                        Admin admin = _context.Admins.First(q => q.AdminUserName == cbAccount.SelectedItem.ToString());
-                        admin.Roles = newRole;
+                        Admin admin = _context.Admins.First(q => q.IdaccountNavigation.UserName == cbAccount.SelectedItem.ToString());
+                        admin.IdaccountNavigation.Role = newRole;
                         _context.Admins.Update(admin);
                         _context.SaveChanges();
                         MessageBox.Show("Đổi vai trò thành công.!");
@@ -176,13 +174,13 @@ namespace DOOKKI_APP.Views
         {
 
             //MessageBox.Show(admins.ElementAt(cbAccount.SelectedIndex).Roles);
-            if (admins.ElementAt(cbAccount.SelectedIndex).Roles == "admin")
+            if (admins.ElementAt(cbAccount.SelectedIndex).IdaccountNavigation.Role == "admin")
             {
                 cbRoles2.SelectedItem = "admin";
             }
-            else if (admins.ElementAt(cbAccount.SelectedIndex).Roles == "cashier")
+            else if (admins.ElementAt(cbAccount.SelectedIndex).IdaccountNavigation.Role == "employee")
             {
-                cbRoles2.SelectedItem = "cashier";
+                cbRoles2.SelectedItem = "employee";
 
             }
         }

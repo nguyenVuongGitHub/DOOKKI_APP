@@ -39,7 +39,7 @@ namespace DOOKKI_APP.Views
             // load data from categoryName into combo box Category
             foreach (var item in _categoryController.GetModel())
             {
-                cbCategory.Items.Add(item.CategoryName);
+                cbCategory.Items.Add(item.Name);
             }
         }
         private void LoadPageProduct()
@@ -163,8 +163,8 @@ namespace DOOKKI_APP.Views
                 string search = txtSearch.Text.ToLower();
 
                 _productController.Products = _productController.GetModel().Where(
-                    p => p.ProductName.ToLower().Contains(search) ||
-                        p.Category.CategoryName.ToLower().Contains(search));
+                    p => p.Name.ToLower().Contains(search) ||
+                        p.Category.Name.ToLower().Contains(search));
 
                 _pageChanging.UpdateListOfModel(_productController.Products.ToList());
                 LoadPageProduct();
@@ -213,7 +213,7 @@ namespace DOOKKI_APP.Views
             try
             {
                 Product newProduct = new Product();
-                newProduct.ProductName = txtName.Text;
+                newProduct.Name = txtName.Text;
                 newProduct.UnitInStock = int.Parse(txtUnitInStock.Text);
 
                 var mfg = GetDateFromTimePicker(dtpk_Mfg);
@@ -228,7 +228,7 @@ namespace DOOKKI_APP.Views
                     _productController.Add(newProduct);
                     _productController.SaveChanges();
 
-                    MessageBox.Show($"Thêm sản phẩm: \" {newProduct.ProductName} \" thành công");
+                    MessageBox.Show($"Thêm sản phẩm: \" {newProduct.Name} \" thành công");
 
                     LoadPageProduct();
                     ClearInputFields();
@@ -262,11 +262,11 @@ namespace DOOKKI_APP.Views
 
                 var products = _productController.GetModel().ToList();
                 var product = (from p in _productController.GetModel()
-                               where p.ProductId == products.ElementAt(actualIndex).ProductId
+                               where p.Id == products.ElementAt(actualIndex).Id
                                select p).SingleOrDefault();
                 if (product != null)
                 {
-                    product.ProductName = txtName.Text;
+                    product.Name = txtName.Text;
                     product.UnitInStock = int.Parse(txtUnitInStock.Text);
                     product.Mfg = GetDateFromTimePicker(dtpk_Mfg);
                     product.Exp = GetDateFromTimePicker(dtpk_Exp);
@@ -304,11 +304,11 @@ namespace DOOKKI_APP.Views
                     var products = _productController.GetModel().ToList();
 
                     var product = (from p in _productController.GetModel()
-                                   where p.ProductId == products.ElementAt(actualIndex).ProductId
+                                   where p.Id == products.ElementAt(actualIndex).Id
                                    select p).SingleOrDefault();
                     if (product != null)
                     {
-                        DialogResult dr = MessageBox.Show($"Xác nhận xóa sản phẩm {product.ProductName}?", "Thông báo xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult dr = MessageBox.Show($"Xác nhận xóa sản phẩm {product.Name}?", "Thông báo xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                         if (dr == DialogResult.Yes)
                         {

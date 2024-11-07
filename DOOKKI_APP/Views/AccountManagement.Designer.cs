@@ -1,6 +1,6 @@
 ﻿namespace DOOKKI_APP.Views
 {
-    partial class AdminManagement
+    partial class AccountManagement
     {
         /// <summary>
         /// Required designer variable.
