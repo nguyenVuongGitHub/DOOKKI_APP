@@ -31,6 +31,8 @@ namespace DOOKKI_APP.Services
 
             services.AddTransient<Views.ManageEployee>();
             services.AddTransient<Views.InputCustomer>();
+            services.AddTransient<Views.PaymentForm>();
+
             // Apply pending migrations at startup
             var serviceProvider = services.BuildServiceProvider();
             using (var scope = serviceProvider.CreateScope())

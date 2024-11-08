@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DOOKKI_APP.Controllers;
+using DOOKKI_APP.Helpers;
+using DOOKKI_APP.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +15,52 @@ namespace DOOKKI_APP.Views
 {
     public partial class InputCustomer : Form
     {
-        public InputCustomer()
+        private readonly CustomerController customerController;
+        private readonly AccountController accountController;
+        public InputCustomer(DookkiContext context)
         {
             InitializeComponent();
+            customerController = new CustomerController(context);
+            accountController = new AccountController(context);
+            ShareData.IsInputCustomerFormClosed = false;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void btnCreate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Customer newcus = new Customer();
+                Account newacc = new Account();
+                newacc.UserName = txtPhone.Text;
+                newacc.Password = "1";
+                newacc.Role = "customer";
+                accountController.Add(newacc);
+                accountController.SaveChanges();
+                ShareData.CustomerPhoneNumber = txtPhone.Text;
+
+                newcus.Name = txtName.Text;
+                newcus.Idaccount = newacc.Id;
+                newcus.Phone = txtPhone.Text;
+                customerController.Add(newcus);
+                customerController.SaveChanges();
+
+                MessageBox.Show("Tạo tài khoản thành công!");
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        private void InputCustomer_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ShareData.IsInputCustomerFormClosed = true;
         }
     }
 }

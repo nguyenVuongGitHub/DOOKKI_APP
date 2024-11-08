@@ -9,6 +9,7 @@ using System.IO;
 using System.Diagnostics;
 using Spire.Xls;
 using Guna.UI2.WinForms;
+using HarfBuzzSharp;
 
 namespace DOOKKI_APP.Helpers
 {
@@ -80,13 +81,60 @@ namespace DOOKKI_APP.Helpers
                     totalBill += item.Ticket.Price * item.OrderDetail.Quantily;
                 }
                 document.Replace("{OrderDetails}", orderDetailsText, false, true);
+                //foreach (var item in query)
+                //{
+                //    // Cố định độ rộng cho từng trường
+                //    string ticketName = item.Ticket.Name.PadRight(82); // Giới hạn tên vé dài 30 ký tự
+                //    string quantity = item.OrderDetail.Quantily.ToString().PadRight(10); // Cố định 10 ký tự cho số lượng
+                //    string price = item.Ticket.Price.ToString("#,##0 VND").PadRight(15); // Cố định 15 ký tự cho giá (với định dạng tiền tệ)
+
+                //    // Thêm vào chuỗi orderDetailsText
+                //    orderDetailsText += $"{ticketName}{quantity}{price}\n\t";
+
+                //    // Tính tổng
+                //    totalBill += item.Ticket.Price * item.OrderDetail.Quantily;
+                //}
+
+                //document.Replace("{OrderDetails}", orderDetailsText, false, true);
 
 
-                document.Replace("{Amount}", $"{query.ElementAt(0).Payment.Amount}", false, true);
-                decimal change = query.ElementAt(0).Payment.Amount - totalBill;
+                // Tính toán phần trăm giảm giá dựa trên giá trị của Discount
+                decimal discountRate;
+                switch (order?.Discount)
+                {
+                    case 1:
+                        discountRate = 0.05m; // Giảm 5%
+                        break;
+                    case 2:
+                        discountRate = 0.20m; // Giảm 20%
+                        break;
+                    case 3:
+                        discountRate = 0.25m; // Giảm 25%
+                        break;
+                    case 4:
+                        discountRate = 0.30m; // Giảm 30%
+                        break;
+                    case 5:
+                        discountRate = 0.40m; // Giảm 40%
+                        break;
+                    default:
+                        discountRate = 0.0m; // Không có giảm giá nếu không nằm trong các trường hợp trên
+                        break;
+                }
 
-                document.Replace("Change", $"{change}", false, true);
-                document.Replace("{TotalBill}", $"{totalBill}", false, true);
+                // Tính toán FinalCost sau khi áp dụng giảm giá
+                decimal finalCost = totalBill * (1 - discountRate);
+
+
+                document.Replace("{TotalBill}", totalBill.ToString("#,##0 VND"), false, true);
+                document.Replace("{Discount}", $"{discountRate*100}", false, true);
+                document.Replace("{FinalCost}", finalCost.ToString("#,##0 VND"), false, true);
+
+
+                document.Replace("{Amount}", (query.ElementAt(0).Payment.Amount).ToString("#,##0 VND"), false, true);
+                decimal change = query.ElementAt(0).Payment.Amount - finalCost;
+
+                document.Replace("Change", change.ToString("#,##0 VND"), false, true);
 
                 string outputFilePath = Path.Combine(OutputFileDirectory, "Bill_" + order?.Id + ".pdf");
                 document.SaveToFile(outputFilePath, Spire.Doc.FileFormat.PDF);

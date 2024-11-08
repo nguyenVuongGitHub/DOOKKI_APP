@@ -14,30 +14,29 @@ namespace DOOKKI_APP.Controllers
         {
             _context = context;
         }
-
         public override void Add(Ticket element)
         {
-            throw new NotImplementedException();
+            _context.Tickets.Add(element);
         }
 
         public override DbSet<Ticket> GetModel()
         {
-            throw new NotImplementedException();
+            return _context.Tickets;
         }
 
         public override void Remove(Ticket element)
         {
-            throw new NotImplementedException();
+            _context.Tickets.Remove(element);
         }
 
         public override void SaveChanges()
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
 
         public override void Update(Ticket element)
         {
-            throw new NotImplementedException();
+            _context.Tickets.Update(element);
         }
 
         public void DisplayToGirdView(DataGridView gridView)

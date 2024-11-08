@@ -28,100 +28,122 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
-            label1 = new Label();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            panel1 = new Panel();
+            groupBox1 = new GroupBox();
+            btnCancel = new Button();
+            btnCreate = new Button();
+            txtName = new TextBox();
+            txtPhone = new TextBox();
             label2 = new Label();
-            textBox2 = new TextBox();
+            label1 = new Label();
+            panel1.SuspendLayout();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
-            // textBox1
+            // panel1
             // 
-            textBox1.Location = new Point(139, 12);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(159, 23);
-            textBox1.TabIndex = 0;
+            panel1.Controls.Add(groupBox1);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(527, 215);
+            panel1.TabIndex = 0;
             // 
-            // label1
+            // groupBox1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(37, 15);
-            label1.Name = "label1";
-            label1.Size = new Size(27, 15);
-            label1.TabIndex = 1;
-            label1.Text = "SĐT";
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(btnCancel);
+            groupBox1.Controls.Add(btnCreate);
+            groupBox1.Controls.Add(txtName);
+            groupBox1.Controls.Add(txtPhone);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(label1);
+            groupBox1.Font = new Font("Segoe UI", 14F);
+            groupBox1.Location = new Point(12, 12);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(503, 191);
+            groupBox1.TabIndex = 0;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Tạo tài khoản khách hàng";
             // 
-            // button1
+            // btnCancel
             // 
-            button1.Location = new Point(37, 148);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 2;
-            button1.Text = "Xuất bill";
-            button1.UseVisualStyleBackColor = true;
+            btnCancel.AutoSize = true;
+            btnCancel.Location = new Point(289, 150);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(90, 35);
+            btnCancel.TabIndex = 5;
+            btnCancel.Text = "Hủy";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
-            // button2
+            // btnCreate
             // 
-            button2.Location = new Point(139, 148);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 3;
-            button2.Text = "Hủy";
-            button2.UseVisualStyleBackColor = true;
+            btnCreate.AutoSize = true;
+            btnCreate.Location = new Point(87, 150);
+            btnCreate.Name = "btnCreate";
+            btnCreate.Size = new Size(90, 35);
+            btnCreate.TabIndex = 4;
+            btnCreate.Text = "Tạo mới";
+            btnCreate.UseVisualStyleBackColor = true;
+            btnCreate.Click += btnCreate_Click;
             // 
-            // button3
+            // txtName
             // 
-            button3.Location = new Point(262, 137);
-            button3.Name = "button3";
-            button3.Size = new Size(106, 44);
-            button3.TabIndex = 4;
-            button3.Text = "Tao tai khoan";
-            button3.UseVisualStyleBackColor = true;
+            txtName.Location = new Point(226, 103);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(187, 32);
+            txtName.TabIndex = 3;
+            // 
+            // txtPhone
+            // 
+            txtPhone.Location = new Point(226, 55);
+            txtPhone.Name = "txtPhone";
+            txtPhone.Size = new Size(187, 32);
+            txtPhone.TabIndex = 2;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(37, 68);
+            label2.Location = new Point(22, 103);
             label2.Name = "label2";
-            label2.Size = new Size(40, 15);
-            label2.TabIndex = 5;
-            label2.Text = "ten kh";
+            label2.Size = new Size(96, 25);
+            label2.TabIndex = 1;
+            label2.Text = "Họ và tên:";
             // 
-            // textBox2
+            // label1
             // 
-            textBox2.Location = new Point(139, 68);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(159, 23);
-            textBox2.TabIndex = 6;
+            label1.AutoSize = true;
+            label1.Location = new Point(22, 55);
+            label1.Name = "label1";
+            label1.Size = new Size(127, 25);
+            label1.TabIndex = 0;
+            label1.Text = "Số điện thoại:";
             // 
             // InputCustomer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(415, 219);
-            Controls.Add(textBox2);
-            Controls.Add(label2);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
-            Controls.Add(label1);
-            Controls.Add(textBox1);
+            ClientSize = new Size(527, 215);
+            Controls.Add(panel1);
             Name = "InputCustomer";
             Text = "InputCustomer";
+            FormClosed += InputCustomer_FormClosed;
+            panel1.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private TextBox textBox1;
-        private Label label1;
-        private Button button1;
-        private Button button2;
-        private Button button3;
+        private Panel panel1;
+        private GroupBox groupBox1;
+        private TextBox txtName;
+        private TextBox txtPhone;
         private Label label2;
-        private TextBox textBox2;
+        private Label label1;
+        private Button btnCancel;
+        private Button btnCreate;
     }
 }
