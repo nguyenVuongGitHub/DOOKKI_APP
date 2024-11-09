@@ -1,4 +1,5 @@
 ﻿using DOOKKI_APP.Controllers;
+using DOOKKI_APP.Helpers;
 using DOOKKI_APP.Models;
 using DOOKKI_APP.Models.Entities;
 using DOOKKI_APP.Views.UserControls;
@@ -50,7 +51,13 @@ namespace DOOKKI_APP.Views
                 table.MouseUp += Table_MouseUp;
             }
         }
-
+        public void ClearTable()
+        {
+            tableLayoutPanel1.Controls.Clear();
+            lblTable.Text = "";
+            lblSum.Text = "";
+            LoadComboBox();
+        }
         private void Table_Click(object sender, EventArgs e)
         {
             var table = sender as ucTables;
@@ -85,6 +92,7 @@ namespace DOOKKI_APP.Views
                 decimal totalSum = orders.Sum(order => order.TicketPrice * order.Quantity);
                 parentForm?.SetTotalSum(totalSum);
                 LoadComboBox();
+                ShareData.TableName = lblTable.Text;
             }
 
             else
@@ -154,7 +162,7 @@ namespace DOOKKI_APP.Views
                     orderDetails.Add(orderDetail);
                 }
                 //open form payment
-                Form paymentForm = new PaymentForm(new Order(), new Payment(), orderDetails, _context);
+                Form paymentForm = new PaymentForm(new Order(), new Payment(), orderDetails, _context, _manageOrders, this);
                 paymentForm.Show();
             }
         }
@@ -174,7 +182,7 @@ namespace DOOKKI_APP.Views
             TransferTable(currentTableName, newTableName);
         }
 
-        private void LoadComboBox()
+        public void LoadComboBox()
         {
             cbEmptyTable.Items.Clear();
 

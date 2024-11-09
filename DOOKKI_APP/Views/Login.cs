@@ -59,7 +59,7 @@ namespace DOOKKI_APP.Views
                     {
                         username = (from ad in _adminController.GetModel()
                                     where ad.Idaccount == checkLogin.Id
-                                    select checkLogin.UserName).SingleOrDefault();
+                                    select ad.Name).SingleOrDefault();
                     }
                     else if (User.Role == Roles.employee)
                     {

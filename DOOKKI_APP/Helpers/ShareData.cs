@@ -10,5 +10,6 @@ namespace DOOKKI_APP.Helpers
     {
         public static string CustomerPhoneNumber { get; set; }
         public static bool IsInputCustomerFormClosed {  get; set; }
+        public static string TableName { get; set; }    
     }
 }

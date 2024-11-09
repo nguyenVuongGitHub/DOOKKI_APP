@@ -26,7 +26,9 @@ namespace DOOKKI_APP.Views
         private readonly TicketController ticketController;
         private readonly ExportFile export;
         private readonly DookkiContext _context;
-        public PaymentForm(Order order, Payment payment, List<OrderDetail> orderDetails, DookkiContext context)
+        private readonly MainForm _manageOrders;
+        private readonly TableForm _tableForm;
+        public PaymentForm(Order order, Payment payment, List<OrderDetail> orderDetails, DookkiContext context, MainForm manageOrders, TableForm tableForm)
         {
             InitializeComponent();
             this.order = order;
@@ -40,9 +42,10 @@ namespace DOOKKI_APP.Views
             export = new ExportFile(context);
             ticketController = new TicketController(context);
             _context = context;
-
+            _manageOrders = manageOrders;
+            _tableForm = tableForm;
         }
-        public PaymentForm(DookkiContext context)
+        public PaymentForm(DookkiContext context, MainForm manageOrders, TableForm tableForm)
         {
             InitializeComponent();
             // get data
@@ -57,6 +60,9 @@ namespace DOOKKI_APP.Views
             export = new ExportFile(context);
             ticketController = new TicketController(context);
             _context = context;
+            _manageOrders = manageOrders;
+            _tableForm = tableForm;
+
 
 
         }
@@ -251,8 +257,12 @@ namespace DOOKKI_APP.Views
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             MessageBox.Show("Xuất bill thành công");
+            _manageOrders.TableOrders.Remove(ShareData.TableName);
+            _manageOrders.TableStatus[ShareData.TableName] = false; // Mark the original table as free
+            _tableForm.UpdateTableStatus(ShareData.TableName, false);
+            _tableForm.ClearTable();
+            ShareData.TableName = "";
             this.Close();
-            MessageBox.Show("Cập nhật lại trạng thái bàn tại đây");
         }
 
         private void PaymentForm_Load(object sender, EventArgs e)
