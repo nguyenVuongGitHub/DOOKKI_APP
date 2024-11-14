@@ -68,7 +68,7 @@ namespace DOOKKI_APP.Helpers
 
 
 
-                document.Replace("{EmployeeName}", User.Username, false, true);
+                document.Replace("{EmployeeName}", User.Name, false, true);
                 document.Replace("{Date}", query.ElementAt(0).Payment.Day.ToString(), false, true);
                 document.Replace("{CustomerName}", order?.Customer?.Name ?? string.Empty, false, true);
                 document.Replace("{PaymentMethod}", query.ElementAt(0).PaymentMethod.Name, false, true);
