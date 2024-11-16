@@ -54,21 +54,25 @@ namespace DOOKKI_APP.Views
                 {
                     // set role for user.
                     User.SetRoles(checkLogin.Role);
-                    string? username = "";
+                    string? username = checkLogin.UserName;
+                    string? name = "";
+
                     if (User.Role == Roles.admin)
                     {
-                        username = (from ad in _adminController.GetModel()
+                        name = (from ad in _adminController.GetModel()
                                     where ad.Idaccount == checkLogin.Id
                                     select ad.Name).SingleOrDefault();
                     }
                     else if (User.Role == Roles.employee)
                     {
-                        username = (from em in _employeeController.GetModel()
+                        name = (from em in _employeeController.GetModel()
                                     where em.Phone == checkLogin.UserName
                                     select em.Name).SingleOrDefault();
+                        
                     }
-                    if (username != null)
+                    if (username != null && name != null)
                     {
+                        User.Name = name;
                         User.Username = username;
                     }
                     //move on to another form

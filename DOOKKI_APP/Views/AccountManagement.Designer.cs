@@ -287,13 +287,13 @@
             // 
             errorProvider1.ContainerControl = this;
             // 
-            // AdminManagement
+            // AccountManagement
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(panel2);
-            Name = "AdminManagement";
+            Name = "AccountManagement";
             Text = "AdminManagement";
             panel2.ResumeLayout(false);
             groupBox1.ResumeLayout(false);
