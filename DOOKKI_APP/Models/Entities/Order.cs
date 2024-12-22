@@ -13,6 +13,8 @@ public partial class Order
 
     public int? Discount { get; set; }
 
+    public string? Status { get; set; }
+
     public virtual Customer? Customer { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();

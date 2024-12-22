@@ -19,7 +19,11 @@ public partial class DookkiContext : DbContext
 
     public virtual DbSet<Admin> Admins { get; set; }
 
+    public virtual DbSet<BookingRequest> BookingRequests { get; set; }
+
     public virtual DbSet<Category> Categories { get; set; }
+
+    public virtual DbSet<CategoryTicket> CategoryTickets { get; set; }
 
     public virtual DbSet<Customer> Customers { get; set; }
 
@@ -47,11 +51,11 @@ public partial class DookkiContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ACCOUNT__3214EC279AE6ADC3");
+            entity.HasKey(e => e.Id).HasName("PK__ACCOUNT__3214EC273109962E");
 
             entity.ToTable("ACCOUNT");
 
-            entity.HasIndex(e => e.UserName, "UQ__ACCOUNT__C9F28456EACA5F32").IsUnique();
+            entity.HasIndex(e => e.UserName, "UQ__ACCOUNT__C9F28456770B9B30").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Password).HasMaxLength(255);
@@ -61,11 +65,11 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<Admin>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Admin__3214EC27B027D9DA");
+            entity.HasKey(e => e.Id).HasName("PK__Admin__3214EC27F0ED46E1");
 
             entity.ToTable("Admin");
 
-            entity.HasIndex(e => e.Phone, "UQ__Admin__5C7E359E07EAFD9C").IsUnique();
+            entity.HasIndex(e => e.Phone, "UQ__Admin__5C7E359E49271BAD").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Idaccount).HasColumnName("IDAccount");
@@ -77,9 +81,19 @@ public partial class DookkiContext : DbContext
                 .HasConstraintName("FK__Admin__IDAccount__3B75D760");
         });
 
+        modelBuilder.Entity<BookingRequest>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__BookingR__3214EC27C70A64EC");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Name).HasMaxLength(255);
+            entity.Property(e => e.Phone).HasMaxLength(15);
+            entity.Property(e => e.Status).HasMaxLength(15);
+        });
+
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC2712BE71BA");
+            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC2778A42F64");
 
             entity.ToTable("Category");
 
@@ -87,13 +101,23 @@ public partial class DookkiContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(255);
         });
 
+        modelBuilder.Entity<CategoryTicket>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC2734720120");
+
+            entity.ToTable("CategoryTicket");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Name).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Customer__3214EC27DC900BB1");
+            entity.HasKey(e => e.Id).HasName("PK__Customer__3214EC277262EB12");
 
             entity.ToTable("Customer");
 
-            entity.HasIndex(e => e.Phone, "UQ__Customer__5C7E359E5BC10DFB").IsUnique();
+            entity.HasIndex(e => e.Phone, "UQ__Customer__5C7E359E0904332E").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Address).HasMaxLength(255);
@@ -110,7 +134,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<DayWork>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__DayWork__3214EC27A84F9CFD");
+            entity.HasKey(e => e.Id).HasName("PK__DayWork__3214EC27DE1E87F4");
 
             entity.ToTable("DayWork");
 
@@ -126,13 +150,13 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Employee__3214EC2716C8BE91");
+            entity.HasKey(e => e.Id).HasName("PK__Employee__3214EC27D67FFE82");
 
             entity.ToTable("Employee");
 
-            entity.HasIndex(e => e.Email, "UQ__Employee__AB6E616479A771F0").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Employee__AB6E6164EB398092").IsUnique();
 
-            entity.HasIndex(e => e.Phone, "UQ__Employee__B43B145F1D34314F").IsUnique();
+            entity.HasIndex(e => e.Phone, "UQ__Employee__B43B145F264D8F69").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.AmountWage)
@@ -152,7 +176,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC2731C7DAD2");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC277B057367");
 
             entity.ToTable("Order");
 
@@ -161,6 +185,7 @@ public partial class DookkiContext : DbContext
             entity.Property(e => e.Discount)
                 .HasDefaultValue(0)
                 .HasColumnName("discount");
+            entity.Property(e => e.Status).HasMaxLength(50);
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerId)
@@ -169,7 +194,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__OrderDet__3214EC27D868258B");
+            entity.HasKey(e => e.Id).HasName("PK__OrderDet__3214EC27BF0260D6");
 
             entity.ToTable("OrderDetail");
 
@@ -196,7 +221,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Payment__3214EC277FC6E868");
+            entity.HasKey(e => e.Id).HasName("PK__Payment__3214EC2727CA03A5");
 
             entity.ToTable("Payment");
 
@@ -214,7 +239,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<PaymentMethod>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PaymentM__3214EC275C03E117");
+            entity.HasKey(e => e.Id).HasName("PK__PaymentM__3214EC27DBA00E60");
 
             entity.ToTable("PaymentMethod");
 
@@ -224,7 +249,7 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Product__3214EC271B33A246");
+            entity.HasKey(e => e.Id).HasName("PK__Product__3214EC2777BDEB11");
 
             entity.ToTable("Product");
 
@@ -242,15 +267,20 @@ public partial class DookkiContext : DbContext
 
         modelBuilder.Entity<Ticket>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Ticket__3214EC27F50EBC5B");
+            entity.HasKey(e => e.Id).HasName("PK__Ticket__3214EC277F54176C");
 
             entity.ToTable("Ticket");
 
-            entity.HasIndex(e => e.Name, "UQ__Ticket__737584F6EB81D8E9").IsUnique();
+            entity.HasIndex(e => e.Name, "UQ__Ticket__737584F6D58EC2C6").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.IdCategory).HasColumnName("ID_Category");
             entity.Property(e => e.Name).HasMaxLength(255);
             entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
+
+            entity.HasOne(d => d.IdCategoryNavigation).WithMany(p => p.Tickets)
+                .HasForeignKey(d => d.IdCategory)
+                .HasConstraintName("FK__Ticket__ID_Categ__628FA481");
         });
 
         OnModelCreatingPartial(modelBuilder);

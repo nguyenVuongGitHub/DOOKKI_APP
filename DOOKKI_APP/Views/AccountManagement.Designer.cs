@@ -29,21 +29,33 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel2 = new Panel();
             groupBox1 = new GroupBox();
-            cbRoles = new ComboBox();
+            cbRoles = new Guna.UI2.WinForms.Guna2ComboBox();
             btnEditAccount = new Button();
             btnAddNewAccount = new Button();
             pnAddNewAccount = new Panel();
-            txtPhone = new TextBox();
-            txtName = new TextBox();
+            txtPhone = new Guna.UI2.WinForms.Guna2TextBox();
+            txtName = new Guna.UI2.WinForms.Guna2TextBox();
+            txtPassword = new Guna.UI2.WinForms.Guna2TextBox();
+            txtUserName = new Guna.UI2.WinForms.Guna2TextBox();
             label3 = new Label();
             label4 = new Label();
             btnCancel = new Button();
             btnUpdate = new Button();
             btnAddnew = new Button();
-            txtPassword = new TextBox();
-            txtUserName = new TextBox();
             label2 = new Label();
             label1 = new Label();
             dgvAdmin = new DataGridView();
@@ -67,7 +79,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(800, 450);
+            panel2.Size = new Size(852, 538);
             panel2.TabIndex = 1;
             // 
             // groupBox1
@@ -78,83 +90,170 @@
             groupBox1.Font = new Font("Segoe UI", 14F);
             groupBox1.Location = new Point(30, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(381, 267);
+            groupBox1.Size = new Size(412, 317);
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             groupBox1.Text = "Quản lý tài khoản";
             // 
             // cbRoles
             // 
+            cbRoles.BackColor = Color.Transparent;
+            cbRoles.CustomizableEdges = customizableEdges1;
+            cbRoles.DrawMode = DrawMode.OwnerDrawFixed;
             cbRoles.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbRoles.FormattingEnabled = true;
-            cbRoles.Location = new Point(235, 63);
+            cbRoles.FocusedColor = Color.FromArgb(94, 148, 255);
+            cbRoles.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            cbRoles.Font = new Font("Segoe UI", 10F);
+            cbRoles.ForeColor = Color.FromArgb(68, 88, 112);
+            cbRoles.ItemHeight = 30;
+            cbRoles.Location = new Point(235, 62);
             cbRoles.Name = "cbRoles";
-            cbRoles.Size = new Size(121, 33);
-            cbRoles.TabIndex = 2;
+            cbRoles.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            cbRoles.Size = new Size(140, 36);
+            cbRoles.TabIndex = 3;
             cbRoles.SelectedIndexChanged += cbRoles_SelectedIndexChanged;
             // 
             // btnEditAccount
             // 
             btnEditAccount.AutoSize = true;
+            btnEditAccount.BackColor = Color.FromArgb(42, 52, 65);
+            btnEditAccount.FlatStyle = FlatStyle.Flat;
+            btnEditAccount.ForeColor = Color.White;
             btnEditAccount.Location = new Point(6, 141);
             btnEditAccount.Name = "btnEditAccount";
-            btnEditAccount.Size = new Size(204, 35);
+            btnEditAccount.Size = new Size(206, 37);
             btnEditAccount.TabIndex = 1;
             btnEditAccount.Text = "Sửa tài khoản hiện tại";
-            btnEditAccount.UseVisualStyleBackColor = true;
+            btnEditAccount.UseVisualStyleBackColor = false;
             btnEditAccount.Click += btnEditAccount_Click;
             // 
             // btnAddNewAccount
             // 
             btnAddNewAccount.AutoSize = true;
+            btnAddNewAccount.BackColor = Color.FromArgb(42, 52, 65);
+            btnAddNewAccount.FlatStyle = FlatStyle.Flat;
+            btnAddNewAccount.ForeColor = Color.White;
             btnAddNewAccount.Location = new Point(6, 63);
             btnAddNewAccount.Name = "btnAddNewAccount";
-            btnAddNewAccount.Size = new Size(204, 35);
+            btnAddNewAccount.Size = new Size(204, 37);
             btnAddNewAccount.TabIndex = 0;
             btnAddNewAccount.Text = "Cấp tài khoản mới";
-            btnAddNewAccount.UseVisualStyleBackColor = true;
+            btnAddNewAccount.UseVisualStyleBackColor = false;
             btnAddNewAccount.Click += btnAddNewAccount_Click;
             // 
             // pnAddNewAccount
             // 
+            pnAddNewAccount.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pnAddNewAccount.Controls.Add(txtPhone);
             pnAddNewAccount.Controls.Add(txtName);
+            pnAddNewAccount.Controls.Add(txtPassword);
+            pnAddNewAccount.Controls.Add(txtUserName);
             pnAddNewAccount.Controls.Add(label3);
             pnAddNewAccount.Controls.Add(label4);
             pnAddNewAccount.Controls.Add(btnCancel);
             pnAddNewAccount.Controls.Add(btnUpdate);
             pnAddNewAccount.Controls.Add(btnAddnew);
-            pnAddNewAccount.Controls.Add(txtPassword);
-            pnAddNewAccount.Controls.Add(txtUserName);
             pnAddNewAccount.Controls.Add(label2);
             pnAddNewAccount.Controls.Add(label1);
-            pnAddNewAccount.Location = new Point(417, 3);
+            pnAddNewAccount.Location = new Point(448, 3);
             pnAddNewAccount.Name = "pnAddNewAccount";
-            pnAddNewAccount.Size = new Size(313, 276);
+            pnAddNewAccount.Size = new Size(401, 326);
             pnAddNewAccount.TabIndex = 0;
             pnAddNewAccount.Visible = false;
             // 
             // txtPhone
             // 
-            txtPhone.Font = new Font("Segoe UI", 14F);
-            txtPhone.Location = new Point(156, 146);
+            txtPhone.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtPhone.CustomizableEdges = customizableEdges3;
+            txtPhone.DefaultText = "";
+            txtPhone.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txtPhone.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txtPhone.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txtPhone.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txtPhone.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtPhone.Font = new Font("Segoe UI", 12F);
+            txtPhone.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtPhone.Location = new Point(149, 192);
+            txtPhone.Margin = new Padding(0);
             txtPhone.Name = "txtPhone";
-            txtPhone.Size = new Size(148, 32);
-            txtPhone.TabIndex = 15;
+            txtPhone.PasswordChar = '\0';
+            txtPhone.PlaceholderText = "";
+            txtPhone.SelectedText = "";
+            txtPhone.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            txtPhone.Size = new Size(244, 50);
+            txtPhone.TabIndex = 18;
             // 
             // txtName
             // 
-            txtName.Font = new Font("Segoe UI", 14F);
-            txtName.Location = new Point(156, 104);
+            txtName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtName.CustomizableEdges = customizableEdges5;
+            txtName.DefaultText = "";
+            txtName.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txtName.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txtName.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txtName.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txtName.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtName.Font = new Font("Segoe UI", 12F);
+            txtName.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtName.Location = new Point(149, 131);
+            txtName.Margin = new Padding(0);
             txtName.Name = "txtName";
-            txtName.Size = new Size(148, 32);
-            txtName.TabIndex = 14;
+            txtName.PasswordChar = '\0';
+            txtName.PlaceholderText = "";
+            txtName.SelectedText = "";
+            txtName.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            txtName.Size = new Size(244, 50);
+            txtName.TabIndex = 17;
+            // 
+            // txtPassword
+            // 
+            txtPassword.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtPassword.CustomizableEdges = customizableEdges7;
+            txtPassword.DefaultText = "";
+            txtPassword.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txtPassword.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txtPassword.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txtPassword.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txtPassword.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtPassword.Font = new Font("Segoe UI", 12F);
+            txtPassword.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtPassword.Location = new Point(149, 72);
+            txtPassword.Margin = new Padding(0);
+            txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '\0';
+            txtPassword.PlaceholderText = "";
+            txtPassword.SelectedText = "";
+            txtPassword.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            txtPassword.Size = new Size(244, 50);
+            txtPassword.TabIndex = 16;
+            // 
+            // txtUserName
+            // 
+            txtUserName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtUserName.CustomizableEdges = customizableEdges9;
+            txtUserName.DefaultText = "";
+            txtUserName.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txtUserName.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txtUserName.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txtUserName.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txtUserName.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtUserName.Font = new Font("Segoe UI", 12F);
+            txtUserName.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtUserName.Location = new Point(149, 13);
+            txtUserName.Margin = new Padding(0);
+            txtUserName.Name = "txtUserName";
+            txtUserName.PasswordChar = '\0';
+            txtUserName.PlaceholderText = "";
+            txtUserName.SelectedText = "";
+            txtUserName.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            txtUserName.Size = new Size(244, 50);
+            txtUserName.TabIndex = 4;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 14F);
-            label3.Location = new Point(16, 149);
+            label3.Location = new Point(16, 204);
             label3.Name = "label3";
             label3.Size = new Size(123, 25);
             label3.TabIndex = 13;
@@ -164,7 +263,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 14F);
-            label4.Location = new Point(16, 111);
+            label4.Location = new Point(16, 146);
             label4.Name = "label4";
             label4.Size = new Size(41, 25);
             label4.TabIndex = 12;
@@ -172,64 +271,60 @@
             // 
             // btnCancel
             // 
+            btnCancel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnCancel.AutoSize = true;
+            btnCancel.BackColor = Color.FromArgb(42, 52, 65);
+            btnCancel.FlatStyle = FlatStyle.Flat;
             btnCancel.Font = new Font("Segoe UI", 14F);
-            btnCancel.Location = new Point(205, 197);
+            btnCancel.ForeColor = Color.White;
+            btnCancel.Location = new Point(294, 275);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(99, 35);
+            btnCancel.Size = new Size(99, 37);
             btnCancel.TabIndex = 11;
             btnCancel.Text = "Hủy";
-            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.UseVisualStyleBackColor = false;
             btnCancel.Visible = false;
             btnCancel.Click += btnCancel_Click;
             // 
             // btnUpdate
             // 
+            btnUpdate.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnUpdate.AutoSize = true;
+            btnUpdate.BackColor = Color.FromArgb(42, 52, 65);
+            btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 14F);
-            btnUpdate.Location = new Point(26, 197);
+            btnUpdate.ForeColor = Color.White;
+            btnUpdate.Location = new Point(114, 275);
             btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(152, 35);
+            btnUpdate.Size = new Size(152, 37);
             btnUpdate.TabIndex = 10;
             btnUpdate.Text = "Cập nhật";
-            btnUpdate.UseVisualStyleBackColor = true;
+            btnUpdate.UseVisualStyleBackColor = false;
             btnUpdate.Visible = false;
             btnUpdate.Click += btnUpdate_Click;
             // 
             // btnAddnew
             // 
+            btnAddnew.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnAddnew.AutoSize = true;
+            btnAddnew.BackColor = Color.FromArgb(42, 52, 65);
+            btnAddnew.FlatStyle = FlatStyle.Flat;
             btnAddnew.Font = new Font("Segoe UI", 14F);
-            btnAddnew.Location = new Point(26, 197);
+            btnAddnew.ForeColor = Color.White;
+            btnAddnew.Location = new Point(113, 275);
             btnAddnew.Name = "btnAddnew";
-            btnAddnew.Size = new Size(152, 35);
+            btnAddnew.Size = new Size(154, 37);
             btnAddnew.TabIndex = 9;
             btnAddnew.Text = "Thêm tài khoản";
-            btnAddnew.UseVisualStyleBackColor = true;
+            btnAddnew.UseVisualStyleBackColor = false;
             btnAddnew.Visible = false;
             btnAddnew.Click += btnAddnew_Click;
-            // 
-            // txtPassword
-            // 
-            txtPassword.Font = new Font("Segoe UI", 14F);
-            txtPassword.Location = new Point(156, 61);
-            txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(148, 32);
-            txtPassword.TabIndex = 5;
-            // 
-            // txtUserName
-            // 
-            txtUserName.Font = new Font("Segoe UI", 14F);
-            txtUserName.Location = new Point(156, 19);
-            txtUserName.Name = "txtUserName";
-            txtUserName.Size = new Size(148, 32);
-            txtUserName.TabIndex = 4;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 14F);
-            label2.Location = new Point(16, 68);
+            label2.Location = new Point(16, 88);
             label2.Name = "label2";
             label2.Size = new Size(91, 25);
             label2.TabIndex = 1;
@@ -249,17 +344,35 @@
             // 
             dgvAdmin.AllowUserToAddRows = false;
             dgvAdmin.AllowUserToDeleteRows = false;
-            dgvAdmin.AllowUserToResizeColumns = false;
             dgvAdmin.AllowUserToResizeRows = false;
+            dgvAdmin.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvAdmin.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvAdmin.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-            dgvAdmin.Dock = DockStyle.Bottom;
-            dgvAdmin.Location = new Point(0, 285);
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle1.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvAdmin.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvAdmin.ColumnHeadersHeight = 30;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 14F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvAdmin.DefaultCellStyle = dataGridViewCellStyle2;
+            dgvAdmin.EnableHeadersVisualStyles = false;
+            dgvAdmin.Location = new Point(0, 335);
             dgvAdmin.MultiSelect = false;
             dgvAdmin.Name = "dgvAdmin";
             dgvAdmin.ReadOnly = true;
+            dgvAdmin.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dgvAdmin.RowHeadersVisible = false;
             dgvAdmin.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvAdmin.Size = new Size(800, 165);
+            dgvAdmin.Size = new Size(852, 162);
             dgvAdmin.TabIndex = 0;
             dgvAdmin.MouseDown += dgvAdmin_MouseDown;
             // 
@@ -291,7 +404,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(852, 538);
             Controls.Add(panel2);
             Name = "AccountManagement";
             Text = "AdminManagement";
@@ -312,8 +425,6 @@
         private Label label2;
         private Label label1;
         private DataGridView dgvAdmin;
-        private TextBox txtPassword;
-        private TextBox txtUserName;
         private Button btnAddnew;
         private ContextMenuStrip contextMenuStrip1;
         private Button btnUpdate;
@@ -323,11 +434,13 @@
         private GroupBox groupBox1;
         private Button btnAddNewAccount;
         private Button btnEditAccount;
-        private TextBox txtPhone;
-        private TextBox txtName;
         private Label label3;
         private Label label4;
-        private ComboBox cbRoles;
         private ErrorProvider errorProvider1;
+        private Guna.UI2.WinForms.Guna2ComboBox cbRoles;
+        private Guna.UI2.WinForms.Guna2TextBox txtUserName;
+        private Guna.UI2.WinForms.Guna2TextBox txtPassword;
+        private Guna.UI2.WinForms.Guna2TextBox txtName;
+        private Guna.UI2.WinForms.Guna2TextBox txtPhone;
     }
 }

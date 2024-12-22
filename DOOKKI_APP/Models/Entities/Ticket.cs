@@ -11,5 +11,9 @@ public partial class Ticket
 
     public decimal Price { get; set; }
 
+    public int? IdCategory { get; set; }
+
+    public virtual CategoryTicket? IdCategoryNavigation { get; set; }
+
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

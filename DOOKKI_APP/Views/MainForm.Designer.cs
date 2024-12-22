@@ -41,19 +41,12 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             pnLeft = new Panel();
-            pictureBox1 = new PictureBox();
+            pbSidebar = new PictureBox();
             btnLogout = new Guna.UI2.WinForms.Guna2Button();
             ptbDookkiAvatar = new PictureBox();
             lblDookki = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
-            pnMenuContainer = new Panel();
-            guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
-            guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             btnTable = new Guna.UI2.WinForms.Guna2Button();
             btnEmployee = new Guna.UI2.WinForms.Guna2Button();
             btnDashboard = new Guna.UI2.WinForms.Guna2Button();
@@ -63,16 +56,15 @@
             menuTransition = new System.Windows.Forms.Timer(components);
             sidebarTransition = new System.Windows.Forms.Timer(components);
             pnLeft.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbSidebar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ptbDookkiAvatar).BeginInit();
             flowLayoutPanel1.SuspendLayout();
-            pnMenuContainer.SuspendLayout();
             SuspendLayout();
             // 
             // pnLeft
             // 
             pnLeft.BackColor = Color.FromArgb(42, 52, 65);
-            pnLeft.Controls.Add(pictureBox1);
+            pnLeft.Controls.Add(pbSidebar);
             pnLeft.Controls.Add(btnLogout);
             pnLeft.Controls.Add(ptbDookkiAvatar);
             pnLeft.Controls.Add(lblDookki);
@@ -81,18 +73,19 @@
             pnLeft.Location = new Point(0, 0);
             pnLeft.Margin = new Padding(3, 2, 3, 2);
             pnLeft.Name = "pnLeft";
-            pnLeft.Size = new Size(200, 611);
+            pnLeft.Size = new Size(200, 747);
             pnLeft.TabIndex = 0;
             // 
-            // pictureBox1
+            // pbSidebar
             // 
-            pictureBox1.Image = Properties.Resources.menu_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24;
-            pictureBox1.Location = new Point(3, 3);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(40, 40);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 10;
-            pictureBox1.TabStop = false;
+            pbSidebar.Image = Properties.Resources.menu_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24;
+            pbSidebar.Location = new Point(3, 3);
+            pbSidebar.Name = "pbSidebar";
+            pbSidebar.Size = new Size(40, 40);
+            pbSidebar.SizeMode = PictureBoxSizeMode.Zoom;
+            pbSidebar.TabIndex = 10;
+            pbSidebar.TabStop = false;
+            pbSidebar.Click += pbSidebar_Click;
             // 
             // btnLogout
             // 
@@ -106,9 +99,9 @@
             btnLogout.Font = new Font("Segoe UI", 14F);
             btnLogout.ForeColor = Color.White;
             btnLogout.Image = Properties.Resources.logout_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24;
-            btnLogout.ImageOffset = new Point(-10, 0);
+            btnLogout.ImageOffset = new Point(-15, 0);
             btnLogout.ImageSize = new Size(40, 40);
-            btnLogout.Location = new Point(2, 561);
+            btnLogout.Location = new Point(2, 697);
             btnLogout.Name = "btnLogout";
             btnLogout.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnLogout.Size = new Size(195, 40);
@@ -141,7 +134,7 @@
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.AutoSize = true;
-            flowLayoutPanel1.Controls.Add(pnMenuContainer);
+            flowLayoutPanel1.Controls.Add(btnTable);
             flowLayoutPanel1.Controls.Add(btnEmployee);
             flowLayoutPanel1.Controls.Add(btnDashboard);
             flowLayoutPanel1.Controls.Add(btnWarehouse);
@@ -152,62 +145,9 @@
             flowLayoutPanel1.Size = new Size(206, 236);
             flowLayoutPanel1.TabIndex = 3;
             // 
-            // pnMenuContainer
-            // 
-            pnMenuContainer.BackColor = Color.FromArgb(42, 52, 65);
-            pnMenuContainer.Controls.Add(guna2Button2);
-            pnMenuContainer.Controls.Add(guna2Button1);
-            pnMenuContainer.Controls.Add(btnTable);
-            pnMenuContainer.Location = new Point(3, 3);
-            pnMenuContainer.Name = "pnMenuContainer";
-            pnMenuContainer.Size = new Size(200, 40);
-            pnMenuContainer.TabIndex = 11;
-            // 
-            // guna2Button2
-            // 
-            guna2Button2.CustomizableEdges = customizableEdges3;
-            guna2Button2.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button2.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button2.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button2.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button2.FillColor = Color.FromArgb(72, 87, 107);
-            guna2Button2.Font = new Font("Segoe UI", 14F);
-            guna2Button2.ForeColor = Color.White;
-            guna2Button2.Image = Properties.Resources.grid_view_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24;
-            guna2Button2.ImageAlign = HorizontalAlignment.Left;
-            guna2Button2.ImageOffset = new Point(-5, 0);
-            guna2Button2.ImageSize = new Size(40, 40);
-            guna2Button2.Location = new Point(3, 94);
-            guna2Button2.Name = "guna2Button2";
-            guna2Button2.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            guna2Button2.Size = new Size(195, 40);
-            guna2Button2.TabIndex = 12;
-            guna2Button2.Text = "Menu 2";
-            // 
-            // guna2Button1
-            // 
-            guna2Button1.CustomizableEdges = customizableEdges5;
-            guna2Button1.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button1.FillColor = Color.FromArgb(72, 87, 107);
-            guna2Button1.Font = new Font("Segoe UI", 14F);
-            guna2Button1.ForeColor = Color.White;
-            guna2Button1.Image = Properties.Resources.grid_view_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24;
-            guna2Button1.ImageAlign = HorizontalAlignment.Left;
-            guna2Button1.ImageOffset = new Point(-5, 0);
-            guna2Button1.ImageSize = new Size(40, 40);
-            guna2Button1.Location = new Point(3, 48);
-            guna2Button1.Name = "guna2Button1";
-            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            guna2Button1.Size = new Size(195, 40);
-            guna2Button1.TabIndex = 11;
-            guna2Button1.Text = "Menu 1";
-            // 
             // btnTable
             // 
-            btnTable.CustomizableEdges = customizableEdges7;
+            btnTable.CustomizableEdges = customizableEdges3;
             btnTable.DisabledState.BorderColor = Color.DarkGray;
             btnTable.DisabledState.CustomBorderColor = Color.DarkGray;
             btnTable.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -219,9 +159,9 @@
             btnTable.ImageAlign = HorizontalAlignment.Left;
             btnTable.ImageOffset = new Point(-5, 0);
             btnTable.ImageSize = new Size(40, 40);
-            btnTable.Location = new Point(2, 2);
+            btnTable.Location = new Point(3, 3);
             btnTable.Name = "btnTable";
-            btnTable.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnTable.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnTable.Size = new Size(195, 40);
             btnTable.TabIndex = 10;
             btnTable.Text = "Menu";
@@ -231,7 +171,7 @@
             // 
             // btnEmployee
             // 
-            btnEmployee.CustomizableEdges = customizableEdges9;
+            btnEmployee.CustomizableEdges = customizableEdges5;
             btnEmployee.DisabledState.BorderColor = Color.DarkGray;
             btnEmployee.DisabledState.CustomBorderColor = Color.DarkGray;
             btnEmployee.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -244,7 +184,7 @@
             btnEmployee.ImageSize = new Size(35, 40);
             btnEmployee.Location = new Point(3, 49);
             btnEmployee.Name = "btnEmployee";
-            btnEmployee.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnEmployee.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnEmployee.Size = new Size(195, 40);
             btnEmployee.TabIndex = 11;
             btnEmployee.Text = "Nhân viên";
@@ -253,7 +193,7 @@
             // 
             // btnDashboard
             // 
-            btnDashboard.CustomizableEdges = customizableEdges11;
+            btnDashboard.CustomizableEdges = customizableEdges7;
             btnDashboard.DisabledState.BorderColor = Color.DarkGray;
             btnDashboard.DisabledState.CustomBorderColor = Color.DarkGray;
             btnDashboard.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -266,7 +206,7 @@
             btnDashboard.ImageSize = new Size(35, 40);
             btnDashboard.Location = new Point(3, 95);
             btnDashboard.Name = "btnDashboard";
-            btnDashboard.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            btnDashboard.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnDashboard.Size = new Size(195, 40);
             btnDashboard.TabIndex = 12;
             btnDashboard.Text = "Thống kê";
@@ -275,7 +215,7 @@
             // 
             // btnWarehouse
             // 
-            btnWarehouse.CustomizableEdges = customizableEdges13;
+            btnWarehouse.CustomizableEdges = customizableEdges9;
             btnWarehouse.DisabledState.BorderColor = Color.DarkGray;
             btnWarehouse.DisabledState.CustomBorderColor = Color.DarkGray;
             btnWarehouse.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -288,7 +228,7 @@
             btnWarehouse.ImageSize = new Size(35, 40);
             btnWarehouse.Location = new Point(3, 141);
             btnWarehouse.Name = "btnWarehouse";
-            btnWarehouse.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            btnWarehouse.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnWarehouse.Size = new Size(195, 40);
             btnWarehouse.TabIndex = 13;
             btnWarehouse.Text = "Kho";
@@ -297,7 +237,7 @@
             // 
             // btnAdmin
             // 
-            btnAdmin.CustomizableEdges = customizableEdges15;
+            btnAdmin.CustomizableEdges = customizableEdges11;
             btnAdmin.DisabledState.BorderColor = Color.DarkGray;
             btnAdmin.DisabledState.CustomBorderColor = Color.DarkGray;
             btnAdmin.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -310,7 +250,7 @@
             btnAdmin.ImageSize = new Size(40, 40);
             btnAdmin.Location = new Point(3, 187);
             btnAdmin.Name = "btnAdmin";
-            btnAdmin.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnAdmin.ShadowDecoration.CustomizableEdges = customizableEdges12;
             btnAdmin.Size = new Size(195, 40);
             btnAdmin.TabIndex = 14;
             btnAdmin.Text = "Tài khoản";
@@ -325,13 +265,8 @@
             pnBody.Location = new Point(200, 0);
             pnBody.Margin = new Padding(3, 2, 3, 2);
             pnBody.Name = "pnBody";
-            pnBody.Size = new Size(804, 611);
+            pnBody.Size = new Size(1150, 747);
             pnBody.TabIndex = 2;
-            // 
-            // menuTransition
-            // 
-            menuTransition.Interval = 10;
-            menuTransition.Tick += menuTransition_Tick;
             // 
             // sidebarTransition
             // 
@@ -342,7 +277,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1004, 611);
+            ClientSize = new Size(1350, 747);
             Controls.Add(pnBody);
             Controls.Add(pnLeft);
             Margin = new Padding(3, 2, 3, 2);
@@ -350,10 +285,9 @@
             Text = "ManageOrder";
             pnLeft.ResumeLayout(false);
             pnLeft.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbSidebar).EndInit();
             ((System.ComponentModel.ISupportInitialize)ptbDookkiAvatar).EndInit();
             flowLayoutPanel1.ResumeLayout(false);
-            pnMenuContainer.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -367,10 +301,7 @@
         private Panel pnBody;
         private FlowLayoutPanel flowLayoutPanel1;
         private Guna.UI2.WinForms.Guna2Button btnTable;
-        private PictureBox pictureBox1;
-        private Panel pnMenuContainer;
-        private Guna.UI2.WinForms.Guna2Button guna2Button2;
-        private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private PictureBox pbSidebar;
         private System.Windows.Forms.Timer menuTransition;
         private Guna.UI2.WinForms.Guna2Button btnLogout;
         private Guna.UI2.WinForms.Guna2Button btnEmployee;

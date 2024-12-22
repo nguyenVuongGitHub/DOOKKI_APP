@@ -12,6 +12,7 @@ using Guna.UI2.WinForms;
 using Spire.Doc.Documents;
 using Spire.Doc.Fields;
 using Spire.Doc.Collections;
+using static DOOKKI_APP.Helpers.DashboardHelper;
 
 
 namespace DOOKKI_APP.Helpers
@@ -387,6 +388,38 @@ namespace DOOKKI_APP.Helpers
 
                 string outputFilePath = Path.Combine(OutputFileDirectory, "Revenue_" + selectedYear + ".docx");
                 doc.SaveToFile(outputFilePath, Spire.Doc.FileFormat.Docx);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public void ExportDashboard(DashboardController dashboard, DateTime date)
+        {
+            try
+            {
+                Workbook workbook = new Workbook();
+                Worksheet sheet = workbook.Worksheets[0];
+
+                // Init Headder
+                sheet.Range["A1"].Text = "Date";
+                sheet.Range["B1"].Text = "Revenue";
+
+                // Export data
+                int row = 2;
+                foreach (var item in dashboard.GrossRevenueList)
+                {
+                    sheet.Range["A" + row].Text = item.Date.ToString();
+                    sheet.Range["B" + row].Text = item.TotalAmount.ToString();
+                    row++;
+                }
+
+                // Format dashboard column
+                sheet.Range["C2:C" + (row - 1)].NumberFormat = "#,###";
+
+                // Save file
+                string filePath = Path.Combine(OutputFileDirectory, "Dashboard_" + date.Month + ".Xlsm");
+                workbook.SaveToFile(filePath, Spire.Xls.FileFormat.Xlsm);
             }
             catch (Exception ex)
             {
