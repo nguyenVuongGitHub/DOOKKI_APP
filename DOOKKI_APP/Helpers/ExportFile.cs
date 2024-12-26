@@ -414,8 +414,6 @@ namespace DOOKKI_APP.Helpers
                     row++;
                 }
 
-                // Format dashboard column
-                sheet.Range["C2:C" + (row - 1)].NumberFormat = "#,###";
 
                 // Save file
                 string filePath = Path.Combine(OutputFileDirectory, "Dashboard_" + date.Month + ".Xlsm");
