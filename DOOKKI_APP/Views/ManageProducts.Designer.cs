@@ -60,6 +60,8 @@
             panel2 = new Panel();
             panel4 = new Panel();
             panel3 = new Panel();
+            cbNumberOfPages = new ComboBox();
+            label8 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
             panel1.SuspendLayout();
             contextMenuStrip.SuspendLayout();
@@ -157,9 +159,10 @@
             // 
             // lbTotalPages
             // 
+            lbTotalPages.Anchor = AnchorStyles.None;
             lbTotalPages.AutoSize = true;
             lbTotalPages.Font = new Font("Segoe UI", 14F);
-            lbTotalPages.Location = new Point(307, 8);
+            lbTotalPages.Location = new Point(785, 9);
             lbTotalPages.Name = "lbTotalPages";
             lbTotalPages.Size = new Size(59, 25);
             lbTotalPages.TabIndex = 5;
@@ -195,6 +198,7 @@
             btnUpdate.DisabledState.CustomBorderColor = Color.DarkGray;
             btnUpdate.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnUpdate.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnUpdate.Enabled = false;
             btnUpdate.FillColor = Color.FromArgb(42, 52, 65);
             btnUpdate.Font = new Font("Segoe UI", 14F);
             btnUpdate.ForeColor = Color.White;
@@ -375,6 +379,8 @@
             // panel3
             // 
             panel3.BackColor = Color.White;
+            panel3.Controls.Add(cbNumberOfPages);
+            panel3.Controls.Add(label8);
             panel3.Controls.Add(btnNextPage);
             panel3.Controls.Add(btnPrePage);
             panel3.Controls.Add(lbTotalPages);
@@ -383,6 +389,31 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(997, 42);
             panel3.TabIndex = 6;
+            // 
+            // cbNumberOfPages
+            // 
+            cbNumberOfPages.Anchor = AnchorStyles.None;
+            cbNumberOfPages.BackColor = Color.FromArgb(42, 52, 65);
+            cbNumberOfPages.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbNumberOfPages.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbNumberOfPages.ForeColor = Color.White;
+            cbNumberOfPages.FormattingEnabled = true;
+            cbNumberOfPages.Location = new Point(362, 6);
+            cbNumberOfPages.Name = "cbNumberOfPages";
+            cbNumberOfPages.Size = new Size(121, 33);
+            cbNumberOfPages.TabIndex = 6;
+            cbNumberOfPages.SelectedIndexChanged += cbNumberOfPages_SelectedIndexChanged;
+            // 
+            // label8
+            // 
+            label8.Anchor = AnchorStyles.None;
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 14F);
+            label8.Location = new Point(273, 9);
+            label8.Name = "label8";
+            label8.Size = new Size(83, 25);
+            label8.TabIndex = 3;
+            label8.Text = "Số trang";
             // 
             // ManageProducts
             // 
@@ -437,5 +468,7 @@
         private Panel panel4;
         private Panel panel3;
         private Guna.UI2.WinForms.Guna2Button btnUpdate;
+        private Label label8;
+        private ComboBox cbNumberOfPages;
     }
 }

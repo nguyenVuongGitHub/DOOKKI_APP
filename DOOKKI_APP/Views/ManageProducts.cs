@@ -32,7 +32,10 @@ namespace DOOKKI_APP.Views
         // local method
         private int GetPageSize()
         {
-            return 10; // have no choice
+            if (cbNumberOfPages.Items.Count < 0)
+                return 10;
+
+            return int.Parse(cbNumberOfPages.Text); // have no choice
         }
         private void LoadComboBox()
         {
@@ -41,6 +44,12 @@ namespace DOOKKI_APP.Views
             {
                 cbCategory.Items.Add(item.Name);
             }
+            string[] items = { "5", "10", "15", "20", "25", "30" };
+            foreach (var item in items)
+            {
+                cbNumberOfPages.Items.Add(item);
+            }
+            cbNumberOfPages.SelectedIndex = 3;
         }
         private void LoadPageProduct()
         {
@@ -333,6 +342,11 @@ namespace DOOKKI_APP.Views
             {
                 MessageBox.Show($"Đã xảy ra lỗi: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void cbNumberOfPages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadPageProduct();
         }
     }
 }
