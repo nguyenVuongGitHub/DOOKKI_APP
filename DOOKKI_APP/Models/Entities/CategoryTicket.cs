@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace DOOKKI_APP.Models.Entities;
 
-public partial class Category
+public partial class CategoryTicket
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string? Name { get; set; }
 
     public bool? IsActive { get; set; }
 
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+    public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
 }

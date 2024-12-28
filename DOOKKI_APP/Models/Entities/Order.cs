@@ -5,15 +5,25 @@ namespace DOOKKI_APP.Models.Entities;
 
 public partial class Order
 {
-    public int OrderId { get; set; }
+    public int Id { get; set; }
 
-    public TimeOnly OrderTime { get; set; }
+    public TimeOnly Time { get; set; }
 
     public int? CustomerId { get; set; }
 
     public int? Discount { get; set; }
 
+    public bool? IsActive { get; set; }
+
+    public int? Status { get; set; }
+
+    public int? TableId { get; set; }
+
+    public decimal? Total { get; set; }
+
     public virtual Customer? Customer { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+
+    public virtual Table? Table { get; set; }
 }

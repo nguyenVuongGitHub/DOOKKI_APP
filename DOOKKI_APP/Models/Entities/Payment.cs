@@ -5,13 +5,15 @@ namespace DOOKKI_APP.Models.Entities;
 
 public partial class Payment
 {
-    public int PaymentId { get; set; }
+    public int Id { get; set; }
 
     public DateOnly Day { get; set; }
 
     public decimal Amount { get; set; }
 
     public int? PaymentMethodId { get; set; }
+
+    public bool? IsActive { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
