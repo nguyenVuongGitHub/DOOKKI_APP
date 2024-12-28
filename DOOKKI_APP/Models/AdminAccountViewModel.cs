@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DOOKKI_APP.Models
 {
-    internal class AdminInfo
+    internal class AdminAccountViewModel
     {
         public int STT { get; set; }
         public string Name { get; set; }
@@ -14,5 +14,6 @@ namespace DOOKKI_APP.Models
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
+
     }
 }

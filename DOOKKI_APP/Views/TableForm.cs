@@ -1,4 +1,5 @@
 ﻿using DOOKKI_APP.Controllers;
+using DOOKKI_APP.Helpers;
 using DOOKKI_APP.Models;
 using DOOKKI_APP.Models.Entities;
 using DOOKKI_APP.Views.UserControls;
@@ -50,7 +51,13 @@ namespace DOOKKI_APP.Views
                 table.MouseUp += Table_MouseUp;
             }
         }
-
+        public void ClearTable()
+        {
+            tableLayoutPanel1.Controls.Clear();
+            lblTable.Text = "";
+            lblSum.Text = "";
+            LoadComboBox();
+        }
         private void Table_Click(object sender, EventArgs e)
         {
             var table = sender as ucTables;
@@ -85,6 +92,7 @@ namespace DOOKKI_APP.Views
                 decimal totalSum = orders.Sum(order => order.TicketPrice * order.Quantity);
                 parentForm?.SetTotalSum(totalSum);
                 LoadComboBox();
+                ShareData.TableName = lblTable.Text;
             }
 
             else
@@ -136,22 +144,27 @@ namespace DOOKKI_APP.Views
 
         private void btnPay_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("TÀI KHOẢN KHÁCH HÀNG", "THông báo", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-            if(dr == DialogResult.Yes)
+            // had already click at table
+            if(lblTable.Text != "") 
             {
-                // open form InputCustomer
-                Form newForm = new InputCustomer();
-                newForm.Show();
+                List<OrderInfo> orderInfors = _manageOrders.TableOrders[lblTable.Text];
+
+                List<OrderDetail> orderDetails = new List<OrderDetail>();
+                foreach (var order in orderInfors)
+                {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.Quantily = order.Quantity;
+                    int ticketID = (from ti in _context.Tickets
+                                    where ti.Name == order.TicketName
+                                    select ti.Id).SingleOrDefault();
+                    orderDetail.TicketId = ticketID;
+
+                    orderDetails.Add(orderDetail);
+                }
+                //open form payment
+                Form paymentForm = new PaymentForm(new Order(), new Payment(), orderDetails, _context, _manageOrders, this);
+                paymentForm.Show();
             }
-            else if(dr == DialogResult.No)
-            {
-
-            }else
-            {
-                return;
-            }
-
-
         }
 
         private void btnTableChange_Click(object sender, EventArgs e)
@@ -169,7 +182,7 @@ namespace DOOKKI_APP.Views
             TransferTable(currentTableName, newTableName);
         }
 
-        private void LoadComboBox()
+        public void LoadComboBox()
         {
             cbEmptyTable.Items.Clear();
 

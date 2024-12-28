@@ -98,9 +98,8 @@ namespace DOOKKI_APP.Views
         {
             if (User.Role == Roles.admin)
             {
-                //openChildForm(new ManageProducts(context, _serviceProvider));
+                openChildForm(new Dashboard(_context));
                 //lblTitle.Text = btnTable.Text;
-                MessageBox.Show("thong ke");
             }
             else
 
@@ -115,7 +114,7 @@ namespace DOOKKI_APP.Views
 
             if (User.Role == Roles.admin)
             {
-                openChildForm(new TestForm(_context));
+                openChildForm(new AccountManagement(_context));
             }
             else
 
@@ -153,32 +152,60 @@ namespace DOOKKI_APP.Views
         {
             this.Close(); // Close the login form when MainForm closes
         }
-        bool menuExpand = false;
-        private void menuTransition_Tick(object sender, EventArgs e)
+        //bool menuExpand = false;
+        //private void menuTransition_Tick(object sender, EventArgs e)
+        //{
+        //    if (!menuExpand)
+        //    {
+        //        pnMenuContainer.Height += 10;
+        //        if (pnMenuContainer.Height >= 135)
+        //        {
+        //            menuTransition.Stop();
+        //            menuExpand = true;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        pnMenuContainer.Height -= 10;
+        //        if (pnMenuContainer.Height <= 40)
+        //        {
+        //            menuTransition.Stop();
+        //            menuExpand = false;
+        //        }
+        //    }
+        //}
+        bool sidebarExpand = true;
+        private void sidebarTransition_Tick(object sender, EventArgs e)
         {
-            if (!menuExpand)
+            if (sidebarExpand)
             {
-                pnMenuContainer.Height += 10;
-                if (pnMenuContainer.Height >= 135)
+                if (pnLeft.Width <= 55)
                 {
-                    menuTransition.Stop();
-                    menuExpand = true;
+                    sidebarExpand = false;
+                    sidebarTransition.Stop();
+                }
+                else
+                {
+                    pnLeft.Width -= 7;
                 }
             }
             else
             {
-                pnMenuContainer.Height -= 10;
-                if (pnMenuContainer.Height <= 40)
+                if (pnLeft.Width >= 200)
                 {
-                    menuTransition.Stop();
-                    menuExpand = false;
+                    sidebarExpand = true;
+                    sidebarTransition.Stop();
+                }
+                else
+                {
+                    pnLeft.Width += 7;
                 }
             }
         }
-        bool sidebarExpand = false;
-        private void sidebarTransition_Tick(object sender, EventArgs e)
-        {
 
+        private void pbSidebar_Click(object sender, EventArgs e)
+        {
+            sidebarTransition.Start();
         }
     }
 }

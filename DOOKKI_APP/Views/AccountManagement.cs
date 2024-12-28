@@ -16,16 +16,18 @@ using System.Xml.Linq;
 
 namespace DOOKKI_APP.Views
 {
-    public partial class AdminManagement : Form
+    public partial class AccountManagement : Form
     {
         private readonly AdminController adminController;
+        private readonly AccountController accountController;
         private readonly DookkiContext _context;
         bool isCurrentUser = false;
-        public AdminManagement(DookkiContext context)
+        public AccountManagement(DookkiContext context)
         {
             InitializeComponent();
             _context = context;
-            adminController = new AdminController(_context);
+            adminController = new AdminController(context);
+            accountController = new AccountController(context);
             SetDataGridView();
             LoadGridView();
             LoadComboBox();
@@ -34,20 +36,32 @@ namespace DOOKKI_APP.Views
         {
             try
             {
-                dgvAdmin.DataSource = adminController.Query.ToList().Select(
-                    (x,index) => new AdminInfo
-                {
-                    STT = index + 1,
-                    Name = x.AdminName,
-                    Phone = x.AdminPhone,
-                    UserName = x.AdminUserName,
-                    Password = x.AdminPassword,
-                    Role = x.Roles
-                }).ToList();
+                //dgvAdmin.DataSource = adminController.Query.ToList().Select(
+                //    (x,index) => new AdminInfo
+                //{
+                //    STT = index + 1,
+                //    Name = x.Name,
+                //    Phone = x.Phone,
+                //    UserName = x.IdaccountNavigation.UserName,
+                //    Password = x.IdaccountNavigation.Password,
+                //    }).ToList();
+
+                var adminList = (from admin in adminController.GetModel()
+                            join account in accountController.GetModel()
+                            on admin.Idaccount equals account.Id
+                            select new AdminAccountViewModel { 
+                                Name = admin.Name,
+                                Phone = admin.Phone,
+                                UserName = account.UserName,
+                                Password = account.Password,
+                                Role = account.Role
+                            }).ToList();
+
+                dgvAdmin.DataSource = adminList;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("load gird view: "+ex.Message);
             }
 
 
@@ -76,7 +90,7 @@ namespace DOOKKI_APP.Views
         }
         private void LoadComboBox()
         {
-            string[] items = { "", "Admin", "Cashier" };
+            string[] items = { "Vai trò", "Admin", "Cashier" };
             foreach (var item in items)
             {
                 cbRoles.Items.Add(item);
@@ -118,12 +132,12 @@ namespace DOOKKI_APP.Views
                     var accounts = adminController.GetModel().ToList();
 
                     var account = (from ac in adminController.GetModel()
-                                   where ac.AdminId == accounts.ElementAt(index).AdminId
+                                   where ac.Id == accounts.ElementAt(index).Id
                                    select ac).SingleOrDefault();
 
                     if (account != null)
                     {
-                        DialogResult dr = MessageBox.Show($"Xác nhận xóa tài khoản {account.AdminName}?", "Thông báo xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult dr = MessageBox.Show($"Xác nhận xóa tài khoản {account.Name}?", "Thông báo xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                         if (dr == DialogResult.Yes)
                         {
@@ -159,18 +173,29 @@ namespace DOOKKI_APP.Views
                 int index = int.Parse(selectedRow.Cells[0].Value?.ToString());
                 var accounts = adminController.GetModel().ToList();
 
-                var account = (from ac in adminController.GetModel()
-                               where ac.AdminId == accounts.ElementAt(index).AdminId
+                var admin = (from ac in adminController.GetModel()
+                               where ac.Id == accounts.ElementAt(index).Id
                                select ac).SingleOrDefault(); 
 
-                if (account != null)
+                if (admin != null)
                 {
-                    account.AdminName = txtName.Text;
-                    account.AdminUserName = txtUserName.Text;
-                    account.AdminPassword = txtPassword.Text;
-                    account.AdminPhone = txtPhone.Text;
-                    adminController.Update(account);
+                    admin.Name = txtName.Text;
+                    // continue here
+                    var account = (from acc in accountController.GetModel()
+                                   where acc.Id == admin.Idaccount
+                                   select acc).SingleOrDefault();
+                    admin.Phone = txtPhone.Text;
+                    if(account != null)
+                    {
+                        account.UserName = txtUserName.Text;
+                        account.Password = txtPassword.Text;
+                        accountController.Update(account);
+                        accountController.SaveChanges();
+                    }
+                    adminController.Update(admin);
                     adminController.SaveChanges();
+
+
                     MessageBox.Show("Thành công");
                 }else
                 {
@@ -179,12 +204,21 @@ namespace DOOKKI_APP.Views
             }
             else if (isCurrentUser)
             {
-                var ad = (from a in _context.Admins where a.AdminUserName == User.Username select a).Single();
-                ad.AdminPhone = txtPhone.Text;
-                ad.AdminUserName = txtUserName.Text;
-                ad.AdminPassword = txtPassword.Text;
-                ad.AdminName = txtName.Text;
-                adminController.Update(ad);
+                var account = (from acc in accountController.GetModel()
+                               where acc.UserName == User.Username
+                               select acc).Single();
+
+                var admin = (from ad in adminController.GetModel()
+                             where ad.Idaccount == account.Id 
+                             select ad).Single();
+
+                admin.Name = txtName.Text;
+                admin.Phone = txtPhone.Text;
+                account.UserName = txtUserName.Text;
+                account.Password = txtPassword.Text;
+                accountController.Update(account);
+                accountController.SaveChanges();
+                adminController.Update(admin);
                 adminController.SaveChanges();
                 MessageBox.Show("Thành công");
             }
@@ -223,18 +257,24 @@ namespace DOOKKI_APP.Views
             try
             {
                 Admin ad = new Admin();
-                ad.AdminName = txtName.Text;
-                ad.AdminUserName = txtUserName.Text;
-                ad.AdminPassword = txtPassword.Text;
-                ad.AdminPhone = txtPhone.Text;
-                if (cbRoles.Text == "Admin")
+                Account acc = new Account();
+                acc.UserName = txtUserName.Text;
+                acc.Password = txtPassword.Text;
+                if (cbRoles.SelectedIndex == 1) // role admin
                 {
-                    ad.Roles = "admin";
+                    acc.Role = "admin";
+
                 }
-                else if (cbRoles.Text == "Cashier")
+                else if (cbRoles.SelectedIndex == 2) // role employee
                 {
-                    ad.Roles = "cashier";
+                    acc.Role = "employee";
                 }
+                ad.Name = txtName.Text;
+                ad.Phone = txtPhone.Text;
+                accountController.Add(acc);
+                accountController.SaveChanges();
+
+                ad.Idaccount = acc.Id;
                 adminController.Add(ad);
                 adminController.SaveChanges();
                 MessageBox.Show("Thành công");
@@ -263,18 +303,37 @@ namespace DOOKKI_APP.Views
 
         private void btnEditAccount_Click(object sender, EventArgs e)
         {
-            pnAddNewAccount.Visible = true;
-            btnUpdate.Visible = true;
-            btnCancel.Visible = true;
-            var ad = (from a in _context.Admins where a.AdminUserName == User.Username select a).Single();
-            if (ad != null)
+
+            try
             {
-                txtUserName.Text = ad.AdminUserName;
-                txtPassword.Text = ad.AdminPassword;
-                txtName.Text = ad.AdminName;
-                txtPhone.Text = ad.AdminPhone;
+                pnAddNewAccount.Visible = true;
+                btnUpdate.Visible = true;
+                btnCancel.Visible = true;
+                var ad = (from admin in adminController.GetModel()
+                          join account in accountController.GetModel()
+                          on admin.Idaccount equals account.Id
+                          where account.UserName == User.Username
+                          select new
+                          {
+                              account.UserName,
+                              account.Password,
+                              admin.Name,
+                              admin.Phone
+                          }).SingleOrDefault();
+
+                if (ad != null)
+                {
+                    txtUserName.Text = ad.UserName;
+                    txtPassword.Text = ad.Password;
+                    txtName.Text = ad.Name;
+                    txtPhone.Text = ad.Phone;
+                }
+                isCurrentUser = true;
             }
-            isCurrentUser = true;
+            catch(Exception ex)
+            {
+                MessageBox.Show("edit: " + ex.Message);
+            }
         }
 
         private void cbRoles_SelectedIndexChanged(object sender, EventArgs e)

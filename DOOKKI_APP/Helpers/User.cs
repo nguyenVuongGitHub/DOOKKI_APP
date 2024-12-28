@@ -10,14 +10,14 @@ namespace DOOKKI_APP.Helpers
     public enum Roles
     {
         admin,
-        cashier
+        employee,
+        customer
     }
     internal class User
     {
-        private static Roles role;
-        public static Roles Role { get => role; private set => role = value; }
-        private static string username;
-        public static string Username { get => username; set => username = value; }
+        public static Roles Role { get; private set; }
+        public static string Username { get; set ; }
+        public static string Name { get; set; }
         public static void SetRoles(string role)
         {
             switch (role.ToLower())
@@ -25,8 +25,11 @@ namespace DOOKKI_APP.Helpers
                 case "admin":
                     Role = Roles.admin;
                     break;
-                case "cashier":
-                    Role = Roles.cashier;
+                case "employee":
+                    Role = Roles.employee;
+                    break;
+                case "customer":
+                    Role = Roles.customer;
                     break;
                 default:
                     throw new ArgumentException("Invalid role provided.");

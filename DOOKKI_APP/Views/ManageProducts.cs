@@ -32,15 +32,24 @@ namespace DOOKKI_APP.Views
         // local method
         private int GetPageSize()
         {
-            return 10; // have no choice
+            if (cbNumberOfPages.Items.Count < 0)
+                return 10;
+
+            return int.Parse(cbNumberOfPages.Text); // have no choice
         }
         private void LoadComboBox()
         {
             // load data from categoryName into combo box Category
             foreach (var item in _categoryController.GetModel())
             {
-                cbCategory.Items.Add(item.CategoryName);
+                cbCategory.Items.Add(item.Name);
             }
+            string[] items = { "5", "10", "15", "20", "25", "30" };
+            foreach (var item in items)
+            {
+                cbNumberOfPages.Items.Add(item);
+            }
+            cbNumberOfPages.SelectedIndex = 3;
         }
         private void LoadPageProduct()
         {
@@ -95,6 +104,7 @@ namespace DOOKKI_APP.Views
 
         private bool CheckValidate()
         {
+            errorProvider.Clear();
             bool isValid = true;
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
@@ -104,7 +114,7 @@ namespace DOOKKI_APP.Views
             if (string.IsNullOrWhiteSpace(txtUnitInStock.Text))
             {
                 isValid = false;
-                errorProvider.SetError(txtUnitInStock, "Tên không được để trống!!!");
+                errorProvider.SetError(txtUnitInStock, "Số lượng không được để trống!!!");
             }
             else
             {
@@ -124,7 +134,11 @@ namespace DOOKKI_APP.Views
                 errorProvider.SetError(dtpk_Mfg, "Ngày sản xuất phải lớn hơn hạn sử dụng");
                 errorProvider.SetError(dtpk_Exp, "Ngày sản xuất phải lớn hơn hạn sử dụng");
             }
-
+            if (cbCategory.SelectedIndex == -1)
+            {
+                isValid = false;
+                errorProvider.SetError(cbCategory, "Chọn loại sản phẩm");
+            }
             return isValid;
         }
         private void ClearInputFields()
@@ -163,15 +177,17 @@ namespace DOOKKI_APP.Views
                 string search = txtSearch.Text.ToLower();
 
                 _productController.Products = _productController.GetModel().Where(
-                    p => p.ProductName.ToLower().Contains(search) ||
-                        p.Category.CategoryName.ToLower().Contains(search));
+                    p => p.Name.ToLower().Contains(search) ||
+                        p.Category.Name.ToLower().Contains(search));
 
+                _pageChanging.SetCurrentPage_1();
                 _pageChanging.UpdateListOfModel(_productController.Products.ToList());
                 LoadPageProduct();
             }
             else
             {
                 _productController.Products = _productController.GetModel();
+                _pageChanging.SetCurrentPage_1();
                 _pageChanging.UpdateListOfModel(_productController.Products.ToList());
                 LoadPageProduct();
             }
@@ -212,29 +228,28 @@ namespace DOOKKI_APP.Views
         {
             try
             {
-                Product newProduct = new Product();
-                newProduct.ProductName = txtName.Text;
-                newProduct.UnitInStock = int.Parse(txtUnitInStock.Text);
-
-                var mfg = GetDateFromTimePicker(dtpk_Mfg);
-
-                var exp = GetDateFromTimePicker(dtpk_Exp);
-
-                newProduct.CategoryId = cbCategory.SelectedIndex + 1;
-                newProduct.Exp = exp;
-                newProduct.Mfg = mfg;
                 if (CheckValidate())
                 {
+                    Product newProduct = new Product();
+                    newProduct.Name = txtName.Text;
+                    newProduct.UnitInStock = int.Parse(txtUnitInStock.Text);
+
+                    var mfg = GetDateFromTimePicker(dtpk_Mfg);
+
+                    var exp = GetDateFromTimePicker(dtpk_Exp);
+
+                    newProduct.CategoryId = cbCategory.SelectedIndex + 1;
+                    newProduct.Exp = exp;
+                    newProduct.Mfg = mfg;
+
                     _productController.Add(newProduct);
                     _productController.SaveChanges();
 
-                    MessageBox.Show($"Thêm sản phẩm: \" {newProduct.ProductName} \" thành công");
+                    MessageBox.Show($"Thêm sản phẩm: \" {newProduct.Name} \" thành công");
 
                     LoadPageProduct();
                     ClearInputFields();
                 }
-
-
             }
             catch (FormatException ex)
             {
@@ -262,11 +277,11 @@ namespace DOOKKI_APP.Views
 
                 var products = _productController.GetModel().ToList();
                 var product = (from p in _productController.GetModel()
-                               where p.ProductId == products.ElementAt(actualIndex).ProductId
+                               where p.Id == products.ElementAt(actualIndex).Id
                                select p).SingleOrDefault();
                 if (product != null)
                 {
-                    product.ProductName = txtName.Text;
+                    product.Name = txtName.Text;
                     product.UnitInStock = int.Parse(txtUnitInStock.Text);
                     product.Mfg = GetDateFromTimePicker(dtpk_Mfg);
                     product.Exp = GetDateFromTimePicker(dtpk_Exp);
@@ -304,11 +319,11 @@ namespace DOOKKI_APP.Views
                     var products = _productController.GetModel().ToList();
 
                     var product = (from p in _productController.GetModel()
-                                   where p.ProductId == products.ElementAt(actualIndex).ProductId
+                                   where p.Id == products.ElementAt(actualIndex).Id
                                    select p).SingleOrDefault();
                     if (product != null)
                     {
-                        DialogResult dr = MessageBox.Show($"Xác nhận xóa sản phẩm {product.ProductName}?", "Thông báo xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult dr = MessageBox.Show($"Xác nhận xóa sản phẩm {product.Name}?", "Thông báo xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                         if (dr == DialogResult.Yes)
                         {
@@ -333,6 +348,11 @@ namespace DOOKKI_APP.Views
             {
                 MessageBox.Show($"Đã xảy ra lỗi: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void cbNumberOfPages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadPageProduct();
         }
     }
 }

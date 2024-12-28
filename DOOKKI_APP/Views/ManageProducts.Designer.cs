@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             dgvProducts = new DataGridView();
             label1 = new Label();
             txtSearch = new TextBox();
@@ -36,7 +40,7 @@
             btnNextPage = new Button();
             lbTotalPages = new Label();
             panel1 = new Panel();
-            btnUpdate = new Button();
+            btnUpdate = new Guna.UI2.WinForms.Guna2Button();
             btnInsert = new Button();
             dtpk_Exp = new DateTimePicker();
             cbCategory = new ComboBox();
@@ -56,6 +60,8 @@
             panel2 = new Panel();
             panel4 = new Panel();
             panel3 = new Panel();
+            cbNumberOfPages = new ComboBox();
+            label8 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
             panel1.SuspendLayout();
             contextMenuStrip.SuspendLayout();
@@ -69,13 +75,33 @@
             // 
             dgvProducts.AllowUserToAddRows = false;
             dgvProducts.AllowUserToDeleteRows = false;
+            dgvProducts.AllowUserToResizeRows = false;
             dgvProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = Color.White;
+            dataGridViewCellStyle1.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 14F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvProducts.DefaultCellStyle = dataGridViewCellStyle2;
+            dgvProducts.EnableHeadersVisualStyles = false;
             dgvProducts.Location = new Point(10, 48);
             dgvProducts.Margin = new Padding(10);
             dgvProducts.Name = "dgvProducts";
             dgvProducts.ReadOnly = true;
+            dgvProducts.RowHeadersVisible = false;
+            dgvProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvProducts.Size = new Size(977, 275);
             dgvProducts.TabIndex = 0;
             dgvProducts.MouseDown += dgvProducts_MouseDown;
@@ -104,32 +130,39 @@
             // btnPrePage
             // 
             btnPrePage.AutoSize = true;
+            btnPrePage.BackColor = Color.FromArgb(42, 52, 65);
+            btnPrePage.FlatStyle = FlatStyle.Flat;
             btnPrePage.Font = new Font("Segoe UI", 14F);
+            btnPrePage.ForeColor = Color.White;
             btnPrePage.Location = new Point(14, 3);
             btnPrePage.Name = "btnPrePage";
-            btnPrePage.Size = new Size(118, 35);
+            btnPrePage.Size = new Size(120, 37);
             btnPrePage.TabIndex = 3;
             btnPrePage.Text = "Trang trước";
-            btnPrePage.UseVisualStyleBackColor = true;
+            btnPrePage.UseVisualStyleBackColor = false;
             btnPrePage.Click += btnPrePage_Click;
             // 
             // btnNextPage
             // 
             btnNextPage.AutoSize = true;
+            btnNextPage.BackColor = Color.FromArgb(42, 52, 65);
+            btnNextPage.FlatStyle = FlatStyle.Flat;
             btnNextPage.Font = new Font("Segoe UI", 14F);
+            btnNextPage.ForeColor = Color.White;
             btnNextPage.Location = new Point(152, 3);
             btnNextPage.Name = "btnNextPage";
-            btnNextPage.Size = new Size(103, 35);
+            btnNextPage.Size = new Size(105, 37);
             btnNextPage.TabIndex = 4;
             btnNextPage.Text = "Trang sau";
-            btnNextPage.UseVisualStyleBackColor = true;
+            btnNextPage.UseVisualStyleBackColor = false;
             btnNextPage.Click += btnNextPage_Click;
             // 
             // lbTotalPages
             // 
+            lbTotalPages.Anchor = AnchorStyles.None;
             lbTotalPages.AutoSize = true;
             lbTotalPages.Font = new Font("Segoe UI", 14F);
-            lbTotalPages.Location = new Point(307, 8);
+            lbTotalPages.Location = new Point(785, 9);
             lbTotalPages.Name = "lbTotalPages";
             lbTotalPages.Size = new Size(59, 25);
             lbTotalPages.TabIndex = 5;
@@ -137,6 +170,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.WhiteSmoke;
             panel1.Controls.Add(btnUpdate);
             panel1.Controls.Add(btnInsert);
             panel1.Controls.Add(dtpk_Exp);
@@ -158,27 +192,37 @@
             // 
             // btnUpdate
             // 
-            btnUpdate.AutoSize = true;
+            btnUpdate.BackColor = Color.FromArgb(42, 52, 65);
+            btnUpdate.CustomizableEdges = customizableEdges1;
+            btnUpdate.DisabledState.BorderColor = Color.DarkGray;
+            btnUpdate.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnUpdate.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnUpdate.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnUpdate.Enabled = false;
+            btnUpdate.FillColor = Color.FromArgb(42, 52, 65);
             btnUpdate.Font = new Font("Segoe UI", 14F);
-            btnUpdate.Location = new Point(626, 174);
+            btnUpdate.ForeColor = Color.White;
+            btnUpdate.Location = new Point(655, 174);
             btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(98, 35);
+            btnUpdate.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnUpdate.Size = new Size(110, 37);
             btnUpdate.TabIndex = 11;
             btnUpdate.Text = "Cập nhật";
-            btnUpdate.UseVisualStyleBackColor = true;
             btnUpdate.Click += btnUpdate_Click;
             // 
             // btnInsert
             // 
             btnInsert.AutoSize = true;
+            btnInsert.BackColor = Color.FromArgb(42, 52, 65);
+            btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 14F);
-            btnInsert.Location = new Point(497, 174);
+            btnInsert.ForeColor = Color.White;
+            btnInsert.Location = new Point(546, 174);
             btnInsert.Name = "btnInsert";
-            btnInsert.Size = new Size(88, 35);
+            btnInsert.Size = new Size(88, 37);
             btnInsert.TabIndex = 7;
             btnInsert.Text = "Thêm";
-            btnInsert.UseVisualStyleBackColor = true;
+            btnInsert.UseVisualStyleBackColor = false;
             btnInsert.Click += btnInsert_Click;
             // 
             // dtpk_Exp
@@ -195,7 +239,7 @@
             cbCategory.DropDownStyle = ComboBoxStyle.DropDownList;
             cbCategory.Font = new Font("Segoe UI", 14F);
             cbCategory.FormattingEnabled = true;
-            cbCategory.Location = new Point(671, 124);
+            cbCategory.Location = new Point(720, 124);
             cbCategory.Name = "cbCategory";
             cbCategory.Size = new Size(220, 33);
             cbCategory.TabIndex = 9;
@@ -212,7 +256,7 @@
             // txtUnitInStock
             // 
             txtUnitInStock.Font = new Font("Segoe UI", 14F);
-            txtUnitInStock.Location = new Point(671, 73);
+            txtUnitInStock.Location = new Point(720, 73);
             txtUnitInStock.Name = "txtUnitInStock";
             txtUnitInStock.Size = new Size(220, 32);
             txtUnitInStock.TabIndex = 7;
@@ -229,7 +273,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 14F);
-            label7.Location = new Point(497, 128);
+            label7.Location = new Point(546, 128);
             label7.Name = "label7";
             label7.Size = new Size(47, 25);
             label7.TabIndex = 5;
@@ -239,7 +283,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 14F);
-            label6.Location = new Point(497, 73);
+            label6.Location = new Point(546, 73);
             label6.Name = "label6";
             label6.Size = new Size(174, 25);
             label6.TabIndex = 4;
@@ -277,14 +321,14 @@
             // 
             // label2
             // 
-            label2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            label2.AutoSize = true;
+            label2.Dock = DockStyle.Top;
             label2.Font = new Font("Segoe UI", 20F);
-            label2.Location = new Point(368, 13);
+            label2.Location = new Point(0, 0);
             label2.Name = "label2";
-            label2.Size = new Size(131, 37);
+            label2.Size = new Size(997, 37);
             label2.TabIndex = 0;
             label2.Text = "Kho hàng";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // contextMenuStrip
             // 
@@ -312,6 +356,7 @@
             // 
             // panel2
             // 
+            panel2.BackColor = Color.WhiteSmoke;
             panel2.Controls.Add(panel4);
             panel2.Controls.Add(panel3);
             panel2.Controls.Add(dgvProducts);
@@ -333,6 +378,9 @@
             // 
             // panel3
             // 
+            panel3.BackColor = Color.White;
+            panel3.Controls.Add(cbNumberOfPages);
+            panel3.Controls.Add(label8);
             panel3.Controls.Add(btnNextPage);
             panel3.Controls.Add(btnPrePage);
             panel3.Controls.Add(lbTotalPages);
@@ -341,6 +389,31 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(997, 42);
             panel3.TabIndex = 6;
+            // 
+            // cbNumberOfPages
+            // 
+            cbNumberOfPages.Anchor = AnchorStyles.None;
+            cbNumberOfPages.BackColor = Color.FromArgb(42, 52, 65);
+            cbNumberOfPages.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbNumberOfPages.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbNumberOfPages.ForeColor = Color.White;
+            cbNumberOfPages.FormattingEnabled = true;
+            cbNumberOfPages.Location = new Point(362, 6);
+            cbNumberOfPages.Name = "cbNumberOfPages";
+            cbNumberOfPages.Size = new Size(121, 33);
+            cbNumberOfPages.TabIndex = 6;
+            cbNumberOfPages.SelectedIndexChanged += cbNumberOfPages_SelectedIndexChanged;
+            // 
+            // label8
+            // 
+            label8.Anchor = AnchorStyles.None;
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 14F);
+            label8.Location = new Point(273, 9);
+            label8.Name = "label8";
+            label8.Size = new Size(83, 25);
+            label8.TabIndex = 3;
+            label8.Text = "Số trang";
             // 
             // ManageProducts
             // 
@@ -386,7 +459,7 @@
         private ComboBox cbCategory;
         private DateTimePicker dtpk_Exp;
         private Button btnInsert;
-        private Button btnUpdate;
+        private Button cn;
         private ContextMenuStrip contextMenuStrip;
         private ToolStripMenuItem EditToolStripMenuItem;
         private ToolStripMenuItem DeleteToolStripMenuItem;
@@ -394,5 +467,8 @@
         private Panel panel2;
         private Panel panel4;
         private Panel panel3;
+        private Guna.UI2.WinForms.Guna2Button btnUpdate;
+        private Label label8;
+        private ComboBox cbNumberOfPages;
     }
 }

@@ -11,29 +11,33 @@ namespace DOOKKI_APP.Controllers
 {
     internal class CustomerController : AbstractController<Customer>
     {
+        public CustomerController(DookkiContext context) 
+        {
+            _context = context;
+        }
         public override void Add(Customer element)
         {
-            throw new NotImplementedException();
+            _context.Customers.Add(element);
         }
 
         public override Microsoft.EntityFrameworkCore.DbSet<Customer> GetModel()
         {
-            throw new NotImplementedException();
+            return _context.Customers;
         }
 
         public override void Remove(Customer element)
         {
-            throw new NotImplementedException();
+            _context.Customers.Remove(element);
         }
 
         public override void SaveChanges()
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
 
         public override void Update(Customer element)
         {
-            throw new NotImplementedException();
+            _context.Customers.Update(element);
         }
 
         /// <summary>
