@@ -52,6 +52,10 @@ namespace DOOKKI_APP.Helpers
             else
                 currentPageIndex = totalPages;
         }
+        public void SetCurrentPage_1()
+        {
+            currentPageIndex = 1;
+        }
         public int CurrentPageIndex => currentPageIndex;
         public int TotalPages => totalPages;
     }
