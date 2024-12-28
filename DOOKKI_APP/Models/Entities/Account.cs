@@ -13,6 +13,8 @@ public partial class Account
 
     public string Role { get; set; } = null!;
 
+    public bool? IsActive { get; set; }
+
     public virtual ICollection<Admin> Admins { get; set; } = new List<Admin>();
 
     public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();

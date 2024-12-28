@@ -17,5 +17,7 @@ public partial class Employee
 
     public string Position { get; set; } = null!;
 
+    public bool? IsActive { get; set; }
+
     public virtual ICollection<DayWork> DayWorks { get; set; } = new List<DayWork>();
 }

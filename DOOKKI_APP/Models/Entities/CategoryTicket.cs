@@ -9,5 +9,7 @@ public partial class CategoryTicket
 
     public string? Name { get; set; }
 
+    public bool? IsActive { get; set; }
+
     public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
 }

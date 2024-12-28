@@ -84,7 +84,7 @@ namespace DOOKKI_APP.Helpers
                 int index = section.Body.ChildObjects.IndexOf(range.OwnerParagraph);
 
                 // Create a table
-                Table tableOrderDetails = section.AddTable(true);
+                Spire.Doc.Table tableOrderDetails = section.AddTable(true);
                 tableOrderDetails.ResetCells(query.Count + 1, 3); // Set number of rows and columns
                 tableOrderDetails.TableFormat.HorizontalAlignment = RowAlignment.Center;
                 foreach (TableRow row in tableOrderDetails.Rows)
@@ -199,7 +199,7 @@ namespace DOOKKI_APP.Helpers
                 int index2 = section.Body.ChildObjects.IndexOf(range2.OwnerParagraph);
 
                 // Create a table
-                Table Information = section.AddTable(true);
+                Spire.Doc.Table Information = section.AddTable(true);
                 Information.ResetCells(5, 2); // Set number of rows and columns
                 Information.TableFormat.HorizontalAlignment = RowAlignment.Center;
 

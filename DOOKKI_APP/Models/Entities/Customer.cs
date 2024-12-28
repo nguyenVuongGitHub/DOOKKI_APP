@@ -19,6 +19,8 @@ public partial class Customer
 
     public int? Idaccount { get; set; }
 
+    public bool? IsActive { get; set; }
+
     public virtual Account? IdaccountNavigation { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();

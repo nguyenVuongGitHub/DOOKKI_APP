@@ -3,13 +3,15 @@ using System.Collections.Generic;
 
 namespace DOOKKI_APP.Models.Entities;
 
-public partial class Category
+public partial class Table
 {
     public int Id { get; set; }
 
     public string Name { get; set; } = null!;
 
-    public bool? IsActive { get; set; }
+    public bool? Status { get; set; }
 
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+    public int? IdOrder { get; set; }
+
+    public virtual Order? IdOrderNavigation { get; set; }
 }

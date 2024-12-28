@@ -13,5 +13,7 @@ public partial class Admin
 
     public int? Idaccount { get; set; }
 
+    public bool? IsActive { get; set; }
+
     public virtual Account? IdaccountNavigation { get; set; }
 }

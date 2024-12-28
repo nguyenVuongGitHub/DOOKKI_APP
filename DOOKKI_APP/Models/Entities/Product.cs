@@ -17,5 +17,7 @@ public partial class Product
 
     public int? CategoryId { get; set; }
 
+    public bool? IsActive { get; set; }
+
     public virtual Category? Category { get; set; }
 }

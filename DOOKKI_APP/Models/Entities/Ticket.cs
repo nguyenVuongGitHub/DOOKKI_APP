@@ -11,6 +11,8 @@ public partial class Ticket
 
     public decimal Price { get; set; }
 
+    public bool? IsActive { get; set; }
+
     public int? IdCategory { get; set; }
 
     public virtual CategoryTicket? IdCategoryNavigation { get; set; }

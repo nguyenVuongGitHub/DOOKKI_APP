@@ -13,6 +13,8 @@ public partial class Payment
 
     public int? PaymentMethodId { get; set; }
 
+    public bool? IsActive { get; set; }
+
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual PaymentMethod? PaymentMethod { get; set; }
