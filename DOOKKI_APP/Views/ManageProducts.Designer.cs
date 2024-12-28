@@ -321,14 +321,14 @@
             // 
             // label2
             // 
-            label2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            label2.AutoSize = true;
+            label2.Dock = DockStyle.Top;
             label2.Font = new Font("Segoe UI", 20F);
-            label2.Location = new Point(412, 9);
+            label2.Location = new Point(0, 0);
             label2.Name = "label2";
-            label2.Size = new Size(131, 37);
+            label2.Size = new Size(997, 37);
             label2.TabIndex = 0;
             label2.Text = "Kho hàng";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // contextMenuStrip
             // 

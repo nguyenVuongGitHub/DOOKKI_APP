@@ -104,6 +104,7 @@ namespace DOOKKI_APP.Views
 
         private bool CheckValidate()
         {
+            errorProvider.Clear();
             bool isValid = true;
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
@@ -113,7 +114,7 @@ namespace DOOKKI_APP.Views
             if (string.IsNullOrWhiteSpace(txtUnitInStock.Text))
             {
                 isValid = false;
-                errorProvider.SetError(txtUnitInStock, "Tên không được để trống!!!");
+                errorProvider.SetError(txtUnitInStock, "Số lượng không được để trống!!!");
             }
             else
             {
@@ -133,7 +134,11 @@ namespace DOOKKI_APP.Views
                 errorProvider.SetError(dtpk_Mfg, "Ngày sản xuất phải lớn hơn hạn sử dụng");
                 errorProvider.SetError(dtpk_Exp, "Ngày sản xuất phải lớn hơn hạn sử dụng");
             }
-
+            if (cbCategory.SelectedIndex == -1)
+            {
+                isValid = false;
+                errorProvider.SetError(cbCategory, "Chọn loại sản phẩm");
+            }
             return isValid;
         }
         private void ClearInputFields()
@@ -175,12 +180,14 @@ namespace DOOKKI_APP.Views
                     p => p.Name.ToLower().Contains(search) ||
                         p.Category.Name.ToLower().Contains(search));
 
+                _pageChanging.SetCurrentPage_1();
                 _pageChanging.UpdateListOfModel(_productController.Products.ToList());
                 LoadPageProduct();
             }
             else
             {
                 _productController.Products = _productController.GetModel();
+                _pageChanging.SetCurrentPage_1();
                 _pageChanging.UpdateListOfModel(_productController.Products.ToList());
                 LoadPageProduct();
             }
@@ -221,19 +228,20 @@ namespace DOOKKI_APP.Views
         {
             try
             {
-                Product newProduct = new Product();
-                newProduct.Name = txtName.Text;
-                newProduct.UnitInStock = int.Parse(txtUnitInStock.Text);
-
-                var mfg = GetDateFromTimePicker(dtpk_Mfg);
-
-                var exp = GetDateFromTimePicker(dtpk_Exp);
-
-                newProduct.CategoryId = cbCategory.SelectedIndex + 1;
-                newProduct.Exp = exp;
-                newProduct.Mfg = mfg;
                 if (CheckValidate())
                 {
+                    Product newProduct = new Product();
+                    newProduct.Name = txtName.Text;
+                    newProduct.UnitInStock = int.Parse(txtUnitInStock.Text);
+
+                    var mfg = GetDateFromTimePicker(dtpk_Mfg);
+
+                    var exp = GetDateFromTimePicker(dtpk_Exp);
+
+                    newProduct.CategoryId = cbCategory.SelectedIndex + 1;
+                    newProduct.Exp = exp;
+                    newProduct.Mfg = mfg;
+
                     _productController.Add(newProduct);
                     _productController.SaveChanges();
 
@@ -242,8 +250,6 @@ namespace DOOKKI_APP.Views
                     LoadPageProduct();
                     ClearInputFields();
                 }
-
-
             }
             catch (FormatException ex)
             {
