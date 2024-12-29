@@ -32,29 +32,29 @@
             cậpNhậtToolStripMenuItem = new ToolStripMenuItem();
             xóaToolStripMenuItem = new ToolStripMenuItem();
             panel4 = new Panel();
-            panel5 = new Panel();
-            label1 = new Label();
-            lblTable = new Label();
-            panel6 = new Panel();
-            lblNameTicket = new Label();
-            lblQuantity = new Label();
-            lblPriceSum = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
-            cbEmptyTable = new ComboBox();
-            btnPay = new Button();
-            lblTableListEmptyText = new Label();
-            btnTableChange = new Button();
-            lblSum = new Label();
             label4 = new Label();
+            lblSum = new Label();
+            btnTableChange = new Button();
+            lblTableListEmptyText = new Label();
+            btnPay = new Button();
+            cbEmptyTable = new ComboBox();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            label3 = new Label();
+            label2 = new Label();
+            panel6 = new Panel();
+            lblPriceSum = new Label();
+            lblQuantity = new Label();
+            lblNameTicket = new Label();
+            panel5 = new Panel();
+            lblTable = new Label();
+            label1 = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
             contextMenuStrip1.SuspendLayout();
             panel4.SuspendLayout();
-            panel5.SuspendLayout();
-            panel6.SuspendLayout();
             panel1.SuspendLayout();
+            panel6.SuspendLayout();
+            panel5.SuspendLayout();
             SuspendLayout();
             // 
             // contextMenuStrip1
@@ -92,93 +92,82 @@
             panel4.Size = new Size(262, 702);
             panel4.TabIndex = 4;
             // 
-            // panel5
+            // panel1
             // 
-            panel5.Controls.Add(lblTable);
-            panel5.Controls.Add(label1);
-            panel5.Location = new Point(11, 13);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(231, 59);
-            panel5.TabIndex = 1;
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(lblSum);
+            panel1.Controls.Add(btnTableChange);
+            panel1.Controls.Add(lblTableListEmptyText);
+            panel1.Controls.Add(btnPay);
+            panel1.Controls.Add(cbEmptyTable);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 609);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(262, 93);
+            panel1.TabIndex = 0;
             // 
-            // label1
+            // label4
             // 
-            label1.BackColor = Color.Red;
-            label1.Dock = DockStyle.Fill;
-            label1.Location = new Point(0, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(231, 59);
-            label1.TabIndex = 0;
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            label4.AutoSize = true;
+            label4.Location = new Point(13, 9);
+            label4.Name = "label4";
+            label4.Size = new Size(35, 15);
+            label4.TabIndex = 6;
+            label4.Text = "Tổng";
             // 
-            // lblTable
+            // lblSum
             // 
-            lblTable.BackColor = Color.Red;
-            lblTable.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTable.ForeColor = Color.White;
-            lblTable.Location = new Point(54, 8);
-            lblTable.Name = "lblTable";
-            lblTable.Size = new Size(136, 36);
-            lblTable.TabIndex = 1;
-            lblTable.TextAlign = ContentAlignment.MiddleCenter;
+            lblSum.AutoSize = true;
+            lblSum.Location = new Point(191, 9);
+            lblSum.Name = "lblSum";
+            lblSum.Size = new Size(40, 15);
+            lblSum.TabIndex = 7;
+            lblSum.Text = "0 VND";
             // 
-            // panel6
+            // btnTableChange
             // 
-            panel6.Controls.Add(lblPriceSum);
-            panel6.Controls.Add(lblQuantity);
-            panel6.Controls.Add(lblNameTicket);
-            panel6.Location = new Point(11, 80);
-            panel6.Name = "panel6";
-            panel6.Size = new Size(231, 40);
-            panel6.TabIndex = 3;
+            btnTableChange.BackColor = Color.RoyalBlue;
+            btnTableChange.Cursor = Cursors.Hand;
+            btnTableChange.FlatStyle = FlatStyle.Popup;
+            btnTableChange.ForeColor = Color.White;
+            btnTableChange.Location = new Point(3, 67);
+            btnTableChange.Name = "btnTableChange";
+            btnTableChange.Size = new Size(96, 23);
+            btnTableChange.TabIndex = 9;
+            btnTableChange.Text = "CHUYỂN BẢN";
+            btnTableChange.UseVisualStyleBackColor = false;
+            btnTableChange.Click += btnTableChange_Click;
             // 
-            // lblNameTicket
+            // lblTableListEmptyText
             // 
-            lblNameTicket.AutoSize = true;
-            lblNameTicket.Font = new Font("Segoe UI", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblNameTicket.Location = new Point(19, 13);
-            lblNameTicket.Name = "lblNameTicket";
-            lblNameTicket.Size = new Size(39, 12);
-            lblNameTicket.TabIndex = 0;
-            lblNameTicket.Text = "Tên món";
+            lblTableListEmptyText.AutoSize = true;
+            lblTableListEmptyText.Location = new Point(113, 71);
+            lblTableListEmptyText.Name = "lblTableListEmptyText";
+            lblTableListEmptyText.Size = new Size(145, 15);
+            lblTableListEmptyText.TabIndex = 11;
+            lblTableListEmptyText.Text = "DANH SÁCH BÀN TRỐNG";
             // 
-            // lblQuantity
+            // btnPay
             // 
-            lblQuantity.AutoSize = true;
-            lblQuantity.Font = new Font("Segoe UI", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblQuantity.Location = new Point(111, 13);
-            lblQuantity.Name = "lblQuantity";
-            lblQuantity.Size = new Size(39, 12);
-            lblQuantity.TabIndex = 1;
-            lblQuantity.Text = "Số lượng";
+            btnPay.BackColor = Color.Red;
+            btnPay.Cursor = Cursors.Hand;
+            btnPay.FlatStyle = FlatStyle.Popup;
+            btnPay.ForeColor = Color.White;
+            btnPay.Location = new Point(3, 38);
+            btnPay.Name = "btnPay";
+            btnPay.Size = new Size(96, 23);
+            btnPay.TabIndex = 8;
+            btnPay.Text = "THANH TOÁN";
+            btnPay.UseVisualStyleBackColor = false;
+            btnPay.Click += btnPay_Click;
             // 
-            // lblPriceSum
+            // cbEmptyTable
             // 
-            lblPriceSum.AutoSize = true;
-            lblPriceSum.Font = new Font("Segoe UI", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblPriceSum.Location = new Point(170, 13);
-            lblPriceSum.Name = "lblPriceSum";
-            lblPriceSum.Size = new Size(47, 12);
-            lblPriceSum.TabIndex = 2;
-            lblPriceSum.Text = "Thành tiền";
-            // 
-            // label2
-            // 
-            label2.BackColor = Color.FromArgb(100, 128, 128, 128);
-            label2.BorderStyle = BorderStyle.Fixed3D;
-            label2.Location = new Point(11, 124);
-            label2.Name = "label2";
-            label2.Size = new Size(231, 1);
-            label2.TabIndex = 4;
-            // 
-            // label3
-            // 
-            label3.BackColor = Color.FromArgb(100, 128, 128, 128);
-            label3.BorderStyle = BorderStyle.Fixed3D;
-            label3.Location = new Point(11, 341);
-            label3.Name = "label3";
-            label3.Size = new Size(231, 1);
-            label3.TabIndex = 5;
+            cbEmptyTable.FormattingEnabled = true;
+            cbEmptyTable.Location = new Point(129, 38);
+            cbEmptyTable.Name = "cbEmptyTable";
+            cbEmptyTable.Size = new Size(102, 23);
+            cbEmptyTable.TabIndex = 10;
             // 
             // tableLayoutPanel1
             // 
@@ -205,82 +194,93 @@
             tableLayoutPanel1.Size = new Size(246, 210);
             tableLayoutPanel1.TabIndex = 12;
             // 
-            // panel1
+            // label3
             // 
-            panel1.Controls.Add(label4);
-            panel1.Controls.Add(lblSum);
-            panel1.Controls.Add(btnTableChange);
-            panel1.Controls.Add(lblTableListEmptyText);
-            panel1.Controls.Add(btnPay);
-            panel1.Controls.Add(cbEmptyTable);
-            panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 609);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(262, 93);
-            panel1.TabIndex = 0;
+            label3.BackColor = Color.FromArgb(100, 128, 128, 128);
+            label3.BorderStyle = BorderStyle.Fixed3D;
+            label3.Location = new Point(11, 341);
+            label3.Name = "label3";
+            label3.Size = new Size(231, 1);
+            label3.TabIndex = 5;
             // 
-            // cbEmptyTable
+            // label2
             // 
-            cbEmptyTable.FormattingEnabled = true;
-            cbEmptyTable.Location = new Point(129, 38);
-            cbEmptyTable.Name = "cbEmptyTable";
-            cbEmptyTable.Size = new Size(102, 23);
-            cbEmptyTable.TabIndex = 10;
+            label2.BackColor = Color.FromArgb(100, 128, 128, 128);
+            label2.BorderStyle = BorderStyle.Fixed3D;
+            label2.Location = new Point(11, 124);
+            label2.Name = "label2";
+            label2.Size = new Size(231, 1);
+            label2.TabIndex = 4;
             // 
-            // btnPay
+            // panel6
             // 
-            btnPay.BackColor = Color.Red;
-            btnPay.Cursor = Cursors.Hand;
-            btnPay.FlatStyle = FlatStyle.Popup;
-            btnPay.ForeColor = Color.White;
-            btnPay.Location = new Point(3, 38);
-            btnPay.Name = "btnPay";
-            btnPay.Size = new Size(96, 23);
-            btnPay.TabIndex = 8;
-            btnPay.Text = "THANH TOÁN";
-            btnPay.UseVisualStyleBackColor = false;
-            btnPay.Click += btnPay_Click;
+            panel6.Controls.Add(lblPriceSum);
+            panel6.Controls.Add(lblQuantity);
+            panel6.Controls.Add(lblNameTicket);
+            panel6.Location = new Point(11, 80);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(231, 40);
+            panel6.TabIndex = 3;
             // 
-            // lblTableListEmptyText
+            // lblPriceSum
             // 
-            lblTableListEmptyText.AutoSize = true;
-            lblTableListEmptyText.Location = new Point(113, 71);
-            lblTableListEmptyText.Name = "lblTableListEmptyText";
-            lblTableListEmptyText.Size = new Size(144, 15);
-            lblTableListEmptyText.TabIndex = 11;
-            lblTableListEmptyText.Text = "DANH SÁCH BÀN TRỐNG";
+            lblPriceSum.AutoSize = true;
+            lblPriceSum.Font = new Font("Segoe UI", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblPriceSum.Location = new Point(170, 13);
+            lblPriceSum.Name = "lblPriceSum";
+            lblPriceSum.Size = new Size(47, 12);
+            lblPriceSum.TabIndex = 2;
+            lblPriceSum.Text = "Thành tiền";
             // 
-            // btnTableChange
+            // lblQuantity
             // 
-            btnTableChange.BackColor = Color.RoyalBlue;
-            btnTableChange.Cursor = Cursors.Hand;
-            btnTableChange.FlatStyle = FlatStyle.Popup;
-            btnTableChange.ForeColor = Color.White;
-            btnTableChange.Location = new Point(3, 67);
-            btnTableChange.Name = "btnTableChange";
-            btnTableChange.Size = new Size(96, 23);
-            btnTableChange.TabIndex = 9;
-            btnTableChange.Text = "CHUYỂN BẢN";
-            btnTableChange.UseVisualStyleBackColor = false;
-            btnTableChange.Click += btnTableChange_Click;
+            lblQuantity.AutoSize = true;
+            lblQuantity.Font = new Font("Segoe UI", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblQuantity.Location = new Point(111, 13);
+            lblQuantity.Name = "lblQuantity";
+            lblQuantity.Size = new Size(39, 12);
+            lblQuantity.TabIndex = 1;
+            lblQuantity.Text = "Số lượng";
             // 
-            // lblSum
+            // lblNameTicket
             // 
-            lblSum.AutoSize = true;
-            lblSum.Location = new Point(191, 9);
-            lblSum.Name = "lblSum";
-            lblSum.Size = new Size(40, 15);
-            lblSum.TabIndex = 7;
-            lblSum.Text = "0 VND";
+            lblNameTicket.AutoSize = true;
+            lblNameTicket.Font = new Font("Segoe UI", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblNameTicket.Location = new Point(19, 13);
+            lblNameTicket.Name = "lblNameTicket";
+            lblNameTicket.Size = new Size(39, 12);
+            lblNameTicket.TabIndex = 0;
+            lblNameTicket.Text = "Tên món";
             // 
-            // label4
+            // panel5
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(13, 9);
-            label4.Name = "label4";
-            label4.Size = new Size(34, 15);
-            label4.TabIndex = 6;
-            label4.Text = "Tổng";
+            panel5.Controls.Add(lblTable);
+            panel5.Controls.Add(label1);
+            panel5.Location = new Point(11, 13);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(231, 59);
+            panel5.TabIndex = 1;
+            // 
+            // lblTable
+            // 
+            lblTable.BackColor = Color.Red;
+            lblTable.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTable.ForeColor = Color.White;
+            lblTable.Location = new Point(54, 8);
+            lblTable.Name = "lblTable";
+            lblTable.Size = new Size(136, 36);
+            lblTable.TabIndex = 1;
+            lblTable.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            label1.BackColor = Color.Red;
+            label1.Dock = DockStyle.Fill;
+            label1.Location = new Point(0, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(231, 59);
+            label1.TabIndex = 0;
+            label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // flowLayoutPanel1
             // 
@@ -301,11 +301,11 @@
             Text = "TableForm";
             contextMenuStrip1.ResumeLayout(false);
             panel4.ResumeLayout(false);
-            panel5.ResumeLayout(false);
-            panel6.ResumeLayout(false);
-            panel6.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            panel6.ResumeLayout(false);
+            panel6.PerformLayout();
+            panel5.ResumeLayout(false);
             ResumeLayout(false);
         }
 

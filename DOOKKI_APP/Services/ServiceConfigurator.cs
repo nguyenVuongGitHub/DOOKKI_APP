@@ -37,6 +37,7 @@ namespace DOOKKI_APP.Services
 
             services.AddTransient<Views.Dashboard>();
 
+            services.AddTransient<Views.TableFoodForm>();
 
             // Apply pending migrations at startup
             var serviceProvider = services.BuildServiceProvider();
