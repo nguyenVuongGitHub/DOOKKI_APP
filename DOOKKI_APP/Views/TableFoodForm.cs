@@ -70,7 +70,7 @@ namespace DOOKKI_APP.Views
                 // Tạo một Panel đại diện cho mỗi bàn
                 Panel panel = new Panel
                 {
-                    Width = 120,
+                    Width = 128,
                     Height = 100,
                     BackColor = table.Status == false ? Color.Cyan : Color.Pink
                 };
@@ -81,6 +81,7 @@ namespace DOOKKI_APP.Views
                     Text = table.Name,
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new Font("Segoe UI", 10, FontStyle.Regular),
                     ForeColor = Color.Black,
                     Cursor = Cursors.Hand
                 };

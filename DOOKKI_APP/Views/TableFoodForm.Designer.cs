@@ -97,7 +97,7 @@
             btnSwitchTable.Anchor = AnchorStyles.Bottom;
             btnSwitchTable.BackColor = Color.FromArgb(42, 52, 65);
             btnSwitchTable.FlatStyle = FlatStyle.Flat;
-            btnSwitchTable.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnSwitchTable.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnSwitchTable.ForeColor = Color.White;
             btnSwitchTable.Location = new Point(16, 20);
             btnSwitchTable.Margin = new Padding(3, 2, 3, 2);
@@ -113,7 +113,7 @@
             btnCharge.Anchor = AnchorStyles.Bottom;
             btnCharge.BackColor = Color.FromArgb(42, 52, 65);
             btnCharge.FlatStyle = FlatStyle.Flat;
-            btnCharge.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCharge.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnCharge.ForeColor = Color.White;
             btnCharge.Location = new Point(248, 29);
             btnCharge.Margin = new Padding(3, 2, 3, 2);
@@ -126,16 +126,18 @@
             // 
             // cbEmptyTable
             // 
+            cbEmptyTable.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cbEmptyTable.FormattingEnabled = true;
             cbEmptyTable.Location = new Point(16, 72);
             cbEmptyTable.Name = "cbEmptyTable";
-            cbEmptyTable.Size = new Size(87, 23);
+            cbEmptyTable.Size = new Size(87, 25);
             cbEmptyTable.TabIndex = 10;
             // 
             // lsvOrder
             // 
             lsvOrder.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
             lsvOrder.ContextMenuStrip = contextMenuStrip1;
+            lsvOrder.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lsvOrder.FullRowSelect = true;
             lsvOrder.GridLines = true;
             lsvOrder.Location = new Point(6, 112);
@@ -154,6 +156,7 @@
             // columnHeader2
             // 
             columnHeader2.Text = "Số lượng";
+            columnHeader2.Width = 65;
             // 
             // columnHeader3
             // 
@@ -192,9 +195,10 @@
             // 
             // nmProductQuantity
             // 
+            nmProductQuantity.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             nmProductQuantity.Location = new Point(146, 22);
             nmProductQuantity.Name = "nmProductQuantity";
-            nmProductQuantity.Size = new Size(44, 23);
+            nmProductQuantity.Size = new Size(44, 25);
             nmProductQuantity.TabIndex = 18;
             nmProductQuantity.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
@@ -203,9 +207,9 @@
             btnAddOrder.Anchor = AnchorStyles.Bottom;
             btnAddOrder.BackColor = Color.FromArgb(42, 52, 65);
             btnAddOrder.FlatStyle = FlatStyle.Flat;
-            btnAddOrder.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnAddOrder.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnAddOrder.ForeColor = Color.White;
-            btnAddOrder.Location = new Point(245, 22);
+            btnAddOrder.Location = new Point(227, 21);
             btnAddOrder.Margin = new Padding(3, 2, 3, 2);
             btnAddOrder.Name = "btnAddOrder";
             btnAddOrder.Size = new Size(80, 51);
@@ -216,18 +220,20 @@
             // 
             // cbTicket
             // 
+            cbTicket.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbTicket.FormattingEnabled = true;
             cbTicket.Location = new Point(13, 61);
             cbTicket.Name = "cbTicket";
-            cbTicket.Size = new Size(177, 23);
+            cbTicket.Size = new Size(177, 25);
             cbTicket.TabIndex = 1;
             // 
             // cbCategory
             // 
+            cbCategory.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbCategory.FormattingEnabled = true;
             cbCategory.Location = new Point(13, 21);
             cbCategory.Name = "cbCategory";
-            cbCategory.Size = new Size(121, 23);
+            cbCategory.Size = new Size(121, 25);
             cbCategory.TabIndex = 0;
             cbCategory.SelectedIndexChanged += cbCategory_SelectedIndexChanged;
             // 
