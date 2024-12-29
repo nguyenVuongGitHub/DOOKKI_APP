@@ -31,7 +31,8 @@ namespace DOOKKI_APP.Views
             InitializeTableStatus();
             _context = context;
             _serviceProvider = serviceProvider;
-            openChildForm(new TableForm(_context, this));
+            //openChildForm(new TableForm(_context, this));
+            openChildForm(new TableFoodForm());
         }
 
         private Form currentFormChild;
@@ -69,7 +70,8 @@ namespace DOOKKI_APP.Views
         private void btnTable_Click(object sender, EventArgs e)
         {
             menuTransition.Start();
-            openChildForm(new TableForm(_context, this));
+            //openChildForm(new TableForm(_context, this));
+            openChildForm(new TableFoodForm());
         }
 
         //Mở form con
