@@ -140,7 +140,7 @@ namespace DOOKKI_APP.Controllers
             }
         }
 
-        public void CheckOut(int id, int tableID, decimal totalPrice)
+        public void CheckOut(int id, int tableID, decimal totalPrice, int customerID)
         {
             using (var context = new DookkiContext())
             {
@@ -154,6 +154,7 @@ namespace DOOKKI_APP.Controllers
                     {
                         order.Status = 1;
                         order.Total = totalPrice;
+                        order.CustomerId = customerID;
                         table.Status = false;
                         context.SaveChanges();
                     }
@@ -179,11 +180,53 @@ namespace DOOKKI_APP.Controllers
                 var orderDetail = context.OrderDetails.FirstOrDefault(od => od.OrderId == orderID && od.TicketId == ticketID);
                 if (orderDetail != null)
                 {
+                    //context.OrderDetails.Remove(orderDetail);
                     orderDetail.IsActive = false;
                     context.SaveChanges();
+
+                    // Kiểm tra xem Order còn món nào không
+                    bool hasOrderDetails = context.OrderDetails.Any(od => od.OrderId == orderID && od.IsActive == true);
+
+                    if (!hasOrderDetails)
+                    {
+                        // Nếu Order không còn món nào, cập nhật trạng thái bàn về "Trống"
+                        var order = context.Orders.FirstOrDefault(o => o.Id == orderID);
+                        if (order != null)
+                        {
+                            var table = context.Tables.FirstOrDefault(t => t.Id == order.TableId);
+                            if (table != null)
+                            {
+                                table.Status = false; // Đặt trạng thái bàn về "Trống"
+                                context.SaveChanges();
+                            }
+                        }
+                    }
                 }
             }
         }
+        
+        public List<OrderDetail> GetOrderDetails(int idTable)
+        {
+            using (var context = new DookkiContext())
+            {
+                var menuItems = GetMenuItem(idTable);
+                decimal totalPrice = 0;
+                List<OrderDetail> orderDetails = new List<OrderDetail>();
+                
+                foreach (var item in menuItems)
+                {
+                    OrderDetail orderDetail = new OrderDetail();
 
+                    orderDetail.Quantily = item.Quantity;
+                    int ticketID = (from ti in context.Tickets
+                                    where ti.Name == item.Name
+                                    select ti.Id).SingleOrDefault();
+                    orderDetail.TicketId = ticketID;
+
+                    orderDetails.Add(orderDetail);
+                }
+                return orderDetails;
+            }
+        }
     }
 }

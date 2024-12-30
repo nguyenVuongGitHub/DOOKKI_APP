@@ -69,23 +69,29 @@
             // btnCancel
             // 
             btnCancel.AutoSize = true;
+            btnCancel.BackColor = Color.FromArgb(42, 52, 65);
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.ForeColor = Color.White;
             btnCancel.Location = new Point(289, 150);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(90, 35);
+            btnCancel.Size = new Size(90, 37);
             btnCancel.TabIndex = 5;
             btnCancel.Text = "Hủy";
-            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.UseVisualStyleBackColor = false;
             btnCancel.Click += btnCancel_Click;
             // 
             // btnCreate
             // 
             btnCreate.AutoSize = true;
+            btnCreate.BackColor = Color.FromArgb(42, 52, 65);
+            btnCreate.FlatStyle = FlatStyle.Flat;
+            btnCreate.ForeColor = Color.White;
             btnCreate.Location = new Point(87, 150);
             btnCreate.Name = "btnCreate";
-            btnCreate.Size = new Size(90, 35);
+            btnCreate.Size = new Size(92, 37);
             btnCreate.TabIndex = 4;
             btnCreate.Text = "Tạo mới";
-            btnCreate.UseVisualStyleBackColor = true;
+            btnCreate.UseVisualStyleBackColor = false;
             btnCreate.Click += btnCreate_Click;
             // 
             // txtName

@@ -1,12 +1,16 @@
 ﻿using DOOKKI_APP.Controllers;
 using DOOKKI_APP.Helpers;
 using DOOKKI_APP.Models.Entities;
+using DOOKKI_APP.Services;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,9 +30,10 @@ namespace DOOKKI_APP.Views
         private readonly TicketController ticketController;
         private readonly ExportFile export;
         private readonly DookkiContext _context;
-        private readonly MainForm _manageOrders;
-        private readonly TableForm _tableForm;
-        public PaymentForm(Order order, Payment payment, List<OrderDetail> orderDetails, DookkiContext context, MainForm manageOrders, TableForm tableForm)
+        private readonly int tableID;
+        private readonly Size normalSizeForm = new Size(620, 505);
+        private readonly Size expandSizeForm = new Size(988, 505);
+        public PaymentForm(Order order, Payment payment, List<OrderDetail> orderDetails, DookkiContext context, int tableID)
         {
             InitializeComponent();
             this.order = order;
@@ -42,29 +47,7 @@ namespace DOOKKI_APP.Views
             export = new ExportFile(context);
             ticketController = new TicketController(context);
             _context = context;
-            _manageOrders = manageOrders;
-            _tableForm = tableForm;
-        }
-        public PaymentForm(DookkiContext context, MainForm manageOrders, TableForm tableForm)
-        {
-            InitializeComponent();
-            // get data
-            order = new Order();
-            payment = new Payment();
-            orderDetails = new List<OrderDetail>();
-            accountController = new AccountController(context);
-            customerController = new CustomerController(context);
-            paymentController = new PaymentController(context);
-            orderController = new OrderController(context);
-            orderDetailController = new OrderDetailController(context);
-            export = new ExportFile(context);
-            ticketController = new TicketController(context);
-            _context = context;
-            _manageOrders = manageOrders;
-            _tableForm = tableForm;
-
-
-
+            this.tableID = tableID;
         }
         private decimal TotalSum()
         {
@@ -81,7 +64,7 @@ namespace DOOKKI_APP.Views
         }
         private void UpdateMarkForCustomer()
         {
-            
+
 
             // plus
             int totalSum = int.Parse(TotalSum().ToString());
@@ -93,7 +76,7 @@ namespace DOOKKI_APP.Views
             var cus = (from c in customerController.GetModel()
                        where c.Id == cusId
                        select c).SingleOrDefault();
-            
+
 
             if (cus != null)
             {
@@ -115,29 +98,11 @@ namespace DOOKKI_APP.Views
                 if (order != null)
                 {
                     order.Time = TimeOnly.FromDateTime(DateTime.Now);
-                    // had account
-                    if (ckbHadAccount.Checked)
-                    {
-                        string cusPhone = txtCustomerPhone.Text;
+                    var table = _context.Tables.FirstOrDefault(t => t.Id == tableID);
 
-                        int? idCus = (from cus in customerController.GetModel()
-                                      where cus.Phone == cusPhone
-                                      select cus.Id).SingleOrDefault();
 
-                        if (idCus != null)
-                        {
-                            order.CustomerId = idCus;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Không tìm thấy khách hàng");
-                        }
+                    table.Status = false;
 
-                    }
-                    else // no account
-                    {
-                        order.CustomerId = 0;
-                    }
                     order.Discount = cbMarks.SelectedIndex;
                     orderController.Add(order);
                     orderController.SaveChanges();
@@ -244,9 +209,10 @@ namespace DOOKKI_APP.Views
         {
             UpdateValuePayment();
             backgroundWorker.ReportProgress(25);
-            UpdateValueOrder();
+            //UpdateValueOrder();
+
             backgroundWorker.ReportProgress(50);
-            UpdateValueOrderDetail();
+            //UpdateValueOrderDetail();
             backgroundWorker.ReportProgress(75);
             UpdateMarkForCustomer();
             backgroundWorker.ReportProgress(90);
@@ -257,11 +223,27 @@ namespace DOOKKI_APP.Views
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             MessageBox.Show("Xuất bill thành công");
-            _manageOrders.TableOrders.Remove(ShareData.TableName);
-            _manageOrders.TableStatus[ShareData.TableName] = false; // Mark the original table as free
-            _tableForm.UpdateTableStatus(ShareData.TableName, false);
-            _tableForm.ClearTable();
-            ShareData.TableName = "";
+            //_manageOrders.TableOrders.Remove(ShareData.TableName);
+            //_manageOrders.TableStatus[ShareData.TableName] = false; // Mark the original table as free
+            //_tableForm.UpdateTableStatus(ShareData.TableName, false);
+            //_tableForm.ClearTable();
+            //ShareData.TableName = "";
+            int orderID = OrderControllerSingleton.Instance.GetUncheckOrderByTableID(tableID);
+            int customerID = 0;
+
+            // had account
+            if (ckbHadAccount.Checked)
+            {
+                string cusPhone = txtCustomerPhone.Text;
+
+                int idCus = (from cus in customerController.GetModel()
+                             where cus.Phone == cusPhone
+                             select cus.Id).Single();
+                customerID = idCus;
+            }
+            OrderControllerSingleton.Instance.CheckOut(orderID, tableID, TotalSum(), customerID);
+            // reset table
+
             this.Close();
         }
 
@@ -327,5 +309,58 @@ namespace DOOKKI_APP.Views
             Form inputCus = new InputCustomer(_context);
             inputCus.Show();
         }
+
+        private void rdCredit_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdCredit.Checked) 
+            {
+                if(txtAmount.Text.IsNullOrEmpty())
+                {
+                    return;
+                }
+
+                this.Size = expandSizeForm;
+
+                int random = new Random().Next(0, 3 + 1);
+                pictureBox1.Image = null;
+
+                AdminBankAccount[] adminBankAccounts =
+                {
+                    new AdminBankAccount{accountName = "NGUYEN DINH VUONG", accountNumber = "104877403648", acqId ="970415"},
+                    new AdminBankAccount{accountName = "NGUYEN TRAN CONG LY", accountNumber = "7621929005", acqId ="970418"},
+                    new AdminBankAccount{accountName = "DUONG VO ANH TAI", accountNumber = "1027025103", acqId ="970436"},
+                    new AdminBankAccount{accountName = "NGUYEN QUOC ANH", accountNumber = "7704205224100", acqId ="970405"}
+                };
+                AdminBankAccount theChosenOne = adminBankAccounts[random];
+                string message = theChosenOne.HashMessage();
+
+                VNpayPayment.Instance.CreatePaymentUrl(pictureBox1, theChosenOne.acqId, theChosenOne.accountNumber, theChosenOne.accountName, txtAmount.Text, message);
+            }
+            else
+            {
+                this.Size = normalSizeForm;
+            }
+        }
     }
+    internal class AdminBankAccount
+    {
+        public string accountName { get; set; }
+        public string acqId { get; set; }
+        public string accountNumber { get; set; }
+        public string HashMessage()
+        {
+            int length = 10;
+            StringBuilder hashMessage = new StringBuilder(length);
+            Random random = new Random();
+            string combined = accountName + acqId + accountNumber;
+            for (int i = 0; i < length; i++)
+            {
+                int randomIndex = random.Next(0, combined.Length);
+                hashMessage.Append(combined[randomIndex]);
+            }
+            
+            return hashMessage.ToString();
+        }
+    }
+
 }

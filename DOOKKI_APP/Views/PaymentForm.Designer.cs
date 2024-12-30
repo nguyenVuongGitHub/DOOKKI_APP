@@ -30,6 +30,7 @@
         {
             panel1 = new Panel();
             groupBox1 = new GroupBox();
+            pictureBox1 = new PictureBox();
             progressBar1 = new ProgressBar();
             ckbTotal = new CheckBox();
             cbMarks = new ComboBox();
@@ -52,6 +53,7 @@
             backgroundWorker = new System.ComponentModel.BackgroundWorker();
             panel1.SuspendLayout();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -66,6 +68,7 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(pictureBox1);
             groupBox1.Controls.Add(progressBar1);
             groupBox1.Controls.Add(ckbTotal);
             groupBox1.Controls.Add(cbMarks);
@@ -92,6 +95,16 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thanh toán";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.FromArgb(42, 52, 65);
+            pictureBox1.Location = new Point(562, 91);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(295, 293);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 19;
+            pictureBox1.TabStop = false;
             // 
             // progressBar1
             // 
@@ -136,12 +149,15 @@
             // btnSearch
             // 
             btnSearch.AutoSize = true;
+            btnSearch.BackColor = Color.FromArgb(42, 52, 65);
+            btnSearch.FlatStyle = FlatStyle.Flat;
+            btnSearch.ForeColor = Color.White;
             btnSearch.Location = new Point(406, 218);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(75, 35);
+            btnSearch.Size = new Size(75, 37);
             btnSearch.TabIndex = 14;
             btnSearch.Text = "Tìm";
-            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.UseVisualStyleBackColor = false;
             btnSearch.Visible = false;
             btnSearch.Click += btnSearch_Click;
             // 
@@ -186,12 +202,15 @@
             // btnCreateAccount
             // 
             btnCreateAccount.AutoSize = true;
+            btnCreateAccount.BackColor = Color.FromArgb(42, 52, 65);
+            btnCreateAccount.FlatStyle = FlatStyle.Flat;
+            btnCreateAccount.ForeColor = Color.White;
             btnCreateAccount.Location = new Point(336, 347);
             btnCreateAccount.Name = "btnCreateAccount";
-            btnCreateAccount.Size = new Size(173, 35);
+            btnCreateAccount.Size = new Size(175, 37);
             btnCreateAccount.TabIndex = 9;
             btnCreateAccount.Text = "Tạo tài khoản mới";
-            btnCreateAccount.UseVisualStyleBackColor = true;
+            btnCreateAccount.UseVisualStyleBackColor = false;
             btnCreateAccount.Click += btnCreateAccount_Click;
             // 
             // ckbHadAccount
@@ -217,23 +236,29 @@
             // btnCancel
             // 
             btnCancel.AutoSize = true;
+            btnCancel.BackColor = Color.FromArgb(42, 52, 65);
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.ForeColor = Color.White;
             btnCancel.Location = new Point(134, 347);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(91, 35);
+            btnCancel.Size = new Size(91, 37);
             btnCancel.TabIndex = 6;
             btnCancel.Text = "Hủy";
-            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.UseVisualStyleBackColor = false;
             btnCancel.Click += btnCancel_Click;
             // 
             // btnAccept
             // 
             btnAccept.AutoSize = true;
+            btnAccept.BackColor = Color.FromArgb(42, 52, 65);
+            btnAccept.FlatStyle = FlatStyle.Flat;
+            btnAccept.ForeColor = Color.White;
             btnAccept.Location = new Point(18, 347);
             btnAccept.Name = "btnAccept";
-            btnAccept.Size = new Size(91, 35);
+            btnAccept.Size = new Size(93, 37);
             btnAccept.TabIndex = 5;
             btnAccept.Text = "Xuất bill";
-            btnAccept.UseVisualStyleBackColor = true;
+            btnAccept.UseVisualStyleBackColor = false;
             btnAccept.Click += btnAccept_Click;
             // 
             // rdCash
@@ -257,6 +282,7 @@
             rdCredit.TabStop = true;
             rdCredit.Text = "Chuyển khoản";
             rdCredit.UseVisualStyleBackColor = true;
+            rdCredit.CheckedChanged += rdCredit_CheckedChanged;
             // 
             // txtAmount
             // 
@@ -305,6 +331,7 @@
             panel1.ResumeLayout(false);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -332,5 +359,6 @@
         private Label label6;
         private CheckBox ckbTotal;
         private ProgressBar progressBar1;
+        private PictureBox pictureBox1;
     }
 }
