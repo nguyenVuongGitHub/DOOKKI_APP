@@ -33,16 +33,18 @@ namespace DOOKKI_APP.Services
         }
 
 
-        public void CreatePaymentUrl(PictureBox pictureBox, string acqId, string accountnumber,string accountName, string amount)
+        public void CreatePaymentUrl(PictureBox pictureBox, string acqId, string accountnumber,string accountName, string amount, string message)
         {
-            var apiRequest = new ApiRequest();
-
-            apiRequest.acqId = Convert.ToInt32(acqId);
-            apiRequest.accountNo = long.Parse(accountnumber);
-            apiRequest.accountName = accountName;
-            apiRequest.amount = Convert.ToInt32(amount);
-            apiRequest.format = "text";
-            apiRequest.template = "compact2";
+            var apiRequest = new ApiRequest
+            {
+                acqId = Convert.ToInt32(acqId),
+                accountNo = long.Parse(accountnumber),
+                accountName = accountName,
+                amount = Convert.ToInt32(amount),
+                format = "text",
+                template = "compact2",
+                addInfo = message,
+            };
             var jsonRequest = JsonConvert.SerializeObject(apiRequest);
             // use restsharp for request api.
             var client = new RestClient("https://api.vietqr.io/v2/generate");
@@ -59,6 +61,8 @@ namespace DOOKKI_APP.Services
 
 
             var image = Base64ToImage(dataResult.data.qrDataURL.Replace("data:image/png;base64,", ""));
+
+            
             pictureBox.Image = image;
         }
 
@@ -88,6 +92,7 @@ namespace DOOKKI_APP.Services
         public string accountName { get; set; }
         public string qrCode { get; set; }
         public string qrDataURL { get; set; }
+        public string paymentUrl { get; set; }
     }
 
     internal class ApiResponse
