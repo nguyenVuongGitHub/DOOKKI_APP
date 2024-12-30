@@ -204,9 +204,6 @@ namespace DOOKKI_APP.Controllers
                 }
             }
         }
-                }
-            }
-        }
         
         public List<OrderDetail> GetOrderDetails(int idTable)
         {
