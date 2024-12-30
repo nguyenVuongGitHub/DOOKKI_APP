@@ -98,8 +98,10 @@ namespace DOOKKI_APP.Views
 
         void btn_Click(object sender, EventArgs e)
         {
-            int tableID = ((sender as Button).Tag as Table).Id;
-            lsvOrder.Tag = (sender as Button).Tag;
+            Table selectedTable = (sender as Button).Tag as Table;
+            int tableID = selectedTable.Id;
+            lsvOrder.Tag = selectedTable;
+            lblTable.Text = $"{selectedTable.Name}";
             ShowOrder(tableID);
         }
 
@@ -121,6 +123,7 @@ namespace DOOKKI_APP.Views
             CultureInfo culture = new CultureInfo("vi-VN");
             Thread.CurrentThread.CurrentCulture = culture;
             txtTotalPrice.Text = totalPrice.ToString("c");
+            nmProductQuantity.Value = 1;
         }
 
         private void btnAddOrder_Click(object sender, EventArgs e)
@@ -195,6 +198,7 @@ namespace DOOKKI_APP.Views
 
                     // Cập nhật lại ListView
                     ShowOrder(table.Id); // Hàm lấy Table ID hiện tại
+                    LoadTables();
                 }
             }
         }
