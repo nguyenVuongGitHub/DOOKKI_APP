@@ -32,12 +32,6 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            panel1 = new Panel();
-            btnManageEployee = new Button();
-            panel2 = new Panel();
-            mnuManageEmployeeFunction = new MenuStrip();
-            quảnLýNhgToolStripMenuItem = new ToolStripMenuItem();
-            quảnLýChấmCôngToolStripMenuItem = new ToolStripMenuItem();
             panel3 = new Panel();
             dgvEmployee = new DataGridView();
             panel4 = new Panel();
@@ -59,71 +53,10 @@
             label5 = new Label();
             label3 = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
-            panel1.SuspendLayout();
-            panel2.SuspendLayout();
-            mnuManageEmployeeFunction.SuspendLayout();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvEmployee).BeginInit();
             panel4.SuspendLayout();
             SuspendLayout();
-            // 
-            // panel1
-            // 
-            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            panel1.BackColor = SystemColors.ControlLight;
-            panel1.Controls.Add(btnManageEployee);
-            panel1.Location = new Point(10, 9);
-            panel1.Margin = new Padding(3, 2, 3, 2);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(205, 511);
-            panel1.TabIndex = 0;
-            // 
-            // btnManageEployee
-            // 
-            btnManageEployee.Font = new Font("Segoe UI", 14F);
-            btnManageEployee.Location = new Point(3, 202);
-            btnManageEployee.Margin = new Padding(3, 2, 3, 2);
-            btnManageEployee.Name = "btnManageEployee";
-            btnManageEployee.Size = new Size(199, 41);
-            btnManageEployee.TabIndex = 0;
-            btnManageEployee.Text = "Quản lý nhân sự";
-            btnManageEployee.UseVisualStyleBackColor = true;
-            // 
-            // panel2
-            // 
-            panel2.BackColor = SystemColors.ControlLight;
-            panel2.Controls.Add(mnuManageEmployeeFunction);
-            panel2.Location = new Point(220, 9);
-            panel2.Margin = new Padding(3, 2, 3, 2);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(835, 45);
-            panel2.TabIndex = 1;
-            // 
-            // mnuManageEmployeeFunction
-            // 
-            mnuManageEmployeeFunction.BackColor = SystemColors.ControlLight;
-            mnuManageEmployeeFunction.ImageScalingSize = new Size(20, 20);
-            mnuManageEmployeeFunction.Items.AddRange(new ToolStripItem[] { quảnLýNhgToolStripMenuItem, quảnLýChấmCôngToolStripMenuItem });
-            mnuManageEmployeeFunction.Location = new Point(0, 0);
-            mnuManageEmployeeFunction.Name = "mnuManageEmployeeFunction";
-            mnuManageEmployeeFunction.Padding = new Padding(5, 2, 0, 2);
-            mnuManageEmployeeFunction.Size = new Size(835, 33);
-            mnuManageEmployeeFunction.TabIndex = 0;
-            mnuManageEmployeeFunction.Text = "menuStrip1";
-            // 
-            // quảnLýNhgToolStripMenuItem
-            // 
-            quảnLýNhgToolStripMenuItem.Font = new Font("Segoe UI", 14F);
-            quảnLýNhgToolStripMenuItem.Name = "quảnLýNhgToolStripMenuItem";
-            quảnLýNhgToolStripMenuItem.Size = new Size(177, 29);
-            quảnLýNhgToolStripMenuItem.Text = "Quản lý nhân viên";
-            // 
-            // quảnLýChấmCôngToolStripMenuItem
-            // 
-            quảnLýChấmCôngToolStripMenuItem.Font = new Font("Segoe UI", 14F);
-            quảnLýChấmCôngToolStripMenuItem.Name = "quảnLýChấmCôngToolStripMenuItem";
-            quảnLýChấmCôngToolStripMenuItem.Size = new Size(187, 29);
-            quảnLýChấmCôngToolStripMenuItem.Text = "Quản lý chấm công";
             // 
             // panel3
             // 
@@ -131,10 +64,10 @@
             panel3.BackColor = SystemColors.ControlLight;
             panel3.Controls.Add(dgvEmployee);
             panel3.Controls.Add(panel4);
-            panel3.Location = new Point(220, 58);
+            panel3.Location = new Point(12, 11);
             panel3.Margin = new Padding(3, 2, 3, 2);
             panel3.Name = "panel3";
-            panel3.Size = new Size(835, 461);
+            panel3.Size = new Size(1043, 508);
             panel3.TabIndex = 2;
             // 
             // dgvEmployee
@@ -174,7 +107,7 @@
             dgvEmployee.RowHeadersVisible = false;
             dgvEmployee.RowHeadersWidth = 51;
             dgvEmployee.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvEmployee.Size = new Size(781, 206);
+            dgvEmployee.Size = new Size(989, 206);
             dgvEmployee.TabIndex = 0;
             dgvEmployee.CellContentClick += dgvEmployee_CellContentClick;
             // 
@@ -201,7 +134,7 @@
             panel4.Location = new Point(28, 242);
             panel4.Margin = new Padding(3, 2, 3, 2);
             panel4.Name = "panel4";
-            panel4.Size = new Size(781, 208);
+            panel4.Size = new Size(989, 255);
             panel4.TabIndex = 7;
             // 
             // label2
@@ -221,7 +154,7 @@
             btnCancel.FlatStyle = FlatStyle.Flat;
             btnCancel.Font = new Font("Segoe UI", 14F);
             btnCancel.ForeColor = Color.White;
-            btnCancel.Location = new Point(574, 162);
+            btnCancel.Location = new Point(678, 209);
             btnCancel.Margin = new Padding(3, 2, 3, 2);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(82, 35);
@@ -237,7 +170,7 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 14F);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(469, 162);
+            btnUpdate.Location = new Point(573, 209);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(82, 33);
@@ -253,7 +186,7 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 14F);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(358, 162);
+            btnDelete.Location = new Point(462, 209);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(82, 33);
@@ -269,7 +202,7 @@
             btnEdit.FlatStyle = FlatStyle.Flat;
             btnEdit.Font = new Font("Segoe UI", 14F);
             btnEdit.ForeColor = Color.White;
-            btnEdit.Location = new Point(250, 162);
+            btnEdit.Location = new Point(354, 209);
             btnEdit.Margin = new Padding(3, 2, 3, 2);
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(82, 33);
@@ -285,7 +218,7 @@
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Font = new Font("Segoe UI", 14F);
             btnAdd.ForeColor = Color.White;
-            btnAdd.Location = new Point(148, 162);
+            btnAdd.Location = new Point(252, 209);
             btnAdd.Margin = new Padding(3, 2, 3, 2);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(82, 33);
@@ -298,7 +231,7 @@
             // 
             txtWage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtWage.Font = new Font("Segoe UI", 14F);
-            txtWage.Location = new Point(574, 93);
+            txtWage.Location = new Point(782, 93);
             txtWage.Margin = new Padding(3, 2, 3, 2);
             txtWage.Name = "txtWage";
             txtWage.Size = new Size(200, 32);
@@ -319,7 +252,7 @@
             cmbPosition.Font = new Font("Segoe UI", 14F);
             cmbPosition.FormattingEnabled = true;
             cmbPosition.Items.AddRange(new object[] { "staff", "chef", "cashier" });
-            cmbPosition.Location = new Point(574, 50);
+            cmbPosition.Location = new Point(782, 50);
             cmbPosition.Margin = new Padding(3, 2, 3, 2);
             cmbPosition.Name = "cmbPosition";
             cmbPosition.Size = new Size(200, 33);
@@ -338,7 +271,7 @@
             // 
             txtName.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtName.Font = new Font("Segoe UI", 14F);
-            txtName.Location = new Point(574, 5);
+            txtName.Location = new Point(782, 5);
             txtName.Margin = new Padding(3, 2, 3, 2);
             txtName.Name = "txtName";
             txtName.Size = new Size(200, 32);
@@ -358,7 +291,7 @@
             label6.Anchor = AnchorStyles.Top;
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 14F);
-            label6.Location = new Point(418, 50);
+            label6.Location = new Point(522, 50);
             label6.Name = "label6";
             label6.Size = new Size(84, 25);
             label6.TabIndex = 6;
@@ -390,7 +323,7 @@
             label5.Anchor = AnchorStyles.Top;
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 14F);
-            label5.Location = new Point(418, 95);
+            label5.Location = new Point(522, 95);
             label5.Name = "label5";
             label5.Size = new Size(128, 25);
             label5.TabIndex = 5;
@@ -401,7 +334,7 @@
             label3.Anchor = AnchorStyles.Top;
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 14F);
-            label3.Location = new Point(418, 11);
+            label3.Location = new Point(522, 11);
             label3.Name = "label3";
             label3.Size = new Size(133, 25);
             label3.TabIndex = 3;
@@ -419,18 +352,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1066, 529);
             Controls.Add(panel3);
-            Controls.Add(panel2);
-            Controls.Add(panel1);
-            MainMenuStrip = mnuManageEmployeeFunction;
             Margin = new Padding(3, 2, 3, 2);
             Name = "ManageEployee";
             Text = "x";
             Load += ManageEployee_Load;
-            panel1.ResumeLayout(false);
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            mnuManageEmployeeFunction.ResumeLayout(false);
-            mnuManageEmployeeFunction.PerformLayout();
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvEmployee).EndInit();
             panel4.ResumeLayout(false);
@@ -439,14 +364,7 @@
         }
 
         #endregion
-
-        private Panel panel1;
-        private Panel panel2;
         private Panel panel3;
-        private MenuStrip mnuManageEmployeeFunction;
-        private ToolStripMenuItem quảnLýNhgToolStripMenuItem;
-        private ToolStripMenuItem quảnLýChấmCôngToolStripMenuItem;
-        private Button btnManageEployee;
         private DataGridView dgvEmployee;
         private Label label1;
         private Label label3;

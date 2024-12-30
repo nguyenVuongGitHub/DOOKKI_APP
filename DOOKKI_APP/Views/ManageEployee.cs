@@ -20,12 +20,15 @@ namespace DOOKKI_APP.Views
             InitializeComponent();
             _context = context;
             LoadEmployees();
+            //dgvEmployee.CellClick += dgvEmployee_CellClick;
+
         }
 
         private void LoadEmployees()
         {
             try
             {
+                // Lấy dữ liệu từ database
                 var employees = _context.Employees
                                         .Select(e => new
                                         {
@@ -38,6 +41,8 @@ namespace DOOKKI_APP.Views
                                         })
                                         .ToList();
 
+                // Gán dữ liệu cho DataGridView
+                dgvEmployee.AutoGenerateColumns = true;
                 dgvEmployee.DataSource = employees;
             }
             catch (Exception ex)
@@ -45,6 +50,7 @@ namespace DOOKKI_APP.Views
                 MessageBox.Show("Có lỗi xảy ra khi tải dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void AddEmployee(string employeeName, string phone, string email, decimal amountWage, string position)
         {
@@ -80,7 +86,8 @@ namespace DOOKKI_APP.Views
             {
                 if (dgvEmployee.SelectedRows.Count > 0)
                 {
-                    int employeeId = (int)dgvEmployee.SelectedRows[0].Cells["EmployeeId"].Value;
+                    // Sửa tên cột từ "EmployeeId" thành "Id"
+                    int employeeId = (int)dgvEmployee.SelectedRows[0].Cells["Id"].Value;
 
                     using (var context = new DookkiContext())
                     {
@@ -191,10 +198,10 @@ namespace DOOKKI_APP.Views
         {
             if (dgvEmployee.SelectedRows.Count > 0)
             {
-                // Lấy thông tin từ dòng được chọn
+                // Sửa tên cột từ "EmployeeId" thành "Id"
                 DataGridViewRow row = dgvEmployee.SelectedRows[0];
-                int employeeID = (int)row.Cells["EmployeeID"].Value;
-                string employeeName = row.Cells["EmployeeName"].Value.ToString();
+                int employeeID = (int)row.Cells["Id"].Value;
+                string employeeName = row.Cells["Name"].Value.ToString();
                 string phone = row.Cells["Phone"].Value.ToString();
                 string email = row.Cells["Email"].Value.ToString();
                 decimal amountWage = (decimal)row.Cells["AmountWage"].Value;
@@ -257,5 +264,30 @@ namespace DOOKKI_APP.Views
         {
             Clear_Texbox();
         }
+
+        //private void dgvEmployee_CellClick(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    // Kiểm tra nếu không phải dòng dữ liệu hợp lệ
+        //    if (e.RowIndex < 0 || e.RowIndex >= dgvEmployee.Rows.Count || dgvEmployee.Rows[e.RowIndex].Cells["Id"].Value == null)
+        //        return;
+
+        //    try
+        //    {
+        //        // Lấy dòng hiện tại từ DataGridView
+        //        DataGridViewRow selectedRow = dgvEmployee.Rows[e.RowIndex];
+
+        //        // Gán dữ liệu từ dòng vào các TextBox
+        //        txtID.Text = selectedRow.Cells["Id"].Value.ToString();
+        //        txtName.Text = selectedRow.Cells["Name"].Value.ToString();
+        //        txtPhoneNum.Text = selectedRow.Cells["Phone"].Value.ToString();
+        //        txtEmail.Text = selectedRow.Cells["Email"].Value.ToString();
+        //        txtWage.Text = selectedRow.Cells["AmountWage"].Value.ToString();
+        //        cmbPosition.Text = selectedRow.Cells["Position"].Value.ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Có lỗi xảy ra khi hiển thị dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
     }
 }
