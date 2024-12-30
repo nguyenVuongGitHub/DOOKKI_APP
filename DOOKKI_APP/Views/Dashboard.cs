@@ -38,13 +38,21 @@ namespace DOOKKI_APP.Views
             bool refreshData = _controller.LoadData(dtpFromDate.Value, dtpToDate.Value);
             if (refreshData)
             {
-                lbTotalRevenue.Text = _controller.totalRevenue.ToString();
-                lbTotalCustomer.Text = _controller.numberCustomer.ToString();
-                lbTotalOrder.Text = _controller.numberOrder.ToString();
+                lbTotalRevenue.Text = _controller.totalRevenue.ToString("N0") + "đ";
+                lbTotalCustomer.Text = _controller.numberCustomer.ToString("N0");
+                lbTotalOrder.Text = _controller.numberOrder.ToString("N0");
 
                 cRevenue.DataSource = _controller.GrossRevenueList;
                 cRevenue.Series[0].XValueMember = "Date";
                 cRevenue.Series[0].YValueMembers = "TotalAmount";
+                cRevenue.ChartAreas[0].AxisY.LabelStyle.Format = "N0";
+                cRevenue.PostPaint += (s, e) =>
+                {
+                    foreach (var label in cRevenue.ChartAreas[0].AxisY.CustomLabels)
+                    {
+                        label.Text += " đ";
+                    }
+                };
                 cRevenue.DataBind();
 
                 dgvTopSeller.DataSource = _controller.TopProductList;
