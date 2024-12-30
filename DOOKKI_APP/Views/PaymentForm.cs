@@ -1,6 +1,8 @@
 ﻿using DOOKKI_APP.Controllers;
 using DOOKKI_APP.Helpers;
 using DOOKKI_APP.Models.Entities;
+using DOOKKI_APP.Services;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,6 +29,8 @@ namespace DOOKKI_APP.Views
         private readonly ExportFile export;
         private readonly DookkiContext _context;
         private readonly int tableID;
+        private readonly Size normalSizeForm = new Size(620, 505);
+        private readonly Size expandSizeForm = new Size(988, 505);
         public PaymentForm(Order order, Payment payment, List<OrderDetail> orderDetails, DookkiContext context, int tableID)
         {
             InitializeComponent();
@@ -42,7 +46,7 @@ namespace DOOKKI_APP.Views
             ticketController = new TicketController(context);
             _context = context;
             this.tableID = tableID;
-        }    
+        }
         private decimal TotalSum()
         {
             decimal sum = 0;
@@ -58,7 +62,7 @@ namespace DOOKKI_APP.Views
         }
         private void UpdateMarkForCustomer()
         {
-            
+
 
             // plus
             int totalSum = int.Parse(TotalSum().ToString());
@@ -70,7 +74,7 @@ namespace DOOKKI_APP.Views
             var cus = (from c in customerController.GetModel()
                        where c.Id == cusId
                        select c).SingleOrDefault();
-            
+
 
             if (cus != null)
             {
@@ -92,9 +96,9 @@ namespace DOOKKI_APP.Views
                 if (order != null)
                 {
                     order.Time = TimeOnly.FromDateTime(DateTime.Now);
-                    var table = _context.Tables.FirstOrDefault(t=>t.Id == tableID);
-                    
-                    
+                    var table = _context.Tables.FirstOrDefault(t => t.Id == tableID);
+
+
                     table.Status = false;
 
                     order.Discount = cbMarks.SelectedIndex;
@@ -204,7 +208,7 @@ namespace DOOKKI_APP.Views
             UpdateValuePayment();
             backgroundWorker.ReportProgress(25);
             //UpdateValueOrder();
-            
+
             backgroundWorker.ReportProgress(50);
             //UpdateValueOrderDetail();
             backgroundWorker.ReportProgress(75);
@@ -231,11 +235,11 @@ namespace DOOKKI_APP.Views
                 string cusPhone = txtCustomerPhone.Text;
 
                 int idCus = (from cus in customerController.GetModel()
-                              where cus.Phone == cusPhone
-                              select cus.Id).Single();
+                             where cus.Phone == cusPhone
+                             select cus.Id).Single();
                 customerID = idCus;
             }
-            OrderControllerSingleton.Instance.CheckOut(orderID, tableID, TotalSum(),customerID);
+            OrderControllerSingleton.Instance.CheckOut(orderID, tableID, TotalSum(), customerID);
             // reset table
 
             this.Close();
@@ -303,5 +307,42 @@ namespace DOOKKI_APP.Views
             Form inputCus = new InputCustomer(_context);
             inputCus.Show();
         }
+
+        private void rdCredit_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rdCredit.Checked) 
+            {
+                if(txtAmount.Text.IsNullOrEmpty())
+                {
+                    return;
+                }
+
+                this.Size = expandSizeForm;
+
+                int random = new Random().Next(0, 3 + 1);
+                pictureBox1.Image = null;
+
+                AdminBankAccount[] adminBankAccounts =
+                {
+                    new AdminBankAccount{accountName = "NGUYEN DINH VUONG", accountNumber = "104877403648", acqId ="970415"},
+                    new AdminBankAccount{accountName = "NGUYEN TRAN CONG LY", accountNumber = "7621929005", acqId ="970418"},
+                    new AdminBankAccount{accountName = "DUONG VO ANH TAI", accountNumber = "1027025103", acqId ="970436"},
+                    new AdminBankAccount{accountName = "NGUYEN QUOC ANH", accountNumber = "7704205224100", acqId ="970405"}
+                };
+                AdminBankAccount theChosenOne = adminBankAccounts[random];
+                VNpayPayment.Instance.CreatePaymentUrl(pictureBox1, theChosenOne.acqId, theChosenOne.accountNumber, theChosenOne.accountName, txtAmount.Text);
+            }
+            else
+            {
+                this.Size = normalSizeForm;
+            }
+        }
     }
+    internal class AdminBankAccount
+    {
+        public string accountName { get; set; }
+        public string acqId { get; set; }
+        public string accountNumber { get; set; }
+    }
+
 }

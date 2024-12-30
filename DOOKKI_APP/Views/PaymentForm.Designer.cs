@@ -30,6 +30,7 @@
         {
             panel1 = new Panel();
             groupBox1 = new GroupBox();
+            pictureBox1 = new PictureBox();
             progressBar1 = new ProgressBar();
             ckbTotal = new CheckBox();
             cbMarks = new ComboBox();
@@ -52,6 +53,7 @@
             backgroundWorker = new System.ComponentModel.BackgroundWorker();
             panel1.SuspendLayout();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -66,6 +68,7 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(pictureBox1);
             groupBox1.Controls.Add(progressBar1);
             groupBox1.Controls.Add(ckbTotal);
             groupBox1.Controls.Add(cbMarks);
@@ -92,6 +95,16 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thanh toán";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.FromArgb(42, 52, 65);
+            pictureBox1.Location = new Point(562, 91);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(295, 293);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 19;
+            pictureBox1.TabStop = false;
             // 
             // progressBar1
             // 
@@ -269,6 +282,7 @@
             rdCredit.TabStop = true;
             rdCredit.Text = "Chuyển khoản";
             rdCredit.UseVisualStyleBackColor = true;
+            rdCredit.CheckedChanged += rdCredit_CheckedChanged;
             // 
             // txtAmount
             // 
@@ -317,6 +331,7 @@
             panel1.ResumeLayout(false);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -344,5 +359,6 @@
         private Label label6;
         private CheckBox ckbTotal;
         private ProgressBar progressBar1;
+        private PictureBox pictureBox1;
     }
 }
