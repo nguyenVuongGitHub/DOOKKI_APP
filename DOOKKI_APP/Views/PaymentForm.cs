@@ -6,9 +6,11 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -330,7 +332,9 @@ namespace DOOKKI_APP.Views
                     new AdminBankAccount{accountName = "NGUYEN QUOC ANH", accountNumber = "7704205224100", acqId ="970405"}
                 };
                 AdminBankAccount theChosenOne = adminBankAccounts[random];
-                VNpayPayment.Instance.CreatePaymentUrl(pictureBox1, theChosenOne.acqId, theChosenOne.accountNumber, theChosenOne.accountName, txtAmount.Text);
+                string message = theChosenOne.HashMessage();
+
+                VNpayPayment.Instance.CreatePaymentUrl(pictureBox1, theChosenOne.acqId, theChosenOne.accountNumber, theChosenOne.accountName, txtAmount.Text, message);
             }
             else
             {
@@ -343,6 +347,20 @@ namespace DOOKKI_APP.Views
         public string accountName { get; set; }
         public string acqId { get; set; }
         public string accountNumber { get; set; }
+        public string HashMessage()
+        {
+            int length = 10;
+            StringBuilder hashMessage = new StringBuilder(length);
+            Random random = new Random();
+            string combined = accountName + acqId + accountNumber;
+            for (int i = 0; i < length; i++)
+            {
+                int randomIndex = random.Next(0, combined.Length);
+                hashMessage.Append(combined[randomIndex]);
+            }
+            
+            return hashMessage.ToString();
+        }
     }
 
 }
