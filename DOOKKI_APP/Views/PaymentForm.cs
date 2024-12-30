@@ -26,9 +26,8 @@ namespace DOOKKI_APP.Views
         private readonly TicketController ticketController;
         private readonly ExportFile export;
         private readonly DookkiContext _context;
-        private readonly MainForm _manageOrders;
-        private readonly TableForm _tableForm;
-        public PaymentForm(Order order, Payment payment, List<OrderDetail> orderDetails, DookkiContext context, MainForm manageOrders, TableForm tableForm)
+        private readonly int tableID;
+        public PaymentForm(Order order, Payment payment, List<OrderDetail> orderDetails, DookkiContext context, int tableID)
         {
             InitializeComponent();
             this.order = order;
@@ -42,30 +41,8 @@ namespace DOOKKI_APP.Views
             export = new ExportFile(context);
             ticketController = new TicketController(context);
             _context = context;
-            _manageOrders = manageOrders;
-            _tableForm = tableForm;
-        }
-        public PaymentForm(DookkiContext context, MainForm manageOrders, TableForm tableForm)
-        {
-            InitializeComponent();
-            // get data
-            order = new Order();
-            payment = new Payment();
-            orderDetails = new List<OrderDetail>();
-            accountController = new AccountController(context);
-            customerController = new CustomerController(context);
-            paymentController = new PaymentController(context);
-            orderController = new OrderController(context);
-            orderDetailController = new OrderDetailController(context);
-            export = new ExportFile(context);
-            ticketController = new TicketController(context);
-            _context = context;
-            _manageOrders = manageOrders;
-            _tableForm = tableForm;
-
-
-
-        }
+            this.tableID = tableID;
+        }    
         private decimal TotalSum()
         {
             decimal sum = 0;
@@ -115,29 +92,11 @@ namespace DOOKKI_APP.Views
                 if (order != null)
                 {
                     order.Time = TimeOnly.FromDateTime(DateTime.Now);
-                    // had account
-                    if (ckbHadAccount.Checked)
-                    {
-                        string cusPhone = txtCustomerPhone.Text;
+                    var table = _context.Tables.FirstOrDefault(t=>t.Id == tableID);
+                    
+                    
+                    table.Status = false;
 
-                        int? idCus = (from cus in customerController.GetModel()
-                                      where cus.Phone == cusPhone
-                                      select cus.Id).SingleOrDefault();
-
-                        if (idCus != null)
-                        {
-                            order.CustomerId = idCus;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Không tìm thấy khách hàng");
-                        }
-
-                    }
-                    else // no account
-                    {
-                        order.CustomerId = 0;
-                    }
                     order.Discount = cbMarks.SelectedIndex;
                     orderController.Add(order);
                     orderController.SaveChanges();
@@ -244,9 +203,10 @@ namespace DOOKKI_APP.Views
         {
             UpdateValuePayment();
             backgroundWorker.ReportProgress(25);
-            UpdateValueOrder();
+            //UpdateValueOrder();
+            
             backgroundWorker.ReportProgress(50);
-            UpdateValueOrderDetail();
+            //UpdateValueOrderDetail();
             backgroundWorker.ReportProgress(75);
             UpdateMarkForCustomer();
             backgroundWorker.ReportProgress(90);
@@ -257,11 +217,27 @@ namespace DOOKKI_APP.Views
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             MessageBox.Show("Xuất bill thành công");
-            _manageOrders.TableOrders.Remove(ShareData.TableName);
-            _manageOrders.TableStatus[ShareData.TableName] = false; // Mark the original table as free
-            _tableForm.UpdateTableStatus(ShareData.TableName, false);
-            _tableForm.ClearTable();
-            ShareData.TableName = "";
+            //_manageOrders.TableOrders.Remove(ShareData.TableName);
+            //_manageOrders.TableStatus[ShareData.TableName] = false; // Mark the original table as free
+            //_tableForm.UpdateTableStatus(ShareData.TableName, false);
+            //_tableForm.ClearTable();
+            //ShareData.TableName = "";
+            int orderID = OrderControllerSingleton.Instance.GetUncheckOrderByTableID(tableID);
+            int customerID = 0;
+
+            // had account
+            if (ckbHadAccount.Checked)
+            {
+                string cusPhone = txtCustomerPhone.Text;
+
+                int idCus = (from cus in customerController.GetModel()
+                              where cus.Phone == cusPhone
+                              select cus.Id).Single();
+                customerID = idCus;
+            }
+            OrderControllerSingleton.Instance.CheckOut(orderID, tableID, TotalSum(),customerID);
+            // reset table
+
             this.Close();
         }
 

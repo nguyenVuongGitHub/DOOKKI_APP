@@ -162,8 +162,8 @@ namespace DOOKKI_APP.Views
                     orderDetails.Add(orderDetail);
                 }
                 //open form payment
-                Form paymentForm = new PaymentForm(new Order(), new Payment(), orderDetails, _context, _manageOrders, this);
-                paymentForm.Show();
+                //Form paymentForm = new PaymentForm(new Order(), new Payment(), orderDetails, _context, _manageOrders, this);
+                //paymentForm.Show();
             }
         }
 

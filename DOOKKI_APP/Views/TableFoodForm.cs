@@ -1,5 +1,7 @@
 ﻿using DOOKKI_APP.Controllers;
+using DOOKKI_APP.Models;
 using DOOKKI_APP.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,9 +17,11 @@ namespace DOOKKI_APP.Views
 {
     public partial class TableFoodForm : Form
     {
-        public TableFoodForm()
+        DookkiContext _context;
+        public TableFoodForm(DookkiContext context)
         {
             InitializeComponent();
+            _context = context;
         }
 
         private void TableFoodForm_Load(object sender, EventArgs e)
@@ -110,7 +114,7 @@ namespace DOOKKI_APP.Views
             lsvOrder.Items.Clear();
 
             foreach (var item in menuItems)
-            {
+            {   
                 ListViewItem lsvItem = new ListViewItem(item.Name.ToString());
                 lsvItem.SubItems.Add(item.Quantity.ToString());
                 lsvItem.SubItems.Add(item.Price.ToString());
@@ -158,9 +162,11 @@ namespace DOOKKI_APP.Views
             {
                 if (result == DialogResult.OK)
                 {
-                    OrderControllerSingleton.Instance.CheckOut(orderID, table.Id, (decimal)totalPrice);
-                    ShowOrder(table.Id);
-                    LoadTables();
+                    List<OrderDetail> orderDetails = OrderControllerSingleton.Instance.GetOrderDetails(table.Id);
+                    //open form payment
+                    Form paymentForm = new PaymentForm(new Order(), new Payment(), orderDetails, _context, table.Id);
+                    paymentForm.Show();
+
                 }
             }
         }

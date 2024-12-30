@@ -140,7 +140,7 @@ namespace DOOKKI_APP.Controllers
             }
         }
 
-        public void CheckOut(int id, int tableID, decimal totalPrice)
+        public void CheckOut(int id, int tableID, decimal totalPrice, int customerID)
         {
             using (var context = new DookkiContext())
             {
@@ -154,6 +154,7 @@ namespace DOOKKI_APP.Controllers
                     {
                         order.Status = 1;
                         order.Total = totalPrice;
+                        order.CustomerId = customerID;
                         table.Status = false;
                         context.SaveChanges();
                     }
@@ -184,6 +185,29 @@ namespace DOOKKI_APP.Controllers
                 }
             }
         }
+        
+        public List<OrderDetail> GetOrderDetails(int idTable)
+        {
+            using (var context = new DookkiContext())
+            {
+                var menuItems = GetMenuItem(idTable);
+                decimal totalPrice = 0;
+                List<OrderDetail> orderDetails = new List<OrderDetail>();
+                
+                foreach (var item in menuItems)
+                {
+                    OrderDetail orderDetail = new OrderDetail();
 
+                    orderDetail.Quantily = item.Quantity;
+                    int ticketID = (from ti in context.Tickets
+                                    where ti.Name == item.Name
+                                    select ti.Id).SingleOrDefault();
+                    orderDetail.TicketId = ticketID;
+
+                    orderDetails.Add(orderDetail);
+                }
+                return orderDetails;
+            }
+        }
     }
 }

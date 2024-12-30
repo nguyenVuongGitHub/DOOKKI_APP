@@ -136,12 +136,15 @@
             // btnSearch
             // 
             btnSearch.AutoSize = true;
+            btnSearch.BackColor = Color.FromArgb(42, 52, 65);
+            btnSearch.FlatStyle = FlatStyle.Flat;
+            btnSearch.ForeColor = Color.White;
             btnSearch.Location = new Point(406, 218);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(75, 35);
+            btnSearch.Size = new Size(75, 37);
             btnSearch.TabIndex = 14;
             btnSearch.Text = "Tìm";
-            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.UseVisualStyleBackColor = false;
             btnSearch.Visible = false;
             btnSearch.Click += btnSearch_Click;
             // 
@@ -186,12 +189,15 @@
             // btnCreateAccount
             // 
             btnCreateAccount.AutoSize = true;
+            btnCreateAccount.BackColor = Color.FromArgb(42, 52, 65);
+            btnCreateAccount.FlatStyle = FlatStyle.Flat;
+            btnCreateAccount.ForeColor = Color.White;
             btnCreateAccount.Location = new Point(336, 347);
             btnCreateAccount.Name = "btnCreateAccount";
-            btnCreateAccount.Size = new Size(173, 35);
+            btnCreateAccount.Size = new Size(175, 37);
             btnCreateAccount.TabIndex = 9;
             btnCreateAccount.Text = "Tạo tài khoản mới";
-            btnCreateAccount.UseVisualStyleBackColor = true;
+            btnCreateAccount.UseVisualStyleBackColor = false;
             btnCreateAccount.Click += btnCreateAccount_Click;
             // 
             // ckbHadAccount
@@ -217,23 +223,29 @@
             // btnCancel
             // 
             btnCancel.AutoSize = true;
+            btnCancel.BackColor = Color.FromArgb(42, 52, 65);
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.ForeColor = Color.White;
             btnCancel.Location = new Point(134, 347);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(91, 35);
+            btnCancel.Size = new Size(91, 37);
             btnCancel.TabIndex = 6;
             btnCancel.Text = "Hủy";
-            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.UseVisualStyleBackColor = false;
             btnCancel.Click += btnCancel_Click;
             // 
             // btnAccept
             // 
             btnAccept.AutoSize = true;
+            btnAccept.BackColor = Color.FromArgb(42, 52, 65);
+            btnAccept.FlatStyle = FlatStyle.Flat;
+            btnAccept.ForeColor = Color.White;
             btnAccept.Location = new Point(18, 347);
             btnAccept.Name = "btnAccept";
-            btnAccept.Size = new Size(91, 35);
+            btnAccept.Size = new Size(93, 37);
             btnAccept.TabIndex = 5;
             btnAccept.Text = "Xuất bill";
-            btnAccept.UseVisualStyleBackColor = true;
+            btnAccept.UseVisualStyleBackColor = false;
             btnAccept.Click += btnAccept_Click;
             // 
             // rdCash

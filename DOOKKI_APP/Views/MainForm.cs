@@ -32,7 +32,8 @@ namespace DOOKKI_APP.Views
             _context = context;
             _serviceProvider = serviceProvider;
             //openChildForm(new TableForm(_context, this));
-            openChildForm(new TableFoodForm());
+
+            openChildForm(new TableFoodForm(_context));
         }
 
         private Form currentFormChild;
@@ -71,7 +72,7 @@ namespace DOOKKI_APP.Views
         {
             menuTransition.Start();
             //openChildForm(new TableForm(_context, this));
-            openChildForm(new TableFoodForm());
+            openChildForm(new TableFoodForm(_context));
         }
 
         //Mở form con
