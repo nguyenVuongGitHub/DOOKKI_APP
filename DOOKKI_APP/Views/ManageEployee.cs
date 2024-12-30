@@ -28,7 +28,6 @@ namespace DOOKKI_APP.Views
         {
             try
             {
-                // Lấy dữ liệu từ database
                 var employees = _context.Employees
                                         .Select(e => new
                                         {
@@ -41,7 +40,6 @@ namespace DOOKKI_APP.Views
                                         })
                                         .ToList();
 
-                // Gán dữ liệu cho DataGridView
                 dgvEmployee.AutoGenerateColumns = true;
                 dgvEmployee.DataSource = employees;
             }
@@ -50,6 +48,66 @@ namespace DOOKKI_APP.Views
                 MessageBox.Show("Có lỗi xảy ra khi tải dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private bool ValidateInput()
+        {
+            bool isValid = true;
+
+            // Xóa các lỗi cũ
+            errorProvider.Clear();
+
+            // Kiểm tra tên nhân viên
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                errorProvider.SetError(txtName, "Vui lòng nhập tên nhân viên.");
+                isValid = false;
+            }
+
+            // Kiểm tra số điện thoại
+            if (string.IsNullOrWhiteSpace(txtPhoneNum.Text))
+            {
+                errorProvider.SetError(txtPhoneNum, "Vui lòng nhập số điện thoại.");
+                isValid = false;
+            }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(txtPhoneNum.Text, @"^\d{10}$"))
+            {
+                errorProvider.SetError(txtPhoneNum, "Số điện thoại phải là 10 chữ số.");
+                isValid = false;
+            }
+
+            // Kiểm tra email
+            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            {
+                errorProvider.SetError(txtEmail, "Vui lòng nhập email.");
+                isValid = false;
+            }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                errorProvider.SetError(txtEmail, "Email không hợp lệ. Vui lòng nhập đúng định dạng.");
+                isValid = false;
+            }
+
+            // Kiểm tra mức lương
+            if (string.IsNullOrWhiteSpace(txtWage.Text))
+            {
+                errorProvider.SetError(txtWage, "Vui lòng nhập mức lương.");
+                isValid = false;
+            }
+            else if (!decimal.TryParse(txtWage.Text, out decimal wage) || wage <= 0)
+            {
+                errorProvider.SetError(txtWage, "Mức lương phải là một số dương.");
+                isValid = false;
+            }
+
+            // Kiểm tra vị trí
+            if (string.IsNullOrWhiteSpace(cmbPosition.Text))
+            {
+                errorProvider.SetError(cmbPosition, "Vui lòng chọn vị trí.");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
 
 
         private void AddEmployee(string employeeName, string phone, string email, decimal amountWage, string position)
@@ -171,6 +229,11 @@ namespace DOOKKI_APP.Views
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            if (!ValidateInput())
+            {
+                return;
+            }
+
             string employeeName = txtName.Text;
             string phone = txtPhoneNum.Text;
             string email = txtEmail.Text;
@@ -191,11 +254,17 @@ namespace DOOKKI_APP.Views
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            if (!ValidateInput())
+            {
+                return;
+            }
+
             RemoveEmployee();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+
             if (dgvEmployee.SelectedRows.Count > 0)
             {
                 // Sửa tên cột từ "EmployeeId" thành "Id"
@@ -231,6 +300,11 @@ namespace DOOKKI_APP.Views
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            if (!ValidateInput())
+            {
+                return;
+            }
+
             int employeeID = int.Parse(txtID.Text);
             string employeeName = txtName.Text;
             string phone = txtPhoneNum.Text;
@@ -262,6 +336,8 @@ namespace DOOKKI_APP.Views
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            errorProvider.Clear();
+
             Clear_Texbox();
         }
 

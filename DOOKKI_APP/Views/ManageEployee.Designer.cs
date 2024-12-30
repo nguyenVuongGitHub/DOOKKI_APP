@@ -53,9 +53,11 @@
             label5 = new Label();
             label3 = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
+            errorProvider = new ErrorProvider(components);
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvEmployee).BeginInit();
             panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
             // panel3
@@ -231,7 +233,7 @@
             // 
             txtWage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtWage.Font = new Font("Segoe UI", 14F);
-            txtWage.Location = new Point(782, 93);
+            txtWage.Location = new Point(745, 93);
             txtWage.Margin = new Padding(3, 2, 3, 2);
             txtWage.Name = "txtWage";
             txtWage.Size = new Size(200, 32);
@@ -252,7 +254,7 @@
             cmbPosition.Font = new Font("Segoe UI", 14F);
             cmbPosition.FormattingEnabled = true;
             cmbPosition.Items.AddRange(new object[] { "staff", "chef", "cashier" });
-            cmbPosition.Location = new Point(782, 50);
+            cmbPosition.Location = new Point(745, 50);
             cmbPosition.Margin = new Padding(3, 2, 3, 2);
             cmbPosition.Name = "cmbPosition";
             cmbPosition.Size = new Size(200, 33);
@@ -271,7 +273,7 @@
             // 
             txtName.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtName.Font = new Font("Segoe UI", 14F);
-            txtName.Location = new Point(782, 5);
+            txtName.Location = new Point(745, 5);
             txtName.Margin = new Padding(3, 2, 3, 2);
             txtName.Name = "txtName";
             txtName.Size = new Size(200, 32);
@@ -346,6 +348,10 @@
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new Size(61, 4);
             // 
+            // errorProvider
+            // 
+            errorProvider.ContainerControl = this;
+            // 
             // ManageEployee
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -360,6 +366,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvEmployee).EndInit();
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
             ResumeLayout(false);
         }
 
@@ -385,5 +392,6 @@
         private Button btnEdit;
         private Button btnAdd;
         private ContextMenuStrip contextMenuStrip1;
+        private ErrorProvider errorProvider;
     }
 }
