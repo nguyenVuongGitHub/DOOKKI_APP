@@ -180,8 +180,30 @@ namespace DOOKKI_APP.Controllers
                 var orderDetail = context.OrderDetails.FirstOrDefault(od => od.OrderId == orderID && od.TicketId == ticketID);
                 if (orderDetail != null)
                 {
+                    //context.OrderDetails.Remove(orderDetail);
                     orderDetail.IsActive = false;
                     context.SaveChanges();
+
+                    // Kiểm tra xem Order còn món nào không
+                    bool hasOrderDetails = context.OrderDetails.Any(od => od.OrderId == orderID && od.IsActive == true);
+
+                    if (!hasOrderDetails)
+                    {
+                        // Nếu Order không còn món nào, cập nhật trạng thái bàn về "Trống"
+                        var order = context.Orders.FirstOrDefault(o => o.Id == orderID);
+                        if (order != null)
+                        {
+                            var table = context.Tables.FirstOrDefault(t => t.Id == order.TableId);
+                            if (table != null)
+                            {
+                                table.Status = false; // Đặt trạng thái bàn về "Trống"
+                                context.SaveChanges();
+                            }
+                        }
+                    }
+                }
+            }
+        }
                 }
             }
         }

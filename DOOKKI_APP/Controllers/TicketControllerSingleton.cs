@@ -38,6 +38,5 @@ namespace DOOKKI_APP.Controllers
                 return ticket?.Id ?? 0;
             }
         }
-
     }
 }

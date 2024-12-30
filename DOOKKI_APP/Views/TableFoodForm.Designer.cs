@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             panel2 = new Panel();
             panel3 = new Panel();
+            lblTable = new Label();
             txtTotalPrice = new TextBox();
             btnSwitchTable = new Button();
             btnCharge = new Button();
@@ -69,6 +70,7 @@
             // 
             // panel3
             // 
+            panel3.Controls.Add(lblTable);
             panel3.Controls.Add(txtTotalPrice);
             panel3.Controls.Add(btnSwitchTable);
             panel3.Controls.Add(btnCharge);
@@ -80,11 +82,22 @@
             panel3.Size = new Size(340, 130);
             panel3.TabIndex = 2;
             // 
+            // lblTable
+            // 
+            lblTable.BackColor = Color.FromArgb(32, 184, 111);
+            lblTable.ForeColor = Color.White;
+            lblTable.Location = new Point(120, 20);
+            lblTable.Name = "lblTable";
+            lblTable.Size = new Size(110, 27);
+            lblTable.TabIndex = 17;
+            lblTable.Text = "Bàn 1";
+            lblTable.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // txtTotalPrice
             // 
             txtTotalPrice.BackColor = Color.WhiteSmoke;
             txtTotalPrice.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtTotalPrice.Location = new Point(122, 44);
+            txtTotalPrice.Location = new Point(120, 72);
             txtTotalPrice.Name = "txtTotalPrice";
             txtTotalPrice.ReadOnly = true;
             txtTotalPrice.Size = new Size(110, 23);
@@ -197,6 +210,7 @@
             // 
             nmProductQuantity.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             nmProductQuantity.Location = new Point(146, 22);
+            nmProductQuantity.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nmProductQuantity.Name = "nmProductQuantity";
             nmProductQuantity.Size = new Size(44, 25);
             nmProductQuantity.TabIndex = 18;
@@ -220,6 +234,7 @@
             // 
             // cbTicket
             // 
+            cbTicket.DropDownStyle = ComboBoxStyle.DropDownList;
             cbTicket.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbTicket.FormattingEnabled = true;
             cbTicket.Location = new Point(13, 61);
@@ -229,6 +244,7 @@
             // 
             // cbCategory
             // 
+            cbCategory.DropDownStyle = ComboBoxStyle.DropDownList;
             cbCategory.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbCategory.FormattingEnabled = true;
             cbCategory.Location = new Point(13, 21);
@@ -285,5 +301,6 @@
         private ColumnHeader columnHeader4;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem xóaToolStripMenuItem;
+        private Label lblTable;
     }
 }
