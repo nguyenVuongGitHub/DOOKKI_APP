@@ -214,6 +214,8 @@ namespace DOOKKI_APP.Views
             backgroundWorker.ReportProgress(100);
         }
 
+        public event Action OnPaymentCompleted;
+
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             MessageBox.Show("Xuất bill thành công");
@@ -237,6 +239,7 @@ namespace DOOKKI_APP.Views
             }
             OrderControllerSingleton.Instance.CheckOut(orderID, tableID, TotalSum(),customerID);
             // reset table
+            OnPaymentCompleted.Invoke(); // Invoke là khi sự kiện được gọi, nó sẽ kích hoạt tất cả các phương thức showorder và loadtable
 
             this.Close();
         }
