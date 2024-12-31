@@ -167,8 +167,13 @@ namespace DOOKKI_APP.Views
                 {
                     List<OrderDetail> orderDetails = OrderControllerSingleton.Instance.GetOrderDetails(table.Id);
                     //open form payment
-                    Form paymentForm = new PaymentForm(new Order(), new Payment(), orderDetails, _context, table.Id);
-                    paymentForm.Show();
+                    PaymentForm paymentForm = new PaymentForm(new Order(), new Payment(), orderDetails, _context, table.Id);
+                    paymentForm.OnPaymentCompleted += () =>
+                    {
+                        ShowOrder(table.Id);
+                        LoadTables();
+                    };
+                    paymentForm.ShowDialog();
 
                 }
             }
