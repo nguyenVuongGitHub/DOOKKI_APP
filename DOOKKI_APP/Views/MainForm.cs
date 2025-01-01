@@ -78,8 +78,15 @@ namespace DOOKKI_APP.Views
         //Mở form con
         private void btnEmployee_Click(object sender, EventArgs e)
         {
-            menuTransition.Start();
-            openChildForm(new ManageEployee(_context));
+            if (User.Role == Roles.admin)
+            {
+                menuTransition.Start();
+                openChildForm(new ManageEployee(_context));
+            }
+            else
+            {
+                MessageBox.Show("Bạn ko có quyền truy cập vào đây", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         //Mở form con
