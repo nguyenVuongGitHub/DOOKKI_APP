@@ -13,6 +13,7 @@ using Spire.Doc.Documents;
 using Spire.Doc.Fields;
 using Spire.Doc.Collections;
 using static DOOKKI_APP.Helpers.DashboardHelper;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace DOOKKI_APP.Helpers
@@ -40,7 +41,7 @@ namespace DOOKKI_APP.Helpers
         /// </summary>
         /// <param name="order"></param>
         /// <returns> true if successful</returns>
-        public bool ExportToPDF(Order order)
+        public bool ExportToPDF(Order order, int discount)
         {
             try
             {
@@ -49,20 +50,31 @@ namespace DOOKKI_APP.Helpers
                 document.LoadFromFile(fileTemplateBill);
 
 
-                var query = (from od in _context.OrderDetails
-                             join o in _context.Orders on od.OrderId equals o.Id
-                             join t in _context.Tickets on od.TicketId equals t.Id
-                             join p in _context.Payments on od.PaymentId equals p.Id
-                             join pm in _context.PaymentMethods on p.PaymentMethodId equals pm.Id
-                             where o.Id == order.Id
-                             select new
+                var query = _context.OrderDetails
+                             .Include(o => o.Order)
+                             .ThenInclude(c => c.Customer)
+                             .Include(o => o.Ticket)
+                             .Include(o => o.Payment)
+                             .ThenInclude(p => p.PaymentMethod)
+                             .Where(x => x.OrderId == order.Id)
+                             .Select(x => new
                              {
-                                 Ticket = t,
-                                 Payment = p,
-                                 PaymentMethod = pm,
-                                 OrderDetail = od,
-                             }).ToList();
+                                 x.Ticket,
+                                 x.Payment,
+                                 x.Order,
+                                 x.Payment.PaymentMethod,
+                                 x.Order.Customer,
+                                 Quantily = x.Quantily
+                             })
+                             .ToList();
 
+
+
+                if (query.Count() <= 0)
+                {
+                    MessageBox.Show("querry 0");
+                    return false;
+                }    
 
                 var firstOrder = query.FirstOrDefault();
                 if (firstOrder == null) return false;
@@ -71,11 +83,11 @@ namespace DOOKKI_APP.Helpers
 
                 document.Replace("{EmployeeName}", User.Name, false, true);
                 document.Replace("{Date}", query.ElementAt(0).Payment.Day.ToString(), false, true);
-                document.Replace("{CustomerName}", order?.Customer?.Name ?? string.Empty, false, true);
+                document.Replace("{CustomerName}", query.ElementAt(0).Customer?.Name ?? string.Empty, false, true);
                 document.Replace("{PaymentMethod}", query.ElementAt(0).PaymentMethod.Name, false, true);
 
                 // Calculate total bill
-                decimal totalBill = query.Sum(item => item.Ticket.Price * item.OrderDetail.Quantily);
+                decimal totalBill = query.Sum(item => item.Ticket.Price * item.Quantily);
 
 
                 TextSelection selection = document.FindString("{OrderDetails}", true, true);
@@ -85,7 +97,7 @@ namespace DOOKKI_APP.Helpers
 
                 // Create a table
                 Spire.Doc.Table tableOrderDetails = section.AddTable(true);
-                tableOrderDetails.ResetCells(query.Count + 1, 3); // Set number of rows and columns
+                tableOrderDetails.ResetCells(query.Count() + 1, 3); // Set number of rows and columns
                 tableOrderDetails.TableFormat.HorizontalAlignment = RowAlignment.Center;
                 foreach (TableRow row in tableOrderDetails.Rows)
                 {
@@ -132,11 +144,11 @@ namespace DOOKKI_APP.Helpers
                 foreach (var item in query)
                 {
                     string ticketName = item.Ticket.Name;
-                    string quantity = item.OrderDetail.Quantily.ToString();
+                    string quantity = item.Quantily.ToString();
                     string price = item.Ticket.Price.ToString("#,##0 VND");
 
                     // Tính tổng
-                    totalBill += item.Ticket.Price * item.OrderDetail.Quantily;
+                    //totalBill += item.Ticket.Price * item.OrderDetail.Quantily;
 
                     // ticket name
                     para = tableOrderDetails.Rows[rowTable].Cells[0].AddParagraph();
@@ -179,7 +191,7 @@ namespace DOOKKI_APP.Helpers
 
 
                 // Tính toán phần trăm giảm giá dựa trên giá trị của Discount
-                decimal discountRate = order?.Discount switch
+                decimal discountRate = discount switch
                 {
                     1 => 0.05m,
                     2 => 0.20m,
