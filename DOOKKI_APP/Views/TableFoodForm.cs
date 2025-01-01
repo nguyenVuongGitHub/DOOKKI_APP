@@ -135,7 +135,7 @@ namespace DOOKKI_APP.Views
             // Lay table
             Table table = lsvOrder.Tag as Table;
             //Lay id cua order dua vao id cua table
-            int orderID = OrderControllerSingleton.Instance.GetUncheckOrderByTableID(table.Id);
+            int orderID = OrderControllerSingleton.Instance.GetIDUncheckOrderByTableID(table.Id);
             int ticketID = (cbTicket.SelectedItem as Ticket).Id;
             int quantity = (int)nmProductQuantity.Value;
 
@@ -157,7 +157,7 @@ namespace DOOKKI_APP.Views
         {
             Table table = lsvOrder.Tag as Table;
 
-            int orderID = OrderControllerSingleton.Instance.GetUncheckOrderByTableID(table.Id);
+            int orderID = OrderControllerSingleton.Instance.GetIDUncheckOrderByTableID(table.Id);
             double totalPrice = Convert.ToDouble(txtTotalPrice.Text.Split('.')[0]);
             DialogResult result = MessageBox.Show("Bạn có chắc thanh toán hóa đơn cho bàn " + table.Name, "Thông báo", MessageBoxButtons.OKCancel);
 
