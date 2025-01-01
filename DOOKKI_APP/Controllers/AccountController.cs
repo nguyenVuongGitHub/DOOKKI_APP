@@ -16,7 +16,7 @@ namespace DOOKKI_APP.Controllers
         public AccountController(DookkiContext context)
         {
             _context = context;
-            query = _context.Accounts;
+            query = _context.Accounts.Where(a =>a .IsActive == true);
         }
         public override void Add(Account element)
         {
