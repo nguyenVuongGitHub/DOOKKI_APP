@@ -43,8 +43,7 @@ namespace DOOKKI_APP.Views
             .OrderBy(e => e.Id)
             .Select(e => new
             {
-                e.Id,    
-                e.Name,
+                e.Id
             })
             .ToList();
 
@@ -56,6 +55,8 @@ namespace DOOKKI_APP.Views
         {
             cmbPageSize.SelectedIndex = 1;
             CmbEmployeeID.SelectedIndex = -1;
+            cmbFilterMonth.SelectedIndex = 1;
+            txtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
             txtName.Text = string.Empty;
             txtPhone.Text = string.Empty;
             txtPhone.Text = string.Empty;
@@ -78,10 +79,8 @@ namespace DOOKKI_APP.Views
             })
             .ToList();
 
-            // Tính tổng số trang
             totalPages = (int)Math.Ceiling((double)workTimeData.Count / pageSize);
 
-            // Lấy dữ liệu cho trang hiện tại
             var pagedData = workTimeData
                 .Skip((currentPage - 1) * pageSize)
                 .Take(pageSize)
@@ -376,15 +375,29 @@ namespace DOOKKI_APP.Views
                 workTimeData = workTimeData
                     .Where(dw => dw.Date.HasValue && dw.Date.Value == DateOnly.FromDateTime(DateTime.Today))
                     .ToList();
+                txtDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+            }
+            else if (cmbFilterMonth.SelectedItem.ToString() == "Tất cả")
+            {
+                workTimeData = workTimeData.ToList();
+                txtDate.Text = "Tất cả các ngày";
             }
             else
             {
-                int month = cmbFilterMonth.SelectedIndex;
+                int month = cmbFilterMonth.SelectedIndex - 1;
                 workTimeData = workTimeData
                     .Where(dw => dw.Date.HasValue && dw.Date.Value.Month == month)
                     .ToList();
+                txtDate.Text = $"{new DateTime(DateTime.Now.Year, month, 1).ToString("dd/MM/yyyy")} - {new DateTime(DateTime.Now.Year, month, DateTime.DaysInMonth(DateTime.Now.Year, month)).ToString("dd/MM/yyyy")}";
             }
-
+            if(workTimeData.Count <=0)
+            {
+                currentPage = 0;
+            }
+            else
+            {
+                currentPage = 1;
+            }
             totalPages = (int)Math.Ceiling((double)workTimeData.Count / pageSize);
 
             var pagedData = workTimeData
@@ -400,7 +413,6 @@ namespace DOOKKI_APP.Views
             dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Thời gian làm", DataPropertyName = "TotalTime" });
 
             dgvWorkTime.DataSource = pagedData;
-
             lblPageInfo.Text = $"Trang {currentPage}/{totalPages}";
         }
 

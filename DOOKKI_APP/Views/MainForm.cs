@@ -73,7 +73,6 @@ namespace DOOKKI_APP.Views
         //Mở form con
         private void btnTable_Click(object sender, EventArgs e)
         {
-            employeeTransition.Start();
             //openChildForm(new TableForm(_context, this));
             openChildForm(new TableFoodForm(_context));
         }

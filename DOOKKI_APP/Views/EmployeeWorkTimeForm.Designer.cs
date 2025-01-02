@@ -29,12 +29,16 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             panel1 = new Panel();
             panel6 = new Panel();
+            label4 = new Label();
+            txtDate = new Guna.UI2.WinForms.Guna2TextBox();
             panel8 = new Panel();
             btn_Import = new Button();
             btn_Export = new Button();
@@ -98,6 +102,8 @@
             // 
             panel6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel6.BackColor = Color.WhiteSmoke;
+            panel6.Controls.Add(label4);
+            panel6.Controls.Add(txtDate);
             panel6.Controls.Add(panel8);
             panel6.Controls.Add(lblPageInfo);
             panel6.Controls.Add(label3);
@@ -110,6 +116,37 @@
             panel6.Name = "panel6";
             panel6.Size = new Size(614, 566);
             panel6.TabIndex = 3;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 14.25F);
+            label4.Location = new Point(12, 22);
+            label4.Name = "label4";
+            label4.Size = new Size(155, 25);
+            label4.TabIndex = 9;
+            label4.Text = "Ngày đang chọn:";
+            // 
+            // txtDate
+            // 
+            txtDate.CustomizableEdges = customizableEdges1;
+            txtDate.DefaultText = "";
+            txtDate.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txtDate.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txtDate.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txtDate.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txtDate.Enabled = false;
+            txtDate.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtDate.Font = new Font("Segoe UI", 9F);
+            txtDate.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtDate.Location = new Point(167, 17);
+            txtDate.Name = "txtDate";
+            txtDate.PasswordChar = '\0';
+            txtDate.PlaceholderText = "";
+            txtDate.SelectedText = "";
+            txtDate.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            txtDate.Size = new Size(178, 36);
+            txtDate.TabIndex = 15;
             // 
             // panel8
             // 
@@ -245,7 +282,7 @@
             cmbFilterMonth.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cmbFilterMonth.Font = new Font("Segoe UI", 14.25F);
             cmbFilterMonth.FormattingEnabled = true;
-            cmbFilterMonth.Items.AddRange(new object[] { "Hôm nay", "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" });
+            cmbFilterMonth.Items.AddRange(new object[] { "Tất cả", "Hôm nay", "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" });
             cmbFilterMonth.Location = new Point(407, 4);
             cmbFilterMonth.Name = "cmbFilterMonth";
             cmbFilterMonth.Size = new Size(171, 33);
@@ -341,7 +378,7 @@
             // btnUpdateWorkTime
             // 
             btnUpdateWorkTime.BackColor = Color.FromArgb(42, 52, 65);
-            btnUpdateWorkTime.CustomizableEdges = customizableEdges1;
+            btnUpdateWorkTime.CustomizableEdges = customizableEdges3;
             btnUpdateWorkTime.DisabledState.BorderColor = Color.DarkGray;
             btnUpdateWorkTime.DisabledState.CustomBorderColor = Color.DarkGray;
             btnUpdateWorkTime.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -352,7 +389,7 @@
             btnUpdateWorkTime.ForeColor = Color.White;
             btnUpdateWorkTime.Location = new Point(263, 7);
             btnUpdateWorkTime.Name = "btnUpdateWorkTime";
-            btnUpdateWorkTime.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnUpdateWorkTime.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnUpdateWorkTime.Size = new Size(87, 38);
             btnUpdateWorkTime.TabIndex = 2;
             btnUpdateWorkTime.Text = "Sửa";
@@ -400,9 +437,9 @@
             label1.Font = new Font("Segoe UI", 14.25F);
             label1.Location = new Point(16, 215);
             label1.Name = "label1";
-            label1.Size = new Size(60, 25);
+            label1.Size = new Size(96, 25);
             label1.TabIndex = 8;
-            label1.Text = "Ngày:";
+            label1.Text = "Ngày làm:";
             // 
             // dateTimePicker
             // 
@@ -577,5 +614,7 @@
         private ToolStripMenuItem xóaToolStripMenuItem;
         private ToolStripMenuItem sửaToolStripMenuItem;
         private Guna.UI2.WinForms.Guna2Button btnUpdateWorkTime;
+        private Label label4;
+        private Guna.UI2.WinForms.Guna2TextBox txtDate;
     }
 }
