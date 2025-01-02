@@ -34,7 +34,8 @@ namespace DOOKKI_APP.Views
         private readonly Size normalSizeForm = new Size(620, 505);
         private readonly Size expandSizeForm = new Size(988, 505);
         private int marks = 0;
-        public PaymentForm(Order order, Payment payment, List<OrderDetail> orderDetails, DookkiContext context, int tableID)
+        private decimal totalPrices;
+        public PaymentForm(Order order, Payment payment, List<OrderDetail> orderDetails, DookkiContext context, int tableID, decimal totalPrice)
         {
             InitializeComponent();
             this.order = order;
@@ -49,6 +50,7 @@ namespace DOOKKI_APP.Views
             ticketController = new TicketController(context);
             _context = context;
             this.tableID = tableID;
+            this.totalPrices = totalPrice;
         }
         private bool IsValid()
         {
@@ -83,25 +85,25 @@ namespace DOOKKI_APP.Views
 
             return isValid;
         }
-        private decimal TotalSum()
-        {
-            decimal sum = 0;
-            foreach (OrderDetail detail in orderDetails)
-            {
-                var price = (from t in ticketController.GetModel()
-                             where t.Id == detail.TicketId
-                             select t.Price).SingleOrDefault();
+        //private decimal TotalSum()
+        //{
+        //    decimal sum = 0;
+        //    foreach (OrderDetail detail in orderDetails)
+        //    {
+        //        var price = (from t in ticketController.GetModel()
+        //                     where t.Id == detail.TicketId
+        //                     select t.Price).SingleOrDefault();
 
-                sum += detail.Quantily * price;
-            }
-            return sum;
-        }
+        //        sum += detail.Quantily * price;
+        //    }
+        //    return sum;
+        //}
         private void UpdateMarkForCustomer()
         {
 
 
             // plus
-            int totalSum = int.Parse(TotalSum().ToString());
+            int totalSum = int.Parse(totalPrices.ToString());
             int cusId = customerController.GetModel().First(c => c.Phone == txtCustomerPhone.Text).Id;
             
             int pointsToAdd = totalSum / 300000;
@@ -123,28 +125,28 @@ namespace DOOKKI_APP.Views
                 customerController.SaveChanges();
             }
         }
-        private void UpdateValueOrder()
-        {
-            try
-            {
-                if (order != null)
-                {
-                    order.Time = TimeOnly.FromDateTime(DateTime.Now);
-                    var table = _context.Tables.FirstOrDefault(t => t.Id == tableID);
+        //private void UpdateValueOrder()
+        //{
+        //    try
+        //    {
+        //        if (order != null)
+        //        {
+        //            order.Time = TimeOnly.FromDateTime(DateTime.Now);
+        //            var table = _context.Tables.FirstOrDefault(t => t.Id == tableID);
 
 
-                    table.Status = false;
+        //            table.Status = false;
 
-                    order.Discount = cbMarks.SelectedIndex;
-                    orderController.Add(order);
-                    orderController.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        //            order.Discount = cbMarks.SelectedIndex;
+        //            orderController.Add(order);
+        //            orderController.SaveChanges();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
         private void UpdateValuePayment()
         {
             try
@@ -261,7 +263,7 @@ namespace DOOKKI_APP.Views
                 backgroundWorker.ReportProgress(75);
                 UpdateMarkForCustomer();
             }
-            OrderControllerSingleton.Instance.CheckOut(orderID, tableID, TotalSum(), customerID, marks);
+            OrderControllerSingleton.Instance.CheckOut(orderID, tableID, totalPrices, customerID, marks);
             backgroundWorker.ReportProgress(90);
             if(export.ExportToPDF(order, marks))
             {
@@ -293,7 +295,9 @@ namespace DOOKKI_APP.Views
 
         private void PaymentForm_Load(object sender, EventArgs e)
         {
-            lblTotal.Text = "Tổng tiền: " + TotalSum().ToString("#,##0 VND");
+            //lblTotal.Text = "Tổng tiền: " + TotalSum().ToString("#,##0 VND");
+            lblTotal.Text = "Tổng tiền: " + totalPrices.ToString();
+
             cbMarks.SelectedIndex = 0;
         }
 
@@ -334,7 +338,7 @@ namespace DOOKKI_APP.Views
         {
             if (ckbTotal.Checked)
             {
-                txtAmount.Text = TotalSum().ToString();
+                txtAmount.Text = totalPrices.ToString();
             }
             else
             {

@@ -158,16 +158,16 @@ namespace DOOKKI_APP.Views
             Table table = lsvOrder.Tag as Table;
 
             int orderID = OrderControllerSingleton.Instance.GetIDUncheckOrderByTableID(table.Id);
-            double totalPrice = Convert.ToDouble(txtTotalPrice.Text.Split('.')[0]);
             DialogResult result = MessageBox.Show("Bạn có chắc thanh toán hóa đơn cho bàn " + table.Name, "Thông báo", MessageBoxButtons.OKCancel);
 
             if (orderID != -1)
             {
                 if (result == DialogResult.OK)
                 {
+                    double totalPrice = Convert.ToDouble(txtTotalPrice.Text.Replace("₫", "").Replace(".", "").Trim());
                     List<OrderDetail> orderDetails = OrderControllerSingleton.Instance.GetOrderDetails(table.Id);
                     //open form payment
-                    PaymentForm paymentForm = new PaymentForm(new Order(), new Payment(), orderDetails, _context, table.Id);
+                    PaymentForm paymentForm = new PaymentForm(new Order(), new Payment(), orderDetails, _context, table.Id, (decimal)totalPrice);
                     paymentForm.OnPaymentCompleted += () =>
                     {
                         ShowOrder(table.Id);
@@ -176,6 +176,10 @@ namespace DOOKKI_APP.Views
                     paymentForm.ShowDialog();
 
                 }
+            }
+            else
+            {
+                MessageBox.Show("Bàn hiện tại không có hóa đơn nào");
             }
         }
 
