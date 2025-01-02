@@ -150,6 +150,7 @@ namespace DOOKKI_APP.Helpers
                         NumberOfUse = c.Count().ToString() // Count the items in the group
                     })
                     .OrderByDescending(tp => tp.NumberOfUse)
+                    .Take(5)
                     .ToList();
             }
 
