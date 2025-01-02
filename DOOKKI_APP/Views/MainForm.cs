@@ -25,6 +25,10 @@ namespace DOOKKI_APP.Views
         public Dictionary<string, bool> TableStatus { get; private set; } = new Dictionary<string, bool>();
         //Dictionary để lưu thông tin đặt hàng theo từng bàn
         public Dictionary<string, List<OrderInfo>> TableOrders { get; private set; } = new Dictionary<string, List<OrderInfo>>();
+
+        bool menuExpand = false;
+        bool sidebarExpand = true;
+
         public MainForm(DookkiContext context, IServiceProvider serviceProvider)
         {
             InitializeComponent();
@@ -70,7 +74,7 @@ namespace DOOKKI_APP.Views
         //Mở form con
         private void btnTable_Click(object sender, EventArgs e)
         {
-            menuTransition.Start();
+            employeeTransition.Start();
             //openChildForm(new TableForm(_context, this));
             openChildForm(new TableFoodForm(_context));
         }
@@ -80,8 +84,7 @@ namespace DOOKKI_APP.Views
         {
             if (User.Role == Roles.admin)
             {
-                menuTransition.Start();
-                openChildForm(new ManageEployee(_context));
+                employeeTransition.Start();
             }
             else
             {
@@ -162,29 +165,34 @@ namespace DOOKKI_APP.Views
         {
             this.Close(); // Close the login form when MainForm closes
         }
-        //bool menuExpand = false;
-        //private void menuTransition_Tick(object sender, EventArgs e)
-        //{
-        //    if (!menuExpand)
-        //    {
-        //        pnMenuContainer.Height += 10;
-        //        if (pnMenuContainer.Height >= 135)
-        //        {
-        //            menuTransition.Stop();
-        //            menuExpand = true;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        pnMenuContainer.Height -= 10;
-        //        if (pnMenuContainer.Height <= 40)
-        //        {
-        //            menuTransition.Stop();
-        //            menuExpand = false;
-        //        }
-        //    }
-        //}
-        bool sidebarExpand = true;
+        private void employeeTransition_Tick(object sender, EventArgs e)
+        {
+            if (!menuExpand)
+            {
+                if (pnEmployeeContainer.Height >= 145)
+                {
+                    employeeTransition.Stop();
+                    menuExpand = true;
+                }
+                else
+                {
+                    pnEmployeeContainer.Height += 15;
+                }
+            }
+            else
+            {
+                if (pnEmployeeContainer.Height <= 50)
+                {
+                    employeeTransition.Stop();
+                    menuExpand = false;
+                }
+                else
+                {
+                    pnEmployeeContainer.Height -= 15;
+
+                }
+            }
+        }
         private void sidebarTransition_Tick(object sender, EventArgs e)
         {
             if (sidebarExpand)
@@ -216,6 +224,33 @@ namespace DOOKKI_APP.Views
         private void pbSidebar_Click(object sender, EventArgs e)
         {
             sidebarTransition.Start();
+        }
+
+
+        private void btnTimeTracking_Click(object sender, EventArgs e)
+        {
+            if (User.Role == Roles.admin)
+            {
+                openChildForm(new ManageEployee(_context));
+            }
+            else
+
+            {
+                MessageBox.Show("Bạn ko có quyền truy cập vào đây", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnManageEmployee_Click(object sender, EventArgs e)
+        {
+            if (User.Role == Roles.admin)
+            {
+                openChildForm(new EmployeeWorkTimeForm());
+            }
+            else
+
+            {
+                MessageBox.Show("Bạn ko có quyền truy cập vào đây", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

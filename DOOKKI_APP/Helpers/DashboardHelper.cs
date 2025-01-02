@@ -77,6 +77,7 @@ namespace DOOKKI_APP.Helpers
                             Date = g.Key.ToString("dd-MM"), // Format the day as a string
                             TotalAmount = g.Sum(od => od.Payment != null ? od.Payment.Amount : 0) // Sum the payment amounts for that day
                         })
+                        .OrderBy(r => DateTime.ParseExact(r.Date, "dd-MM", CultureInfo.InvariantCulture))
                         .ToList();
                 }
                 else if (numberDays <= 92)
@@ -94,6 +95,7 @@ namespace DOOKKI_APP.Helpers
                         Date = "Week: " + g.Key.ToString(), // Format the day as a string
                         TotalAmount = g.Sum(od => od.Payment.Amount) // Sum the payment amounts for that day
                     })
+                    .OrderBy(r => int.Parse(r.Date.Replace("Week: ", "")))
                     .ToList();
                 }
                 else if (numberDays <= (365) * 2)
@@ -111,6 +113,7 @@ namespace DOOKKI_APP.Helpers
                         Date = g.Key,
                         TotalAmount = g.Sum(od => od.Payment.Amount) // Sum the payment amounts for that day
                     })
+                    .OrderBy(r => DateTime.ParseExact(r.Date, "MM-yyyy", CultureInfo.InvariantCulture))
                     .ToList();
                 }
                 else
@@ -128,6 +131,7 @@ namespace DOOKKI_APP.Helpers
                             Date = g.Key.ToString(),
                             TotalAmount = g.Sum(od => od.Payment != null ? od.Payment.Amount : 0) // Sum the payment amounts safely
                         })
+                        .OrderByDescending(r => int.Parse(r.Date))
                         .ToList();
                 }
 
@@ -144,7 +148,10 @@ namespace DOOKKI_APP.Helpers
                     {
                         Name = c.Key, // Access the key of the group
                         NumberOfUse = c.Count().ToString() // Count the items in the group
-                    }).ToList();
+                    })
+                    .OrderByDescending(tp => tp.NumberOfUse)
+                    .Take(5)
+                    .ToList();
             }
 
             //Public methods
