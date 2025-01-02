@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DOOKKI_APP.Helpers;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 
 namespace DOOKKI_APP.Views
@@ -36,29 +39,44 @@ namespace DOOKKI_APP.Views
 
         private void LoadEmployeeIDs()
         {
-            var employeeIDs = _context.Employees.Select(e => e.Id).ToList();
-            CmbEmployeeID.DataSource = employeeIDs;
+            var employees = _context.Employees
+            .OrderBy(e => e.Id)
+            .Select(e => new
+            {
+                e.Id,    
+                e.Name,
+            })
+            .ToList();
+
+            CmbEmployeeID.DataSource = employees;
+            CmbEmployeeID.ValueMember = "Id";              
+            CmbEmployeeID.DisplayMember = "Id";
         }
         private void InitializeFields()
         {
-                CmbEmployeeID.SelectedIndex = -1;
-                txtName.Text = string.Empty;
-                txtPhone.Text = string.Empty;
-                txtPosition.Text = string.Empty;
+            cmbPageSize.SelectedIndex = 1;
+            CmbEmployeeID.SelectedIndex = -1;
+            txtName.Text = string.Empty;
+            txtPhone.Text = string.Empty;
+            txtPhone.Text = string.Empty;
+            dateTimePicker.Value = DateTime.Today;
         }
 
 
         private void LoadWorkTimeData()
         {
             var workTimeData = _context.DayWorks
-                .Select(dw => new
-                {
-                    dw.Id,
-                    dw.TimeWork,
-                    dw.Day,
-                    EmployeeName = dw.Employee.Name
-                })
-                .ToList();
+            .Include(a => a.Employee)
+            .AsEnumerable()
+            .Select((dw, index) => new
+            {
+                STT = index + 1, // Calculating the row number
+                ID = dw.Id,
+                EmployeeName = dw.Employee.Name,
+                Date = dw.Day,
+                TotalTime = dw.TimeWork
+            })
+            .ToList();
 
             // Tính tổng số trang
             totalPages = (int)Math.Ceiling((double)workTimeData.Count / pageSize);
@@ -68,6 +86,13 @@ namespace DOOKKI_APP.Views
                 .Skip((currentPage - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
+
+            dgvWorkTime.Columns.Clear();
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "STT", DataPropertyName = "STT" });
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã số ca", DataPropertyName = "ID" });
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên", DataPropertyName = "EmployeeName" });
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Ngày", DataPropertyName = "Date" });
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Thời gian làm", DataPropertyName = "TotalTime" });
 
             dgvWorkTime.DataSource = pagedData;
 
@@ -81,7 +106,6 @@ namespace DOOKKI_APP.Views
             CmbEmployeeID.SelectedIndex = -1;
             txtName.Clear();
             txtPhone.Clear();
-            txtPosition.Clear();
             txtTimeWork.Clear();
             dateTimePicker.Value = DateTime.Now;
             errorProviderTime.Clear();
@@ -100,23 +124,6 @@ namespace DOOKKI_APP.Views
             else
             {
                 errorProviderTime.SetError(txtTimeWork, string.Empty);
-            }
-
-            if (CmbEmployeeID.SelectedItem != null)
-            {
-                int employeeID = int.Parse(CmbEmployeeID.SelectedItem.ToString());
-                var existingDayWork = _context.DayWorks.FirstOrDefault(dw =>
-                    dw.EmployeeId == employeeID && dw.Day == DateOnly.FromDateTime(dateTimePicker.Value));
-
-                if (existingDayWork != null)
-                {
-                    errorProviderDate.SetError(dateTimePicker, "Ngày đã chọn đã được ghi lại cho nhân viên này.");
-                    isValid = false;
-                }
-                else
-                {
-                    errorProviderDate.SetError(dateTimePicker, string.Empty);
-                }
             }
             if (string.IsNullOrEmpty(txtName.Text.Trim()))
             {
@@ -168,7 +175,7 @@ namespace DOOKKI_APP.Views
             {
                 TimeWork = int.Parse(txtTimeWork.Text),
                 Day = DateOnly.FromDateTime(dateTimePicker.Value),
-                EmployeeId = int.Parse(CmbEmployeeID.SelectedItem.ToString())
+                EmployeeId = int.Parse(CmbEmployeeID.SelectedValue.ToString())
             };
 
             _context.DayWorks.Add(newWorkTime);
@@ -191,20 +198,22 @@ namespace DOOKKI_APP.Views
                 return;
             }
 
-            int id = (int)dgvWorkTime.CurrentRow.Cells["ID"].Value;
+            DataGridViewRow selectedRow = dgvWorkTime.SelectedRows[0];
+
+            var id = int.Parse(selectedRow.Cells[1].Value.ToString());
             var workTime = _context.DayWorks.FirstOrDefault(dw => dw.Id == id);
 
             if (workTime != null)
             {
                 workTime.TimeWork = int.Parse(txtTimeWork.Text);
                 workTime.Day = DateOnly.FromDateTime(dateTimePicker.Value);
-                workTime.EmployeeId = int.Parse(CmbEmployeeID.SelectedItem.ToString());
+                workTime.EmployeeId = int.Parse(CmbEmployeeID.SelectedValue.ToString());
 
                 _context.SaveChanges();
                 MessageBox.Show("Thời gian làm việc được cập nhật thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadWorkTimeData();
                 ClearFields();
-
+                btnUpdateWorkTime.Enabled = false;
             }
         }
 
@@ -219,34 +228,8 @@ namespace DOOKKI_APP.Views
                 return;
             }
 
-            int id = (int)dgvWorkTime.CurrentRow.Cells["ID"].Value;
-            var workTime = _context.DayWorks.FirstOrDefault(dw => dw.Id == id);
-
-            if (workTime != null)
-            {
-                _context.DayWorks.Remove(workTime);
-                _context.SaveChanges();
-
-                MessageBox.Show("Đã xóa thời gian làm việc thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadWorkTimeData();
-                ClearFields();
-
-            }
-        }
-
-        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
         }
-
-
-
-
-        private void importToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btn_Import_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
@@ -299,67 +282,8 @@ namespace DOOKKI_APP.Views
 
         private void btn_Export_Click(object sender, EventArgs e)
         {
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-            {
-                saveFileDialog.Filter = "Excel Files|*.xlsx";
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string filePath = saveFileDialog.FileName;
-                    using (var package = new ExcelPackage())
-                    {
-                        var worksheet = package.Workbook.Worksheets.Add("WorkTimeSchedule");
-
-                        // Tiêu đề cột
-                        worksheet.Cells[1, 1].Value = "Employee ID";
-                        worksheet.Cells[1, 2].Value = "Name";
-                        worksheet.Cells[1, 3].Value = "Time Worked";
-
-                        // Lấy ngày từ DateTimePicker và tính ngày đầu tuần (Thứ Hai)
-                        var selectedDate = dateTimePicker.Value;
-                        var startDate = selectedDate.StartOfWeek(DayOfWeek.Monday);
-
-                        // Thêm tiêu đề cột cho từng ngày trong tuần
-                        for (int i = 0; i < 7; i++)
-                        {
-                            var date = startDate.AddDays(i);
-                            worksheet.Cells[1, 4 + i].Value = $"{date:dddd} ({date:yyyy-MM-dd})";
-                        }
-
-                        // Lấy dữ liệu từ cơ sở dữ liệu
-                        var employees = _context.Employees.ToList();
-                        int row = 2;
-
-                        foreach (var employee in employees)
-                        {
-                            worksheet.Cells[row, 1].Value = employee.Id;
-                            worksheet.Cells[row, 2].Value = employee.Name;
-
-                            // Tính tổng số giờ làm việc trong tuần
-                            var totalTime = _context.DayWorks
-                                .Where(dw => dw.EmployeeId == employee.Id && dw.Day >= DateOnly.FromDateTime(startDate) && dw.Day <= DateOnly.FromDateTime(startDate.AddDays(6)))
-                                .Sum(dw => dw.TimeWork);
-
-                            worksheet.Cells[row, 3].Value = totalTime;
-
-                            // Thêm giờ làm việc cho từng ngày trong tuần
-                            for (int i = 0; i < 7; i++)
-                            {
-                                var date = DateOnly.FromDateTime(startDate.AddDays(i));
-                                var timeWorked = _context.DayWorks
-                                    .FirstOrDefault(dw => dw.EmployeeId == employee.Id && dw.Day == date)?.TimeWork ?? 0;
-
-                                worksheet.Cells[row, 4 + i].Value = timeWorked;
-                            }
-
-                            row++;
-                        }
-
-                        // Lưu file Excel
-                        package.SaveAs(new FileInfo(filePath));
-                        MessageBox.Show("Xuất dữ liệu thành công", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-            }
+            var exf = new ExportFile(_context);
+            exf.ExportWorkTime(dateTimePicker);
         }
 
         private void btn_back_Click(object sender, EventArgs e)
@@ -395,14 +319,19 @@ namespace DOOKKI_APP.Views
             string keyword = txtSearch.Text.ToLower();
 
             var workTimeData = _context.DayWorks
-                .Select(dw => new
+                .Include(a => a.Employee)
+                .AsEnumerable()
+                .Select((dw, index) => new
                 {
-                    dw.Id,
-                    dw.TimeWork,
-                    dw.Day,
-                    EmployeeName = dw.Employee.Name
+                    STT = index + 1, // Calculating the row number
+                    ID = dw.Id,
+                    EmployeeName = dw.Employee.Name,
+                    Date = dw.Day,
+                    TotalTime = dw.TimeWork
                 })
                 .ToList();
+
+
 
             workTimeData = workTimeData
                 .Where(dw => dw.EmployeeName.ToLower().Contains(keyword))
@@ -415,6 +344,13 @@ namespace DOOKKI_APP.Views
                 .Take(pageSize)
                 .ToList();
 
+            dgvWorkTime.Columns.Clear();
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "STT", DataPropertyName = "STT" });
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã số ca", DataPropertyName = "ID" });
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên", DataPropertyName = "EmployeeName" });
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Ngày", DataPropertyName = "Date" });
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Thời gian làm", DataPropertyName = "TotalTime" });
+
             dgvWorkTime.DataSource = pagedData;
 
             lblPageInfo.Text = $"Trang {currentPage}/{totalPages}";
@@ -423,26 +359,29 @@ namespace DOOKKI_APP.Views
         private void cmbFilterMonth_SelectedIndexChanged(object sender, EventArgs e)
         {
             var workTimeData = _context.DayWorks
-        .Select(dw => new
-        {
-            dw.Id,
-            dw.TimeWork,
-            dw.Day,
-            EmployeeName = dw.Employee.Name
-        })
-        .ToList();
+            .Include(a => a.Employee)
+            .AsEnumerable()
+            .Select((dw, index) => new
+            {
+                STT = index + 1, // Calculating the row number
+                ID = dw.Id,
+                EmployeeName = dw.Employee.Name,
+                Date = dw.Day,
+                TotalTime = dw.TimeWork
+            })
+            .ToList();
 
             if (cmbFilterMonth.SelectedItem.ToString() == "Hôm nay")
             {
                 workTimeData = workTimeData
-                    .Where(dw => dw.Day.HasValue && dw.Day.Value == DateOnly.FromDateTime(DateTime.Today))
+                    .Where(dw => dw.Date.HasValue && dw.Date.Value == DateOnly.FromDateTime(DateTime.Today))
                     .ToList();
             }
             else
             {
                 int month = cmbFilterMonth.SelectedIndex;
                 workTimeData = workTimeData
-                    .Where(dw => dw.Day.HasValue && dw.Day.Value.Month == month)
+                    .Where(dw => dw.Date.HasValue && dw.Date.Value.Month == month)
                     .ToList();
             }
 
@@ -453,6 +392,13 @@ namespace DOOKKI_APP.Views
                 .Take(pageSize)
                 .ToList();
 
+            dgvWorkTime.Columns.Clear();
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "STT", DataPropertyName = "STT" });
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã số ca", DataPropertyName = "ID" });
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên", DataPropertyName = "EmployeeName" });
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Ngày", DataPropertyName = "Date" });
+            dgvWorkTime.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Thời gian làm", DataPropertyName = "TotalTime" });
+
             dgvWorkTime.DataSource = pagedData;
 
             lblPageInfo.Text = $"Trang {currentPage}/{totalPages}";
@@ -462,7 +408,8 @@ namespace DOOKKI_APP.Views
         {
             if (CmbEmployeeID.SelectedItem != null)
             {
-                int employeeID = int.Parse(CmbEmployeeID.SelectedItem.ToString());
+                Console.WriteLine($"Selected Employee ID: {CmbEmployeeID.SelectedValue}");
+                int employeeID = int.Parse(CmbEmployeeID.SelectedValue.ToString());
                 var employee = _context.Employees.FirstOrDefault(e => e.Id == employeeID);
 
                 if (employee != null)
@@ -524,18 +471,74 @@ namespace DOOKKI_APP.Views
 
         private void FillEmployeeDetails(Employee employee)
         {
-            CmbEmployeeID.SelectedItem = employee.Id;
+            CmbEmployeeID.SelectedValue = employee.Id;
             txtName.Text = employee.Name;
             txtPhone.Text = employee.Phone;
-            txtPosition.Text = employee.Position;
         }
 
         private void ClearAllFields()
         {
-            CmbEmployeeID.SelectedIndex = -1; // Làm trống ComboBox
+            CmbEmployeeID.SelectedIndex = -1;
             txtName.Text = string.Empty;
             txtPhone.Text = string.Empty;
-            txtPosition.Text = string.Empty;
+        }
+
+        private void txtName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {     
+            if (dgvWorkTime.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dgvWorkTime.SelectedRows[0];
+                var id = int.Parse(selectedRow.Cells[1].Value.ToString());
+                var workTime = _context.DayWorks.FirstOrDefault(dw => dw.Id == id);
+
+                _context.DayWorks.Remove(workTime);
+                _context.SaveChanges();
+
+                MessageBox.Show("Đã xóa thời gian làm việc thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadWorkTimeData();
+                ClearFields();
+            }
+        }
+
+        private void EditToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgvWorkTime.SelectedRows.Count > 0)
+            {
+                btnUpdateWorkTime.Enabled = true;
+                DataGridViewRow selectedRow = dgvWorkTime.SelectedRows[0];
+
+                txtName.Text = selectedRow.Cells[2].Value.ToString();
+                dateTimePicker.Value = DateTime.Parse(selectedRow.Cells[3].Value?.ToString());
+                txtTimeWork.Text = selectedRow.Cells[4].Value.ToString();
+
+                var id = int.Parse(selectedRow.Cells[1].Value.ToString());
+                var workTime = _context.DayWorks.FirstOrDefault(dw => dw.Id == id);
+                var employee = _context.Employees.FirstOrDefault(s => s.Id == workTime.EmployeeId);
+                CmbEmployeeID.SelectedValue = employee.Id;
+                txtPhone.Text = employee.Phone;
+
+            }
+        }
+
+        private void dgvWorkTime_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hit = dgvWorkTime.HitTest(e.X, e.Y);
+
+                if (hit.RowIndex >= 0 && hit.ColumnIndex >= 0)
+                {
+                    dgvWorkTime.ClearSelection();
+                    dgvWorkTime.Rows[hit.RowIndex].Selected = true;
+
+                    contextMenuStrip1.Show(dgvWorkTime, e.Location);
+                }
+            }
         }
     }
 }

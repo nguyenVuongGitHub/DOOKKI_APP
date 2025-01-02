@@ -77,7 +77,12 @@ namespace DOOKKI_APP.Views
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            export.ExportDashboard(_controller, dtpToDate.Value);
+            if(_controller.numberOrder == 0)
+            {
+                MessageBox.Show("Không có dữ liệu", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            export.ExportDashboard(_controller, dtpFromDate.Value, dtpToDate.Value);
         }
 
         private void cbChoice_SelectedIndexChanged(object sender, EventArgs e)

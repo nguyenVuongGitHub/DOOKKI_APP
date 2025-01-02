@@ -231,7 +231,7 @@ namespace DOOKKI_APP.Views
         {
             if (User.Role == Roles.admin)
             {
-                openChildForm(new ManageEployee(_context));
+                openChildForm(new EmployeeWorkTimeForm());
             }
             else
 
@@ -244,7 +244,8 @@ namespace DOOKKI_APP.Views
         {
             if (User.Role == Roles.admin)
             {
-                openChildForm(new EmployeeWorkTimeForm());
+                openChildForm(new ManageEployee(_context));
+
             }
             else
 

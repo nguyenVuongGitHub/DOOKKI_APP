@@ -14,6 +14,9 @@ using Spire.Doc.Fields;
 using Spire.Doc.Collections;
 using static DOOKKI_APP.Helpers.DashboardHelper;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
+using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace DOOKKI_APP.Helpers
@@ -406,7 +409,7 @@ namespace DOOKKI_APP.Helpers
                 MessageBox.Show(ex.Message);
             }
         }
-        public void ExportDashboard(DashboardController dashboard, DateTime date)
+        public void ExportDashboard(DashboardController dashboard, DateTime startDate, DateTime date)
         {
             try
             {
@@ -422,19 +425,86 @@ namespace DOOKKI_APP.Helpers
                 foreach (var item in dashboard.GrossRevenueList)
                 {
                     sheet.Range["A" + row].Text = item.Date.ToString();
-                    sheet.Range["B" + row].Text = item.TotalAmount.ToString();
+                    sheet.Range["B" + row].NumberValue = (int)item.TotalAmount;
                     row++;
                 }
-
+                
+                sheet.Range["B2:B" + (row - 1)].NumberFormat = "#,###";
 
                 // Save file
-                string filePath = Path.Combine(OutputFileDirectory, "Dashboard_" + date.Month + ".Xlsm");
+                string filePath = Path.Combine(OutputFileDirectory, "Dashboard_" + startDate.Month +"_"+ startDate.Year +"_to_"+ date.Month + "_" + date.Year + ".Xlsm");
                 workbook.SaveToFile(filePath, Spire.Xls.FileFormat.Xlsm);
+                MessageBox.Show("Xuất dữ liệu thành công", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+        public void ExportWorkTime(DateTimePicker dateTimePicker)
+        {
+            try
+            {
+                using (var package = new ExcelPackage())
+                {
+                    var worksheet = package.Workbook.Worksheets.Add("WorkTimeSchedule");
+
+                    // Tiêu đề cột
+                    worksheet.Cells[1, 1].Value = "Employee ID";
+                    worksheet.Cells[1, 2].Value = "Name";
+                    worksheet.Cells[1, 3].Value = "Time Worked";
+
+                    // Lấy ngày từ DateTimePicker và tính ngày đầu tuần (Thứ Hai)
+                    var selectedDate = dateTimePicker.Value;
+                    var startDate = selectedDate.StartOfWeek(DayOfWeek.Monday);
+
+                    // Thêm tiêu đề cột cho từng ngày trong tuần
+                    for (int i = 0; i < 7; i++)
+                    {
+                        var date = startDate.AddDays(i);
+                        worksheet.Cells[1, 4 + i].Value = $"{date:dddd} ({date:yyyy-MM-dd})";
+                    }
+
+                    // Lấy dữ liệu từ cơ sở dữ liệu
+                    var employees = _context.Employees.ToList();
+                    int row = 2;
+
+                    foreach (var employee in employees)
+                    {
+                        worksheet.Cells[row, 1].Value = employee.Id;
+                        worksheet.Cells[row, 2].Value = employee.Name;
+
+                        // Tính tổng số giờ làm việc trong tuần
+                        var totalTime = _context.DayWorks
+                            .Where(dw => dw.EmployeeId == employee.Id && dw.Day >= DateOnly.FromDateTime(startDate) && dw.Day <= DateOnly.FromDateTime(startDate.AddDays(6)))
+                            .Sum(dw => dw.TimeWork);
+
+                        worksheet.Cells[row, 3].Value = totalTime;
+
+                        // Thêm giờ làm việc cho từng ngày trong tuần
+                        for (int i = 0; i < 7; i++)
+                        {
+                            var date = DateOnly.FromDateTime(startDate.AddDays(i));
+                            var timeWorked = _context.DayWorks
+                                .FirstOrDefault(dw => dw.EmployeeId == employee.Id && dw.Day == date)?.TimeWork ?? 0;
+
+                            worksheet.Cells[row, 4 + i].Value = timeWorked;
+                        }
+
+                        row++;
+                    }
+
+                    // Lưu file Excel
+                    string filePath = Path.Combine(OutputFileDirectory, "WorkTime_" + dateTimePicker.Value.Month + ".Xlsm");
+                    package.SaveAs(filePath);
+                    MessageBox.Show("Xuất dữ liệu thành công", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
     }
 }
