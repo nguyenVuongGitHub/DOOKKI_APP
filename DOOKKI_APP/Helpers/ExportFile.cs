@@ -56,7 +56,7 @@ namespace DOOKKI_APP.Helpers
                              .Include(o => o.Ticket)
                              .Include(o => o.Payment)
                              .ThenInclude(p => p.PaymentMethod)
-                             .Where(x => x.OrderId == order.Id)
+                             .Where(x => x.OrderId == order.Id && x.IsActive == true)
                              .Select(x => new
                              {
                                  x.Ticket,
