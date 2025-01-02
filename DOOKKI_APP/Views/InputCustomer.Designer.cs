@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             panel1 = new Panel();
             groupBox1 = new GroupBox();
             btnCancel = new Button();
@@ -36,8 +37,10 @@
             txtPhone = new TextBox();
             label2 = new Label();
             label1 = new Label();
+            errorProvider1 = new ErrorProvider(components);
             panel1.SuspendLayout();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -126,6 +129,10 @@
             label1.TabIndex = 0;
             label1.Text = "Số điện thoại:";
             // 
+            // errorProvider1
+            // 
+            errorProvider1.ContainerControl = this;
+            // 
             // InputCustomer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -138,6 +145,7 @@
             panel1.ResumeLayout(false);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
             ResumeLayout(false);
         }
 
@@ -151,5 +159,6 @@
         private Label label1;
         private Button btnCancel;
         private Button btnCreate;
+        private ErrorProvider errorProvider1;
     }
 }

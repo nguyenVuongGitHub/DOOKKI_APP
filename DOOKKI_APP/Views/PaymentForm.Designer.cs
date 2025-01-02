@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             panel1 = new Panel();
             groupBox1 = new GroupBox();
             pictureBox1 = new PictureBox();
@@ -51,9 +52,11 @@
             label2 = new Label();
             lblTotal = new Label();
             backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            errorProvider1 = new ErrorProvider(components);
             panel1.SuspendLayout();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -135,6 +138,7 @@
             cbMarks.Size = new Size(55, 33);
             cbMarks.TabIndex = 16;
             cbMarks.Visible = false;
+            cbMarks.SelectedIndexChanged += cbMarks_SelectedIndexChanged;
             // 
             // label6
             // 
@@ -318,6 +322,10 @@
             backgroundWorker.ProgressChanged += backgroundWorker_ProgressChanged;
             backgroundWorker.RunWorkerCompleted += backgroundWorker_RunWorkerCompleted;
             // 
+            // errorProvider1
+            // 
+            errorProvider1.ContainerControl = this;
+            // 
             // PaymentForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -332,6 +340,7 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
             ResumeLayout(false);
         }
 
@@ -360,5 +369,6 @@
         private CheckBox ckbTotal;
         private ProgressBar progressBar1;
         private PictureBox pictureBox1;
+        private ErrorProvider errorProvider1;
     }
 }

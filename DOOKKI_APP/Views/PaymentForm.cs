@@ -33,6 +33,7 @@ namespace DOOKKI_APP.Views
         private readonly int tableID;
         private readonly Size normalSizeForm = new Size(620, 505);
         private readonly Size expandSizeForm = new Size(988, 505);
+        private int marks = 0;
         public PaymentForm(Order order, Payment payment, List<OrderDetail> orderDetails, DookkiContext context, int tableID)
         {
             InitializeComponent();
@@ -48,6 +49,39 @@ namespace DOOKKI_APP.Views
             ticketController = new TicketController(context);
             _context = context;
             this.tableID = tableID;
+        }
+        private bool IsValid()
+        {
+            bool isValid = true;
+            if (string.IsNullOrWhiteSpace(txtAmount.Text))
+            {
+                isValid = false;
+
+                errorProvider1.SetError(txtAmount, "Số tiền không được bỏ trống");
+            }
+            else
+            {
+                if (!decimal.TryParse(txtAmount.Text, out decimal amount) && amount <= 0)
+                {
+                    isValid = false;
+                    errorProvider1.SetError(txtAmount, "Số tiền không đúng định dạng");
+                }
+            }
+            if (ckbHadAccount.Checked)
+            {
+                if (string.IsNullOrWhiteSpace(txtCustomerPhone.Text))
+                {
+                    isValid = false;
+                    errorProvider1.SetError(txtCustomerPhone, "Số điện thoại được bỏ trống");
+                }
+                else if (!System.Text.RegularExpressions.Regex.IsMatch(txtCustomerPhone.Text, @"^\d{10}$"))
+                {
+                    isValid = false;
+                    errorProvider1.SetError(txtCustomerPhone, "Số điện thoại không hợp lệ");
+                }
+            }
+
+            return isValid;
         }
         private decimal TotalSum()
         {
@@ -68,10 +102,8 @@ namespace DOOKKI_APP.Views
 
             // plus
             int totalSum = int.Parse(TotalSum().ToString());
-            int cusId = (from c in customerController.GetModel()
-                         where c.Id == order.CustomerId
-                         select c.Id).SingleOrDefault();
-
+            int cusId = customerController.GetModel().First(c => c.Phone == txtCustomerPhone.Text).Id;
+            
             int pointsToAdd = totalSum / 300000;
             var cus = (from c in customerController.GetModel()
                        where c.Id == cusId
@@ -81,9 +113,9 @@ namespace DOOKKI_APP.Views
             if (cus != null)
             {
                 // minus
-                if (order.Discount > 0 && cus.Marks > order.Discount)
+                if (cus.Marks >= marks)
                 {
-                    cus.Marks -= order.Discount;
+                    cus.Marks -= marks;
                 }
 
                 cus.Marks += pointsToAdd;
@@ -143,12 +175,11 @@ namespace DOOKKI_APP.Views
         {
             try
             {
+
                 foreach (var orderDetail in orderDetails)
                 {
                     orderDetail.PaymentId = payment.Id;
-                    orderDetail.OrderId = order.Id;
-
-                    orderDetailController.Add(orderDetail);
+                    orderDetailController.Update(orderDetail);
                 }
                 orderDetailController.SaveChanges();
             }
@@ -185,8 +216,11 @@ namespace DOOKKI_APP.Views
         {
             if (!backgroundWorker.IsBusy)
             {
-                progressBar1.Visible = true;
-                backgroundWorker.RunWorkerAsync();
+                if (IsValid())
+                {
+                    progressBar1.Visible = true;
+                    backgroundWorker.RunWorkerAsync();
+                }
             }
             else
             {
@@ -204,33 +238,17 @@ namespace DOOKKI_APP.Views
         {
             this.Close();
         }
-
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             UpdateValuePayment();
             backgroundWorker.ReportProgress(25);
-            //UpdateValueOrder();
-
+            UpdateValueOrderDetail();
             backgroundWorker.ReportProgress(50);
-            //UpdateValueOrderDetail();
-            backgroundWorker.ReportProgress(75);
-            UpdateMarkForCustomer();
-            backgroundWorker.ReportProgress(90);
-            export.ExportToPDF(order);
-            backgroundWorker.ReportProgress(100);
-        }
 
-        private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            MessageBox.Show("Xuất bill thành công");
-            //_manageOrders.TableOrders.Remove(ShareData.TableName);
-            //_manageOrders.TableStatus[ShareData.TableName] = false; // Mark the original table as free
-            //_tableForm.UpdateTableStatus(ShareData.TableName, false);
-            //_tableForm.ClearTable();
-            //ShareData.TableName = "";
-            int orderID = OrderControllerSingleton.Instance.GetUncheckOrderByTableID(tableID);
+            //UpdateValueOrder();
+            int orderID = OrderControllerSingleton.Instance.GetIDUncheckOrderByTableID(tableID);
+            order = OrderControllerSingleton.Instance.GetUncheckOrderByTableID(tableID);
             int customerID = 0;
-
             // had account
             if (ckbHadAccount.Checked)
             {
@@ -240,9 +258,35 @@ namespace DOOKKI_APP.Views
                              where cus.Phone == cusPhone
                              select cus.Id).Single();
                 customerID = idCus;
+                backgroundWorker.ReportProgress(75);
+                UpdateMarkForCustomer();
             }
-            OrderControllerSingleton.Instance.CheckOut(orderID, tableID, TotalSum(), customerID);
+            OrderControllerSingleton.Instance.CheckOut(orderID, tableID, TotalSum(), customerID, marks);
+            backgroundWorker.ReportProgress(90);
+            if(export.ExportToPDF(order, marks))
+            {
+
+                backgroundWorker.ReportProgress(100);
+            }else
+
+            {
+                MessageBox.Show("Loix");
+            }
+        }
+
+        public event Action OnPaymentCompleted;
+
+        private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("Xuất bill thành công");
+            //_manageOrders.TableOrders.Remove(ShareData.TableName);
+            //_manageOrders.TableStatus[ShareData.TableName] = false; // Mark the original table as free
+            //_tableForm.UpdateTableStatus(ShareData.TableName, false);
+            //_tableForm.ClearTable();
+            //ShareData.TableName = "";
+           
             // reset table
+            OnPaymentCompleted.Invoke(); // Invoke là khi sự kiện được gọi, nó sẽ kích hoạt tất cả các phương thức showorder và loadtable
 
             this.Close();
         }
@@ -257,23 +301,27 @@ namespace DOOKKI_APP.Views
         {
             try
             {
-                var customer = (from cus in customerController.GetModel()
-                                where cus.Phone == txtCustomerPhone.Text
-                                select cus).SingleOrDefault();
-                if (customer != null)
+                if (IsValid())
                 {
-                    int? mark = customer.Marks;
-                    label1.Visible = true;
-                    label6.Visible = true;
-                    label6.Text = $"Khách hàng có: {mark} điểm";
-                    cbMarks.Visible = true;
+                    var customer = (from cus in customerController.GetModel()
+                                    where cus.Phone == txtCustomerPhone.Text
+                                    select cus).SingleOrDefault();
+                    if (customer != null)
+                    {
+                        int? mark = customer.Marks;
+                        label1.Visible = true;
+                        label6.Visible = true;
+                        label6.Text = $"Khách hàng có: {mark} điểm";
+                        cbMarks.Visible = true;
+                    }
+                    else
+                    {
+                        label1.Visible = false;
+                        label6.Visible = false;
+                        cbMarks.Visible = false;
+                    }
                 }
-                else
-                {
-                    label1.Visible = false;
-                    label6.Visible = false;
-                    cbMarks.Visible = false;
-                }
+
 
             }
             catch (Exception ex)
@@ -312,9 +360,9 @@ namespace DOOKKI_APP.Views
 
         private void rdCredit_CheckedChanged(object sender, EventArgs e)
         {
-            if(rdCredit.Checked) 
+            if (rdCredit.Checked)
             {
-                if(txtAmount.Text.IsNullOrEmpty())
+                if (txtAmount.Text.IsNullOrEmpty())
                 {
                     return;
                 }
@@ -340,6 +388,11 @@ namespace DOOKKI_APP.Views
             {
                 this.Size = normalSizeForm;
             }
+        }
+
+        private void cbMarks_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            marks = cbMarks.SelectedIndex;
         }
     }
     internal class AdminBankAccount

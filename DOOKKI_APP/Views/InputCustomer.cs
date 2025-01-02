@@ -24,7 +24,27 @@ namespace DOOKKI_APP.Views
             accountController = new AccountController(context);
             ShareData.IsInputCustomerFormClosed = false;
         }
-
+        private bool IsValid()
+        {
+            bool isValid = true;
+            if(string.IsNullOrWhiteSpace(txtPhone.Text))
+            {
+                isValid = false;
+                errorProvider1.SetError(txtPhone, "Số điện thoại không được để trống.");
+            }else
+            {
+                string phoneTest = "";
+                phoneTest = txtPhone.Text;
+                
+                bool test = customerController.GetModel().Any(t => t.Phone == phoneTest);
+                if (test)
+                {
+                    isValid = false;
+                    errorProvider1.SetError(txtPhone, "Số điện thoại đã tồn tại.");
+                }
+            }
+            return isValid;
+        }
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -35,21 +55,24 @@ namespace DOOKKI_APP.Views
             {
                 Customer newcus = new Customer();
                 Account newacc = new Account();
-                newacc.UserName = txtPhone.Text;
-                newacc.Password = "1";
-                newacc.Role = "customer";
-                accountController.Add(newacc);
-                accountController.SaveChanges();
-                ShareData.CustomerPhoneNumber = txtPhone.Text;
+                if(IsValid())
+                {
+                    newacc.UserName = txtPhone.Text;
+                    newacc.Password = "1";
+                    newacc.Role = "customer";
+                    accountController.Add(newacc);
+                    accountController.SaveChanges();
+                    ShareData.CustomerPhoneNumber = txtPhone.Text;
 
-                newcus.Name = txtName.Text;
-                newcus.Idaccount = newacc.Id;
-                newcus.Phone = txtPhone.Text;
-                customerController.Add(newcus);
-                customerController.SaveChanges();
+                    newcus.Name = txtName.Text;
+                    newcus.Idaccount = newacc.Id;
+                    newcus.Phone = txtPhone.Text;
+                    customerController.Add(newcus);
+                    customerController.SaveChanges();
 
-                MessageBox.Show("Tạo tài khoản thành công!");
-                this.Close();
+                    MessageBox.Show("Tạo tài khoản thành công!");
+                    this.Close();
+                }
             }
             catch (Exception ex)
             {

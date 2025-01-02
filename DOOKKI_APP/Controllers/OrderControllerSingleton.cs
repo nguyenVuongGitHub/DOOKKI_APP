@@ -42,7 +42,7 @@ namespace DOOKKI_APP.Controllers
         }
 
 
-        public int GetUncheckOrderByTableID(int id)
+        public int GetIDUncheckOrderByTableID(int id)
         {
             using (var context = new DookkiContext())
             {
@@ -54,7 +54,18 @@ namespace DOOKKI_APP.Controllers
                 return -1;
             }
         }
-
+        public Order GetUncheckOrderByTableID(int id)
+        {
+            using (var context = new DookkiContext())
+            {
+                var uncheckOrder = context.Orders.FirstOrDefault(o => o.TableId == id && o.Status == 0);
+                if (uncheckOrder != null)
+                {
+                    return uncheckOrder;
+                }
+                return null;
+            }
+        }
         public void InsertOrder(int tableID)
         {
             using (var context = new DookkiContext())
@@ -140,7 +151,7 @@ namespace DOOKKI_APP.Controllers
             }
         }
 
-        public void CheckOut(int id, int tableID, decimal totalPrice, int customerID)
+        public void CheckOut(int id, int tableID, decimal totalPrice, int customerID, int marks = 0)
         {
             using (var context = new DookkiContext())
             {
@@ -155,6 +166,7 @@ namespace DOOKKI_APP.Controllers
                         order.Status = 1;
                         order.Total = totalPrice;
                         order.CustomerId = customerID;
+                        order.Discount = marks;
                         table.Status = false;
                         context.SaveChanges();
                     }
@@ -211,19 +223,16 @@ namespace DOOKKI_APP.Controllers
             {
                 var menuItems = GetMenuItem(idTable);
                 decimal totalPrice = 0;
-                List<OrderDetail> orderDetails = new List<OrderDetail>();
+                int orderID = GetIDUncheckOrderByTableID(idTable);
+                List<OrderDetail> orderDetails = context.OrderDetails.Where(o=>o.OrderId == orderID).ToList();
                 
-                foreach (var item in menuItems)
+                for (int index = 0; index < menuItems.Count; index++)
                 {
-                    OrderDetail orderDetail = new OrderDetail();
-
-                    orderDetail.Quantily = item.Quantity;
+                    orderDetails.ElementAt(index).Quantily = menuItems[index].Quantity;
                     int ticketID = (from ti in context.Tickets
-                                    where ti.Name == item.Name
+                                    where ti.Name == menuItems[index].Name
                                     select ti.Id).SingleOrDefault();
-                    orderDetail.TicketId = ticketID;
-
-                    orderDetails.Add(orderDetail);
+                    orderDetails.ElementAt(index).TicketId = ticketID;
                 }
                 return orderDetails;
             }

@@ -62,6 +62,7 @@
             panel3 = new Panel();
             cbNumberOfPages = new ComboBox();
             label8 = new Label();
+            btnImportExcel = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
             panel1.SuspendLayout();
             contextMenuStrip.SuspendLayout();
@@ -171,6 +172,7 @@
             // panel1
             // 
             panel1.BackColor = Color.WhiteSmoke;
+            panel1.Controls.Add(btnImportExcel);
             panel1.Controls.Add(btnUpdate);
             panel1.Controls.Add(btnInsert);
             panel1.Controls.Add(dtpk_Exp);
@@ -415,6 +417,21 @@
             label8.TabIndex = 3;
             label8.Text = "Số trang";
             // 
+            // btnImportExcel
+            // 
+            btnImportExcel.AutoSize = true;
+            btnImportExcel.BackColor = Color.FromArgb(42, 52, 65);
+            btnImportExcel.FlatStyle = FlatStyle.Flat;
+            btnImportExcel.Font = new Font("Segoe UI", 14F);
+            btnImportExcel.ForeColor = Color.White;
+            btnImportExcel.Location = new Point(785, 174);
+            btnImportExcel.Name = "btnImportExcel";
+            btnImportExcel.Size = new Size(155, 37);
+            btnImportExcel.TabIndex = 12;
+            btnImportExcel.Text = "Nhập file excel";
+            btnImportExcel.UseVisualStyleBackColor = false;
+            btnImportExcel.Click += btnImportExcel_Click;
+            // 
             // ManageProducts
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -470,5 +487,6 @@
         private Guna.UI2.WinForms.Guna2Button btnUpdate;
         private Label label8;
         private ComboBox cbNumberOfPages;
+        private Button btnImportExcel;
     }
 }

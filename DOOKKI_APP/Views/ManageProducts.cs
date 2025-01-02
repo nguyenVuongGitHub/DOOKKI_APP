@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -118,10 +119,18 @@ namespace DOOKKI_APP.Views
             }
             else
             {
-                if (!int.TryParse(txtUnitInStock.Text, out _))
+                if (!int.TryParse(txtUnitInStock.Text, out int value))
                 {
                     isValid = false;
                     errorProvider.SetError(txtUnitInStock, "Không đúng định dạng");
+                }
+                else
+                {
+                    if (value <= 0)
+                    {
+                        isValid = false;
+                        errorProvider.SetError(txtUnitInStock, "Số không được bé hơn 0");
+                    }
                 }
             }
 
@@ -217,8 +226,8 @@ namespace DOOKKI_APP.Views
                 btnUpdate.Enabled = true;
 
                 txtName.Text = selectedRow.Cells[1].Value?.ToString();
-                dtpk_Mfg.Text = selectedRow.Cells[2].Value?.ToString();
-                dtpk_Exp.Text = selectedRow.Cells[3].Value?.ToString();
+                dtpk_Mfg.Value = DateTime.ParseExact(selectedRow.Cells[2].Value?.ToString(),"dd/MM/yyyy",CultureInfo.InvariantCulture);
+                dtpk_Exp.Value = DateTime.ParseExact(selectedRow.Cells[3].Value?.ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 txtUnitInStock.Text = selectedRow.Cells[4].Value?.ToString();
                 cbCategory.Text = selectedRow.Cells[5].Value?.ToString();
             }
@@ -281,17 +290,21 @@ namespace DOOKKI_APP.Views
                                select p).SingleOrDefault();
                 if (product != null)
                 {
-                    product.Name = txtName.Text;
-                    product.UnitInStock = int.Parse(txtUnitInStock.Text);
-                    product.Mfg = GetDateFromTimePicker(dtpk_Mfg);
-                    product.Exp = GetDateFromTimePicker(dtpk_Exp);
-                    product.CategoryId = cbCategory.SelectedIndex + 1;
-                    btnUpdate.Enabled = false;
-                    _productController.Update(product);
-                    _productController.SaveChanges();
-                    LoadPageProduct();
-                    ClearInputFields();
+                    if(CheckValidate())
+                    {
 
+                        product.Name = txtName.Text;
+                        product.UnitInStock = int.Parse(txtUnitInStock.Text);
+                        product.Mfg = GetDateFromTimePicker(dtpk_Mfg);
+                        product.Exp = GetDateFromTimePicker(dtpk_Exp);
+                        product.CategoryId = cbCategory.SelectedIndex + 1;
+                        btnUpdate.Enabled = false;
+                        _productController.Update(product);
+                        _productController.SaveChanges();
+                        LoadPageProduct();
+                        ClearInputFields();
+
+                    }
                 }
                 else
                 {
@@ -327,7 +340,9 @@ namespace DOOKKI_APP.Views
 
                         if (dr == DialogResult.Yes)
                         {
-                            _productController.Remove(product);
+                            //_productController.Remove(product);
+                            product.IsActive = false;
+                            _productController.Update(product);
                             _productController.SaveChanges();
                             LoadPageProduct();
                             MessageBox.Show("Xóa thành công!");
@@ -353,6 +368,11 @@ namespace DOOKKI_APP.Views
         private void cbNumberOfPages_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadPageProduct();
+        }
+
+        private void btnImportExcel_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Đang phát triển chức năng.");
         }
     }
 }

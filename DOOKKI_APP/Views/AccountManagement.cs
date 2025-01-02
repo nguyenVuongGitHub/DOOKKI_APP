@@ -22,6 +22,7 @@ namespace DOOKKI_APP.Views
         private readonly AccountController accountController;
         private readonly DookkiContext _context;
         bool isCurrentUser = false;
+        string currentName = "", currentPhone = "";
         public AccountManagement(DookkiContext context)
         {
             InitializeComponent();
@@ -36,35 +37,118 @@ namespace DOOKKI_APP.Views
         {
             try
             {
-                //dgvAdmin.DataSource = adminController.Query.ToList().Select(
-                //    (x,index) => new AdminInfo
-                //{
-                //    STT = index + 1,
-                //    Name = x.Name,
-                //    Phone = x.Phone,
-                //    UserName = x.IdaccountNavigation.UserName,
-                //    Password = x.IdaccountNavigation.Password,
-                //    }).ToList();
+                var adminList = adminController.GetModel().Where(a => a.IsActive == true)
+                             .Join(accountController.GetModel().Where(a => a.IsActive == true),
+                                 admin => admin.Idaccount,
+                                 account => account.Id,
+                                 (admin, account) => new { admin, account })
+                             .ToList()
+                             .Select((x, index) => new AdminAccountViewModel
+                             {
+                                 STT = index + 1, // Assuming you want 1-based indexing
+                                 Name = x.admin.Name,
+                                 Phone = x.admin.Phone,
+                                 UserName = x.account.UserName,
+                                 Password = x.account.Password,
+                                 Role = x.account.Role
+                             })
+                             .ToList();
 
-                var adminList = (from admin in adminController.GetModel()
-                            join account in accountController.GetModel()
-                            on admin.Idaccount equals account.Id
-                            select new AdminAccountViewModel { 
-                                Name = admin.Name,
-                                Phone = admin.Phone,
-                                UserName = account.UserName,
-                                Password = account.Password,
-                                Role = account.Role
-                            }).ToList();
 
                 dgvAdmin.DataSource = adminList;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("load gird view: "+ex.Message);
+                MessageBox.Show("load gird view: " + ex.Message);
             }
 
 
+        }
+        private bool IsValid(string currentName = "", string currentPhone = "")
+        {
+            bool isValid = true;
+            errorProvider1.Clear();
+
+            if (string.IsNullOrWhiteSpace(txtUserName.Text))
+            {
+                isValid = false;
+                errorProvider1.SetError(txtUserName, "Tên đăng nhập không được để trống.");
+            }
+            else if (txtUserName.Text.Contains(' '))
+            {
+                isValid = false;
+                errorProvider1.SetError(txtUserName, "Tên đăng nhập không được có khoảng trống.");
+            }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(txtUserName.Text, "^[a-zA-Z0-9]+$"))
+            {
+                isValid = false;
+                errorProvider1.SetError(txtUserName, "Tên đăng nhập chỉ được chứa các ký tự từ a-z và A-Z và số 0-9, không có dấu.");
+            }
+            else
+            {
+                // check duplicate username
+                string userNameTest = "";
+
+                userNameTest = txtUserName.Text;
+
+                bool test = accountController.GetModel().Any(t => t.UserName == userNameTest && userNameTest != currentName);
+                if (test)
+                {
+                    isValid = false;
+                    errorProvider1.SetError(txtUserName, "Tên đăng nhập đã tồn tại.");
+                }
+
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPassword.Text))
+            {
+                isValid = false;
+                errorProvider1.SetError(txtPassword, "Mật khẩu không được để trống.");
+            }
+            else if (txtPassword.Text.Contains(' '))
+            {
+                isValid = false;
+                errorProvider1.SetError(txtPassword, "Mật khẩu không được có khoảng trống.");
+            }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(txtPassword.Text, "^[a-zA-Z0-9]+$"))
+            {
+                isValid = false;
+                errorProvider1.SetError(txtPassword, "Mật khẩu chỉ được chứa các ký tự từ a-z và A-Z và số 0-9, không có dấu.");
+            }
+
+
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                isValid = false;
+                errorProvider1.SetError(txtName, "Tên không được để trống.");
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPhone.Text))
+            {
+                errorProvider1.SetError(txtPhone, "Vui lòng nhập số điện thoại.");
+                isValid = false;
+            }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(txtPhone.Text, @"^\d{10}$"))
+            {
+                errorProvider1.SetError(txtPhone, "Số điện thoại phải là 10 chữ số.");
+                isValid = false;
+            }
+            else
+            {
+
+                string phoneTest = "";
+                phoneTest = txtPhone.Text;
+                bool test = adminController.GetModel().Any(t => t.Phone == phoneTest && t.Phone != currentPhone);
+                if (test)
+                {
+                    isValid = false;
+                    errorProvider1.SetError(txtPhone, "Số điện thoại đã tồn tại.");
+                }
+
+
+            }
+
+            return isValid;
         }
         private void SetDataGridView()
         {
@@ -90,7 +174,7 @@ namespace DOOKKI_APP.Views
         }
         private void LoadComboBox()
         {
-            string[] items = { "Vai trò", "Admin", "Cashier" };
+            string[] items = { "Vai trò", "admin", "employee" };
             foreach (var item in items)
             {
                 cbRoles.Items.Add(item);
@@ -103,6 +187,8 @@ namespace DOOKKI_APP.Views
             txtPassword.Text = "";
             txtName.Text = "";
             txtPhone.Text = "";
+            currentName = "";
+            currentPhone = "";
         }
         private void EditToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -113,11 +199,16 @@ namespace DOOKKI_APP.Views
                 btnUpdate.Visible = true;
                 btnCancel.Visible = true;
                 btnAddnew.Visible = false;
-                pnAddNewAccount.Visible = true;
+                groupBox2.Visible = true;
+                btnUpdate.Enabled = true;
+                cbRoles.Enabled = false;
                 txtName.Text = selectedRow.Cells[1].Value?.ToString();
                 txtPhone.Text = selectedRow.Cells[2].Value?.ToString();
+                currentPhone = txtPhone.Text;
                 txtUserName.Text = selectedRow.Cells[3].Value?.ToString();
+                currentName = txtUserName.Text;
                 txtPassword.Text = selectedRow.Cells[4].Value?.ToString();
+                groupBox2.Text = selectedRow.Cells[5].Value?.ToString();
             }
         }
 
@@ -128,21 +219,30 @@ namespace DOOKKI_APP.Views
                 if (dgvAdmin.SelectedRows.Count > 0)
                 {
                     DataGridViewRow selectedRow = dgvAdmin.SelectedRows[0];
-                    int index = int.Parse(selectedRow.Cells[0].Value?.ToString());
-                    var accounts = adminController.GetModel().ToList();
+                    int rowIndex = selectedRow.Index;
 
-                    var account = (from ac in adminController.GetModel()
-                                   where ac.Id == accounts.ElementAt(index).Id
-                                   select ac).SingleOrDefault();
+                    //var accounts = adminController.GetModel().ToList();
+                    //var account = (from ac in adminController.GetModel()
+                    //               where ac.Id == accounts.ElementAt(rowIndex).Id
+                    //               select ac).SingleOrDefault();
 
-                    if (account != null)
+                    var adminList = dgvAdmin.DataSource as List<AdminAccountViewModel>;
+                    var selectedAdminFromView = adminList[rowIndex];
+                    var admin = adminController.GetModel().FirstOrDefault(a => a.Name == selectedAdminFromView.Name && a.Phone == selectedAdminFromView.Phone);
+                    var account = accountController.GetModel().FirstOrDefault(a => a.UserName == selectedAdminFromView.UserName);
+                    if (admin != null && account != null)
                     {
-                        DialogResult dr = MessageBox.Show($"Xác nhận xóa tài khoản {account.Name}?", "Thông báo xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult dr = MessageBox.Show($"Xác nhận xóa tài khoản {admin.Name}?", "Thông báo xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                         if (dr == DialogResult.Yes)
                         {
-                            adminController.Remove(account);
+                            admin.IsActive = false;
+                            account.IsActive = false;
+
+                            adminController.Update(admin);
                             adminController.SaveChanges();
+                            accountController.Update(account);
+                            accountController.SaveChanges();
                             LoadGridView();
                             MessageBox.Show("Xóa thành công!");
                         }
@@ -170,22 +270,20 @@ namespace DOOKKI_APP.Views
             if (dgvAdmin.SelectedRows.Count > 0 && !isCurrentUser)
             {
                 DataGridViewRow selectedRow = dgvAdmin.SelectedRows[0];
-                int index = int.Parse(selectedRow.Cells[0].Value?.ToString());
-                var accounts = adminController.GetModel().ToList();
+                int rowIndex = selectedRow.Index;
+                var adminList = dgvAdmin.DataSource as List<AdminAccountViewModel>;
+                var selectedAdminFromView = adminList[rowIndex];
+                var admin = adminController.GetModel().FirstOrDefault(a => a.Name == selectedAdminFromView.Name && a.Phone == selectedAdminFromView.Phone);
 
-                var admin = (from ac in adminController.GetModel()
-                               where ac.Id == accounts.ElementAt(index).Id
-                               select ac).SingleOrDefault(); 
-
-                if (admin != null)
+                if (admin != null && IsValid(currentName, currentPhone))
                 {
                     admin.Name = txtName.Text;
-                    // continue here
+
                     var account = (from acc in accountController.GetModel()
                                    where acc.Id == admin.Idaccount
                                    select acc).SingleOrDefault();
                     admin.Phone = txtPhone.Text;
-                    if(account != null)
+                    if (account != null)
                     {
                         account.UserName = txtUserName.Text;
                         account.Password = txtPassword.Text;
@@ -195,10 +293,11 @@ namespace DOOKKI_APP.Views
                     adminController.Update(admin);
                     adminController.SaveChanges();
 
-
                     MessageBox.Show("Thành công");
-                }else
+                }
+                else
                 {
+                    btnUpdate.Enabled = false;
                     MessageBox.Show("Thất bại");
                 }
             }
@@ -209,18 +308,26 @@ namespace DOOKKI_APP.Views
                                select acc).Single();
 
                 var admin = (from ad in adminController.GetModel()
-                             where ad.Idaccount == account.Id 
+                             where ad.Idaccount == account.Id
                              select ad).Single();
+                if (IsValid(currentName, currentPhone))
+                {
+                    admin.Name = txtName.Text;
+                    admin.Phone = txtPhone.Text;
+                    account.UserName = txtUserName.Text;
+                    account.Password = txtPassword.Text;
+                    accountController.Update(account);
+                    accountController.SaveChanges();
+                    adminController.Update(admin);
+                    adminController.SaveChanges();
+                    MessageBox.Show("Thành công");
+                }
+                else
+                {
+                    btnUpdate.Enabled = false;
+                    MessageBox.Show("Thất bại");
+                }
 
-                admin.Name = txtName.Text;
-                admin.Phone = txtPhone.Text;
-                account.UserName = txtUserName.Text;
-                account.Password = txtPassword.Text;
-                accountController.Update(account);
-                accountController.SaveChanges();
-                adminController.Update(admin);
-                adminController.SaveChanges();
-                MessageBox.Show("Thành công");
             }
             LoadGridView();
             ClearInputFields();
@@ -228,7 +335,7 @@ namespace DOOKKI_APP.Views
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            pnAddNewAccount.Visible = false;
+            groupBox2.Visible = false;
             btnAddnew.Visible = false;
             btnCancel.Visible = false;
             btnUpdate.Visible = false;
@@ -256,30 +363,37 @@ namespace DOOKKI_APP.Views
         {
             try
             {
-                Admin ad = new Admin();
-                Account acc = new Account();
-                acc.UserName = txtUserName.Text;
-                acc.Password = txtPassword.Text;
-                if (cbRoles.SelectedIndex == 1) // role admin
+                if (IsValid(currentName: "", currentPhone: ""))
                 {
-                    acc.Role = "admin";
+                    Admin ad = new Admin();
+                    Account acc = new Account();
+
+                    if (cbRoles.SelectedIndex == 1) // role admin
+                    {
+                        acc.Role = "admin";
+                    }
+                    else if (cbRoles.SelectedIndex == 2) // role employee
+                    {
+                        acc.Role = "employee";
+                    }
+
+                    acc.UserName = txtUserName.Text;
+                    acc.Password = txtPassword.Text;
+
+                    accountController.Add(acc);
+                    accountController.SaveChanges();
+
+                    ad.Name = txtName.Text;
+                    ad.Phone = txtPhone.Text;
+                    ad.Idaccount = acc.Id;
+                    adminController.Add(ad);
+                    adminController.SaveChanges();
+                    MessageBox.Show("Thành công");
+                    ClearInputFields();
+                    LoadGridView();
 
                 }
-                else if (cbRoles.SelectedIndex == 2) // role employee
-                {
-                    acc.Role = "employee";
-                }
-                ad.Name = txtName.Text;
-                ad.Phone = txtPhone.Text;
-                accountController.Add(acc);
-                accountController.SaveChanges();
 
-                ad.Idaccount = acc.Id;
-                adminController.Add(ad);
-                adminController.SaveChanges();
-                MessageBox.Show("Thành công");
-                ClearInputFields();
-                LoadGridView();
             }
             catch (Exception ex)
             {
@@ -296,7 +410,7 @@ namespace DOOKKI_APP.Views
                 return;
             }
             cbRoles.Enabled = false;
-            pnAddNewAccount.Visible = true;
+            groupBox2.Visible = true;
             btnAddnew.Visible = true;
             btnCancel.Visible = true;
         }
@@ -306,9 +420,13 @@ namespace DOOKKI_APP.Views
 
             try
             {
-                pnAddNewAccount.Visible = true;
+                groupBox2.Visible = true;
+                btnAddnew.Visible = false;
                 btnUpdate.Visible = true;
                 btnCancel.Visible = true;
+                btnUpdate.Enabled = true;
+                cbRoles.Enabled = false;
+                groupBox2.Text = "Admin";
                 var ad = (from admin in adminController.GetModel()
                           join account in accountController.GetModel()
                           on admin.Idaccount equals account.Id
@@ -327,10 +445,12 @@ namespace DOOKKI_APP.Views
                     txtPassword.Text = ad.Password;
                     txtName.Text = ad.Name;
                     txtPhone.Text = ad.Phone;
+                    currentName = txtUserName.Text;
+                    currentPhone = txtPhone.Text;
                 }
                 isCurrentUser = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("edit: " + ex.Message);
             }
@@ -341,6 +461,7 @@ namespace DOOKKI_APP.Views
             if (cbRoles.SelectedIndex != 0)
             {
                 errorProvider1.Clear();
+                groupBox2.Text = cbRoles.Text;
             }
         }
     }

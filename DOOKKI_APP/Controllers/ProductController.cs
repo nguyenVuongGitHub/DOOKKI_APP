@@ -45,12 +45,13 @@ namespace DOOKKI_APP.Controllers
                     .ToList();
 
             var dataSource = productsPaged
+                .Where(p=>p.IsActive == true)
                 .Select((p, index) => new
                 {
                     STT = index + 1 + ((pageNumber - 1) * pageSize), // Calculating the row number
                     Name = p.Name,
-                    Mfg = p.Mfg,
-                    Exp = p.Exp,
+                    Mfg = p.Mfg.ToString("dd/MM/yyyy"),
+                    Exp = p.Exp.ToString("dd/MM/yyyy"),
                     UnitInStock = p.UnitInStock,
                     CategoryId = _categoryController.GetModel()
                                     .FirstOrDefault(c => c.Id == p.CategoryId)?.Name

@@ -78,8 +78,8 @@ namespace DOOKKI_APP.Views
                 var newOrder = _context.Orders.ToList().ElementAt(2);
                 if (newOrder != null)
                 {
-                    bool exported = export.ExportToPDF(newOrder);
-                    if (exported)
+                    //bool exported = export.ExportToPDF(newOrder);
+                    //if (exported)
                         MessageBox.Show("Xuat file thanh cong");
                 }
             }
