@@ -53,6 +53,13 @@ namespace DOOKKI_APP.Views
         private bool IsValid()
         {
             bool isValid = true;
+            if(!rdCash.Checked && !rdCredit.Checked)
+            {
+                isValid = false;
+                errorProvider1.SetError(rdCash, "Chọn loại hình thanh toán");
+                errorProvider1.SetError(rdCredit, "Chọn loại hình thanh toán");
+            }
+
             if (string.IsNullOrWhiteSpace(txtAmount.Text))
             {
                 isValid = false;
