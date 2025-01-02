@@ -109,7 +109,7 @@
             lblPageInfo.AutoSize = true;
             lblPageInfo.Location = new Point(293, 462);
             lblPageInfo.Name = "lblPageInfo";
-            lblPageInfo.Size = new Size(56, 15);
+            lblPageInfo.Size = new Size(57, 15);
             lblPageInfo.TabIndex = 12;
             lblPageInfo.Text = "Trang 1/1";
             // 
@@ -179,7 +179,7 @@
             label2.AutoSize = true;
             label2.Location = new Point(3, 7);
             label2.Name = "label2";
-            label2.Size = new Size(59, 15);
+            label2.Size = new Size(60, 15);
             label2.TabIndex = 10;
             label2.Text = "Tìm kiếm:";
             // 
@@ -203,6 +203,7 @@
             // 
             // dgvWorkTime
             // 
+            dgvWorkTime.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvWorkTime.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvWorkTime.Location = new Point(16, 58);
             dgvWorkTime.Margin = new Padding(3, 2, 3, 2);
@@ -300,7 +301,7 @@
             lblTimeWork.AutoSize = true;
             lblTimeWork.Location = new Point(16, 7);
             lblTimeWork.Name = "lblTimeWork";
-            lblTimeWork.Size = new Size(67, 15);
+            lblTimeWork.Size = new Size(68, 15);
             lblTimeWork.TabIndex = 0;
             lblTimeWork.Text = "Time Work:";
             // 
