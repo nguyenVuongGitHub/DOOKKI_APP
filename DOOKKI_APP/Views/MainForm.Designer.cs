@@ -343,6 +343,7 @@
             // 
             // employeeTransition
             // 
+            employeeTransition.Interval = 10;
             employeeTransition.Tick += employeeTransition_Tick;
             // 
             // sidebarTransition
