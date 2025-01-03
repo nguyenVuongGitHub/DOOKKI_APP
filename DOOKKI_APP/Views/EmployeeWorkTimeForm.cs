@@ -16,6 +16,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using Microsoft.VisualBasic.Devices;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace DOOKKI_APP.Views
@@ -218,6 +220,7 @@ namespace DOOKKI_APP.Views
                 LoadWorkTimeData();
                 ClearFields();
                 btnUpdateWorkTime.Enabled = false;
+                btnAddWorkTime.Enabled = true;
             }
         }
 
@@ -335,7 +338,26 @@ namespace DOOKKI_APP.Views
                 })
                 .ToList();
 
-
+            if (cmbFilterMonth.SelectedItem.ToString() == "Hôm nay")
+            {
+                workTimeData = workTimeData
+                    .Where(dw => dw.Date.HasValue && dw.Date.Value == DateOnly.FromDateTime(DateTime.Today))
+                    .ToList();
+                txtDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+            }
+            else if (cmbFilterMonth.SelectedItem.ToString() == "Tất cả")
+            {
+                workTimeData = workTimeData.ToList();
+                txtDate.Text = "Tất cả các ngày";
+            }
+            else
+            {
+                int month = cmbFilterMonth.SelectedIndex - 1;
+                workTimeData = workTimeData
+                    .Where(dw => dw.Date.HasValue && dw.Date.Value.Month == month)
+                    .ToList();
+                txtDate.Text = $"{new DateTime(DateTime.Now.Year, month, 1).ToString("dd/MM/yyyy")} - {new DateTime(DateTime.Now.Year, month, DateTime.DaysInMonth(DateTime.Now.Year, month)).ToString("dd/MM/yyyy")}";
+            }
 
             workTimeData = workTimeData
                 .Where(dw => dw.EmployeeName.ToLower().Contains(keyword))
@@ -402,6 +424,12 @@ namespace DOOKKI_APP.Views
             else
             {
                 currentPage = 1;
+            }
+            if(!txtSearch.Text.IsNullOrEmpty())
+            {
+                workTimeData = workTimeData
+                            .Where(dw => dw.EmployeeName.ToLower().Contains(txtSearch.Text.ToLower()))
+                            .ToList();
             }
             totalPages = (int)Math.Ceiling((double)workTimeData.Count / pageSize);
 
@@ -531,6 +559,7 @@ namespace DOOKKI_APP.Views
             if (dgvWorkTime.SelectedRows.Count > 0)
             {
                 btnUpdateWorkTime.Enabled = true;
+                btnAddWorkTime.Enabled = false;
                 DataGridViewRow selectedRow = dgvWorkTime.SelectedRows[0];
 
                 txtName.Text = selectedRow.Cells[2].Value.ToString();
