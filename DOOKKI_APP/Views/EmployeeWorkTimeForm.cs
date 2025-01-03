@@ -39,17 +39,22 @@ namespace DOOKKI_APP.Views
 
         private void LoadEmployeeIDs()
         {
-            var employees = _context.Employees
+            var employees = _context.Employees.ToList()
+            .Where(e => e.IsActive == true)
             .OrderBy(e => e.Id)
             .Select(e => new
             {
-                e.Id
+                e.Id,
+                e.Name
             })
             .ToList();
-
-            CmbEmployeeID.DataSource = employees;
-            CmbEmployeeID.ValueMember = "Id";              
-            CmbEmployeeID.DisplayMember = "Id";
+            foreach(var employee in employees)
+            {
+                CmbEmployeeID.Items.Add($"{employee.Name} (id:{employee.Id})");
+            }
+            //CmbEmployeeID.DataSource = employees;
+            //CmbEmployeeID.ValueMember = "Id";              
+            //CmbEmployeeID.DisplayMember = "Id";
         }
         private void InitializeFields()
         {
@@ -421,7 +426,11 @@ namespace DOOKKI_APP.Views
             if (CmbEmployeeID.SelectedItem != null)
             {
                 Console.WriteLine($"Selected Employee ID: {CmbEmployeeID.SelectedValue}");
-                int employeeID = int.Parse(CmbEmployeeID.SelectedValue.ToString());
+                string selectedText = CmbEmployeeID.SelectedItem.ToString() ?? "";
+                int startIndex = selectedText.IndexOf("id:") + 3;
+                int endIndex = selectedText.IndexOf(")", startIndex);
+                string idText = selectedText.Substring(startIndex, endIndex - startIndex);
+                int employeeID = int.Parse(idText);
                 var employee = _context.Employees.FirstOrDefault(e => e.Id == employeeID);
 
                 if (employee != null)

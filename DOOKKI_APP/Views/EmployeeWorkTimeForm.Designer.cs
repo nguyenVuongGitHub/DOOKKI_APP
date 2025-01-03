@@ -506,6 +506,7 @@
             // CmbEmployeeID
             // 
             CmbEmployeeID.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CmbEmployeeID.DropDownStyle = ComboBoxStyle.DropDownList;
             CmbEmployeeID.Font = new Font("Segoe UI", 14.25F);
             CmbEmployeeID.FormattingEnabled = true;
             CmbEmployeeID.Location = new Point(157, 6);
