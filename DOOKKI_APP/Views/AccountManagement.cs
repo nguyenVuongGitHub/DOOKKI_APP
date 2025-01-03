@@ -160,12 +160,12 @@ namespace DOOKKI_APP.Views
                 dgvAdmin.ReadOnly = true;
 
                 dgvAdmin.Columns.Clear();
-                dgvAdmin.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "STT", DataPropertyName = "STT" });
+                dgvAdmin.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "STT", DataPropertyName = "STT", FillWeight = 25});
                 dgvAdmin.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên", DataPropertyName = "Name" });
                 dgvAdmin.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Số điện thoại", DataPropertyName = "Phone" });
                 dgvAdmin.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tài khoản", DataPropertyName = "UserName" });
                 dgvAdmin.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mật khẩu", DataPropertyName = "Password" });
-                dgvAdmin.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Quyền truy cập", DataPropertyName = "Role" });
+                dgvAdmin.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Quyền truy cập", DataPropertyName = "Role", FillWeight = 50});
             }
             catch (Exception ex)
             {
