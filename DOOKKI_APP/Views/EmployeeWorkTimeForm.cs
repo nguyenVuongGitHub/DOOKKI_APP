@@ -215,6 +215,7 @@ namespace DOOKKI_APP.Views
                 LoadWorkTimeData();
                 ClearFields();
                 btnUpdateWorkTime.Enabled = false;
+                btnAddWorkTime.Enabled = true;
             }
         }
 
@@ -549,6 +550,7 @@ namespace DOOKKI_APP.Views
             if (dgvWorkTime.SelectedRows.Count > 0)
             {
                 btnUpdateWorkTime.Enabled = true;
+                btnAddWorkTime.Enabled = false;
                 DataGridViewRow selectedRow = dgvWorkTime.SelectedRows[0];
 
                 txtName.Text = selectedRow.Cells[2].Value.ToString();

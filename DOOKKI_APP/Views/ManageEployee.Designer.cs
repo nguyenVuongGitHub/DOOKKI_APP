@@ -34,13 +34,15 @@
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             panel3 = new Panel();
             dgvEmployee = new DataGridView();
             panel4 = new Panel();
+            btnAdd = new Guna.UI2.WinForms.Guna2Button();
             btnUpdate = new Guna.UI2.WinForms.Guna2Button();
             label2 = new Label();
             btnCancel = new Button();
-            btnAdd = new Button();
             txtWage = new TextBox();
             txtEmail = new TextBox();
             cmbPosition = new ComboBox();
@@ -118,10 +120,10 @@
             // panel4
             // 
             panel4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panel4.Controls.Add(btnAdd);
             panel4.Controls.Add(btnUpdate);
             panel4.Controls.Add(label2);
             panel4.Controls.Add(btnCancel);
-            panel4.Controls.Add(btnAdd);
             panel4.Controls.Add(txtWage);
             panel4.Controls.Add(txtEmail);
             panel4.Controls.Add(cmbPosition);
@@ -137,11 +139,30 @@
             panel4.Size = new Size(1080, 288);
             panel4.TabIndex = 7;
             // 
+            // btnAdd
+            // 
+            btnAdd.BackColor = Color.FromArgb(42, 52, 65);
+            btnAdd.CustomizableEdges = customizableEdges1;
+            btnAdd.DisabledState.BorderColor = Color.DarkGray;
+            btnAdd.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnAdd.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnAdd.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnAdd.FillColor = Color.FromArgb(42, 52, 65);
+            btnAdd.Font = new Font("Segoe UI", 14F);
+            btnAdd.ForeColor = Color.White;
+            btnAdd.Location = new Point(317, 191);
+            btnAdd.Name = "btnAdd";
+            btnAdd.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnAdd.Size = new Size(121, 33);
+            btnAdd.TabIndex = 19;
+            btnAdd.Text = "Thêm";
+            btnAdd.Click += btnAdd_Click;
+            // 
             // btnUpdate
             // 
             btnUpdate.Anchor = AnchorStyles.Bottom;
             btnUpdate.BackColor = Color.FromArgb(42, 52, 65);
-            btnUpdate.CustomizableEdges = customizableEdges1;
+            btnUpdate.CustomizableEdges = customizableEdges3;
             btnUpdate.DisabledState.BorderColor = Color.DarkGray;
             btnUpdate.DisabledState.CustomBorderColor = Color.DarkGray;
             btnUpdate.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -150,9 +171,9 @@
             btnUpdate.FillColor = Color.FromArgb(42, 52, 65);
             btnUpdate.Font = new Font("Segoe UI", 14F);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(470, 191);
+            btnUpdate.Location = new Point(475, 191);
             btnUpdate.Name = "btnUpdate";
-            btnUpdate.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnUpdate.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnUpdate.Size = new Size(121, 33);
             btnUpdate.TabIndex = 18;
             btnUpdate.Text = "cập nhật";
@@ -175,30 +196,14 @@
             btnCancel.FlatStyle = FlatStyle.Flat;
             btnCancel.Font = new Font("Segoe UI", 14F);
             btnCancel.ForeColor = Color.White;
-            btnCancel.Location = new Point(622, 189);
+            btnCancel.Location = new Point(631, 191);
             btnCancel.Margin = new Padding(3, 2, 3, 2);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(121, 35);
+            btnCancel.Size = new Size(121, 33);
             btnCancel.TabIndex = 17;
             btnCancel.Text = "Hủy bỏ";
             btnCancel.UseVisualStyleBackColor = false;
             btnCancel.Click += btnCancel_Click;
-            // 
-            // btnAdd
-            // 
-            btnAdd.Anchor = AnchorStyles.Bottom;
-            btnAdd.BackColor = Color.FromArgb(42, 52, 65);
-            btnAdd.FlatStyle = FlatStyle.Flat;
-            btnAdd.Font = new Font("Segoe UI", 14F);
-            btnAdd.ForeColor = Color.White;
-            btnAdd.Location = new Point(322, 191);
-            btnAdd.Margin = new Padding(3, 2, 3, 2);
-            btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(121, 33);
-            btnAdd.TabIndex = 13;
-            btnAdd.Text = "Thêm";
-            btnAdd.UseVisualStyleBackColor = false;
-            btnAdd.Click += btnAdd_Click;
             // 
             // txtWage
             // 
@@ -351,11 +356,11 @@
         private ComboBox cmbPosition;
         private TextBox txtPhoneNum;
         private Button btnCancel;
-        private Button btnAdd;
         private ContextMenuStrip contextMenuStrip1;
         private ErrorProvider errorProvider;
         private ToolStripMenuItem editToolStripMenuItem;
         private ToolStripMenuItem deleteToolStripMenuItem;
         private Guna.UI2.WinForms.Guna2Button btnUpdate;
+        private Guna.UI2.WinForms.Guna2Button btnAdd;
     }
 }
