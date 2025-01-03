@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,32 +16,57 @@ namespace DOOKKI_APP.Views
     public partial class ManageEployee : Form
     {
         private readonly DookkiContext _context;
+        string currentPhone = "";
         public ManageEployee(DookkiContext context)
         {
             InitializeComponent();
             _context = context;
-            LoadEmployees();
+
+            LoadGridView();
             //dgvEmployee.CellClick += dgvEmployee_CellClick;
 
         }
+        void LoadGridView()
+        {
+            try
+            {
+                dgvEmployee.AutoGenerateColumns = false;
+                dgvEmployee.AllowUserToResizeColumns = false;
+                dgvEmployee.AllowUserToResizeRows = false;
 
+                dgvEmployee.Columns.Clear();
+                dgvEmployee.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "STT", DataPropertyName = "STT", FillWeight = 25 });
+                dgvEmployee.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên", DataPropertyName = "Name" });
+                dgvEmployee.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Số điện thoại", DataPropertyName = "Phone" });
+                dgvEmployee.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Email", DataPropertyName = "Email" });
+                dgvEmployee.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Số lương", DataPropertyName = "AmountWage", FillWeight = 50 });
+                dgvEmployee.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Vị trí", DataPropertyName = "Position", FillWeight = 50 });
+
+                LoadEmployees();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error at class ManageProduct(Form) function LoadDataGridView " + ex.Message);
+            }
+        }
         private void LoadEmployees()
         {
             try
             {
-                var employees = _context.Employees
-                                        .Select(e => new
+                dgvEmployee.DataSource = null;
+                var employees = _context.Employees.ToList()
+                                        .Where(e => e.IsActive == true)
+                                        .Select((e, index) => new
                                         {
-                                            e.Id,
-                                            e.Name,
-                                            e.Phone,
-                                            e.Email,
-                                            e.AmountWage,
-                                            e.Position
+                                            STT = index + 1,
+                                            Name = e.Name,
+                                            Phone = e.Phone,
+                                            Email = e.Email,
+                                            AmountWage = e.AmountWage,
+                                            Position = e.Position
                                         })
                                         .ToList();
 
-                dgvEmployee.AutoGenerateColumns = true;
                 dgvEmployee.DataSource = employees;
             }
             catch (Exception ex)
@@ -48,7 +74,7 @@ namespace DOOKKI_APP.Views
                 MessageBox.Show("Có lỗi xảy ra khi tải dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private bool ValidateInput()
+        private bool ValidateInput(string currentPhone = "")
         {
             bool isValid = true;
 
@@ -72,6 +98,20 @@ namespace DOOKKI_APP.Views
             {
                 errorProvider.SetError(txtPhoneNum, "Số điện thoại phải là 10 chữ số.");
                 isValid = false;
+            }
+            else
+            {
+                // check trung so dien thoai
+
+                string phoneTest = txtPhoneNum.Text;
+
+                bool isExist = _context.Employees.Any(e => e.Phone == phoneTest && e.Phone != currentPhone);
+                if (isExist)
+                {
+                    errorProvider.SetError(txtPhoneNum, "Số điện thoại đã tồn tại.");
+                    isValid = false;
+                }
+
             }
 
             // Kiểm tra email
@@ -114,23 +154,22 @@ namespace DOOKKI_APP.Views
         {
             try
             {
-                using (var context = new DookkiContext())
-                {
-                    var employee = new Employee
-                    {
-                        Name = employeeName,
-                        Phone = phone,
-                        Email = email,
-                        AmountWage = amountWage,
-                        Position = position
-                    };
 
-                    // Thêm nhân viên vào database và lưu thay đổi
-                    context.Employees.Add(employee);
-                    context.SaveChanges();
-                    MessageBox.Show("Thêm nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadEmployees();
-                }
+                var employee = new Employee
+                {
+                    Name = employeeName,
+                    Phone = phone,
+                    Email = email,
+                    AmountWage = amountWage,
+                    Position = position
+                };
+
+                // Thêm nhân viên vào database và lưu thay đổi
+                _context.Employees.Add(employee);
+                _context.SaveChanges();
+                MessageBox.Show("Thêm nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadEmployees();
+
             }
             catch (Exception ex)
             {
@@ -138,31 +177,30 @@ namespace DOOKKI_APP.Views
             }
         }
 
-        private void RemoveEmployee()
+        private void RemoveEmployee(string phone)
         {
             try
             {
                 if (dgvEmployee.SelectedRows.Count > 0)
                 {
                     // Sửa tên cột từ "EmployeeId" thành "Id"
-                    int employeeId = (int)dgvEmployee.SelectedRows[0].Cells["Id"].Value;
+                    //int employeeId = (int)dgvEmployee.SelectedRows[0].Cells["Id"].Value;
+                    var employee = _context.Employees.FirstOrDefault(e => e.Phone == phone);
 
-                    using (var context = new DookkiContext())
+                    if (employee != null)
                     {
-                        var employee = context.Employees.FirstOrDefault(e => e.Id == employeeId);
-
-                        if (employee != null)
-                        {
-                            context.Employees.Remove(employee);
-                            context.SaveChanges();
-                            MessageBox.Show("Xóa nhân viên thành công!");
-                            LoadEmployees();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Nhân viên không tồn tại!");
-                        }
+                        //context.Employees.Remove(employee);
+                        employee.IsActive = false;
+                        _context.Employees.Update(employee);
+                        _context.SaveChanges();
+                        MessageBox.Show("Xóa nhân viên thành công!");
+                        LoadEmployees();
                     }
+                    else
+                    {
+                        MessageBox.Show("Nhân viên không tồn tại!");
+                    }
+
                 }
                 else
                 {
@@ -181,26 +219,25 @@ namespace DOOKKI_APP.Views
         {
             try
             {
-                using (var context = new DookkiContext())
-                {
-                    var employee = context.Employees.Find(employeeID);
-                    if (employee != null)
-                    {
-                        employee.Name = employeeName;
-                        employee.Phone = phone;
-                        employee.Email = email;
-                        employee.AmountWage = amountWage;
-                        employee.Position = position;
 
-                        context.SaveChanges();
-                        MessageBox.Show("Cập nhật thông tin nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadEmployees();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Không tìm thấy nhân viên.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
+                var employee = _context.Employees.Find(employeeID);
+                if (employee != null)
+                {
+                    employee.Name = employeeName;
+                    employee.Phone = phone;
+                    employee.Email = email;
+                    employee.AmountWage = amountWage;
+                    employee.Position = position;
+                    _context.Employees.Update(employee);
+                    _context.SaveChanges();
+                    LoadEmployees();
+                    MessageBox.Show("Cập nhật thông tin nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy nhân viên.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
             }
             catch (Exception ex)
             {
@@ -212,17 +249,12 @@ namespace DOOKKI_APP.Views
 
         private void ManageEployee_Load(object sender, EventArgs e)
         {
-            txtID.Enabled = false;
-            btnUpdate.Visible = false;
+            //txtID.Enabled = false;
+            //btnUpdate.Visible = false;
 
         }
 
         private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgvEmployee_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
@@ -252,93 +284,108 @@ namespace DOOKKI_APP.Views
             Clear_Texbox();
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            if (!ValidateInput())
-            {
-                return;
-            }
-
-            RemoveEmployee();
-        }
-
-        private void btnEdit_Click(object sender, EventArgs e)
-        {
-
-            if (dgvEmployee.SelectedRows.Count > 0)
-            {
-                // Sửa tên cột từ "EmployeeId" thành "Id"
-                DataGridViewRow row = dgvEmployee.SelectedRows[0];
-                int employeeID = (int)row.Cells["Id"].Value;
-                string employeeName = row.Cells["Name"].Value.ToString();
-                string phone = row.Cells["Phone"].Value.ToString();
-                string email = row.Cells["Email"].Value.ToString();
-                decimal amountWage = (decimal)row.Cells["AmountWage"].Value;
-                string position = row.Cells["Position"].Value.ToString();
-
-                txtID.Text = employeeID.ToString();
-                txtName.Text = employeeName;
-                txtPhoneNum.Text = phone;
-                txtEmail.Text = email;
-                txtWage.Text = amountWage.ToString();
-                cmbPosition.Text = position;
-
-                txtName.Enabled = true;
-                txtPhoneNum.Enabled = true;
-                txtEmail.Enabled = true;
-                txtWage.Enabled = true;
-                cmbPosition.Enabled = true;
-
-                btnUpdate.Visible = true;
-                btnEdit.Visible = false;
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn một nhân viên để chỉnh sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (!ValidateInput())
+
+            if (!ValidateInput(txtPhoneNum.Text))
             {
                 return;
             }
 
-            int employeeID = int.Parse(txtID.Text);
+            //int employeeID = int.Parse(txtID.Text);
             string employeeName = txtName.Text;
             string phone = txtPhoneNum.Text;
             string email = txtEmail.Text;
             decimal amountWage = decimal.Parse(txtWage.Text);
             string position = cmbPosition.Text;
 
+            int id = _context.Employees.Where(e => e.Phone == phone).Select(e => e.Id).FirstOrDefault();
+
+
             // Gọi hàm EditEmployee để cập nhật vào database
-            EditEmployee(employeeID, employeeName, phone, email, amountWage, position);
-            btnEdit.Visible = true;
-            btnUpdate.Visible = false;
+            EditEmployee(id, employeeName, phone, email, amountWage, position);
+            LoadEmployees();
+            btnAdd.Enabled = true;
+            btnUpdate.Enabled = false;
             Clear_Texbox();
         }
 
         private void Clear_Texbox()
         {
             // Xóa hoặc đặt lại các ô nhập liệu
-            txtID.Clear();
+            //txtID.Clear();
             txtName.Clear();
             txtPhoneNum.Clear();
             txtEmail.Clear();
             txtWage.Clear();
             cmbPosition.SelectedIndex = -1;
-
-            // Đặt lại trạng thái nút: Hiển thị nút Edit, ẩn nút Update
-            btnEdit.Visible = true;
-            btnUpdate.Visible = false;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             errorProvider.Clear();
-
+            btnUpdate.Enabled = false;
+            btnAdd.Enabled = true;
             Clear_Texbox();
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgvEmployee.SelectedRows.Count > 0)
+            {
+                // Sửa tên cột từ "EmployeeId" thành "Id"
+                DataGridViewRow row = dgvEmployee.SelectedRows[0];
+                //int employeeID = (int)row.Cells["Id"].Value;
+                string employeeName = row.Cells[1].Value.ToString();
+                string phone = row.Cells[2].Value.ToString();
+                string email = row.Cells[3].Value.ToString();
+                decimal amountWage = (decimal)row.Cells[4].Value;
+                string position = row.Cells[5].Value.ToString();
+
+                //txtID.Text = employeeID.ToString();
+                txtName.Text = employeeName;
+                txtPhoneNum.Text = phone;
+                txtEmail.Text = email;
+                txtWage.Text = amountWage.ToString();
+                cmbPosition.Text = position;
+
+                btnUpdate.Enabled = true;
+                btnAdd.Enabled = false;
+                //btnEdit.Visible = false;
+            }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgvEmployee.SelectedRows.Count > 0)
+            {
+                DialogResult dr = MessageBox.Show($"Xác nhận xóa nhân viên {dgvEmployee.SelectedRows[0].Cells[1].Value.ToString()} ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dr == DialogResult.Yes)
+                {
+                    // Get phone from data grid view
+                    string phone = dgvEmployee.SelectedRows[0].Cells[2].Value.ToString();
+
+
+                    RemoveEmployee(phone);
+                }
+            }
+        }
+
+        private void dgvEmployee_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hit = dgvEmployee.HitTest(e.X, e.Y);
+
+                if (hit.RowIndex >= 0 && hit.ColumnIndex >= 0)
+                {
+                    dgvEmployee.ClearSelection();
+                    dgvEmployee.Rows[hit.RowIndex].Selected = true;
+
+                    contextMenuStrip1.Show(dgvEmployee, e.Location);
+                }
+            }
+
         }
 
         //private void dgvEmployee_CellClick(object sender, DataGridViewCellEventArgs e)

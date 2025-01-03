@@ -38,25 +38,24 @@
             label2 = new Label();
             btnCancel = new Button();
             btnUpdate = new Button();
-            btnDelete = new Button();
-            btnEdit = new Button();
             btnAdd = new Button();
             txtWage = new TextBox();
             txtEmail = new TextBox();
             cmbPosition = new ComboBox();
             txtPhoneNum = new TextBox();
             txtName = new TextBox();
-            txtID = new TextBox();
             label6 = new Label();
-            label1 = new Label();
             label4 = new Label();
             label5 = new Label();
             label3 = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
+            editToolStripMenuItem = new ToolStripMenuItem();
+            deleteToolStripMenuItem = new ToolStripMenuItem();
             errorProvider = new ErrorProvider(components);
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvEmployee).BeginInit();
             panel4.SuspendLayout();
+            contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
@@ -69,7 +68,7 @@
             panel3.Location = new Point(12, 11);
             panel3.Margin = new Padding(3, 2, 3, 2);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1043, 508);
+            panel3.Size = new Size(1111, 687);
             panel3.TabIndex = 2;
             // 
             // dgvEmployee
@@ -96,6 +95,7 @@
             dgvEmployee.DefaultCellStyle = dataGridViewCellStyle2;
             dgvEmployee.Location = new Point(28, 18);
             dgvEmployee.Margin = new Padding(3, 2, 3, 2);
+            dgvEmployee.MultiSelect = false;
             dgvEmployee.Name = "dgvEmployee";
             dgvEmployee.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -109,9 +109,9 @@
             dgvEmployee.RowHeadersVisible = false;
             dgvEmployee.RowHeadersWidth = 51;
             dgvEmployee.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvEmployee.Size = new Size(989, 206);
+            dgvEmployee.Size = new Size(1057, 387);
             dgvEmployee.TabIndex = 0;
-            dgvEmployee.CellContentClick += dgvEmployee_CellContentClick;
+            dgvEmployee.MouseDown += dgvEmployee_MouseDown;
             // 
             // panel4
             // 
@@ -119,24 +119,20 @@
             panel4.Controls.Add(label2);
             panel4.Controls.Add(btnCancel);
             panel4.Controls.Add(btnUpdate);
-            panel4.Controls.Add(btnDelete);
-            panel4.Controls.Add(btnEdit);
             panel4.Controls.Add(btnAdd);
             panel4.Controls.Add(txtWage);
             panel4.Controls.Add(txtEmail);
             panel4.Controls.Add(cmbPosition);
             panel4.Controls.Add(txtPhoneNum);
             panel4.Controls.Add(txtName);
-            panel4.Controls.Add(txtID);
             panel4.Controls.Add(label6);
-            panel4.Controls.Add(label1);
             panel4.Controls.Add(label4);
             panel4.Controls.Add(label5);
             panel4.Controls.Add(label3);
-            panel4.Location = new Point(28, 242);
+            panel4.Location = new Point(28, 409);
             panel4.Margin = new Padding(3, 2, 3, 2);
             panel4.Name = "panel4";
-            panel4.Size = new Size(989, 255);
+            panel4.Size = new Size(1057, 267);
             panel4.TabIndex = 7;
             // 
             // label2
@@ -156,10 +152,10 @@
             btnCancel.FlatStyle = FlatStyle.Flat;
             btnCancel.Font = new Font("Segoe UI", 14F);
             btnCancel.ForeColor = Color.White;
-            btnCancel.Location = new Point(678, 209);
+            btnCancel.Location = new Point(634, 140);
             btnCancel.Margin = new Padding(3, 2, 3, 2);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(82, 35);
+            btnCancel.Size = new Size(121, 35);
             btnCancel.TabIndex = 17;
             btnCancel.Text = "Hủy bỏ";
             btnCancel.UseVisualStyleBackColor = false;
@@ -169,49 +165,18 @@
             // 
             btnUpdate.Anchor = AnchorStyles.Bottom;
             btnUpdate.BackColor = Color.FromArgb(42, 52, 65);
+            btnUpdate.Enabled = false;
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 14F);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(573, 209);
+            btnUpdate.Location = new Point(472, 142);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(82, 33);
+            btnUpdate.Size = new Size(121, 33);
             btnUpdate.TabIndex = 16;
-            btnUpdate.Text = "Ghi dữ liệu";
+            btnUpdate.Text = "Cập nhật";
             btnUpdate.UseVisualStyleBackColor = false;
             btnUpdate.Click += btnUpdate_Click;
-            // 
-            // btnDelete
-            // 
-            btnDelete.Anchor = AnchorStyles.Bottom;
-            btnDelete.BackColor = Color.FromArgb(42, 52, 65);
-            btnDelete.FlatStyle = FlatStyle.Flat;
-            btnDelete.Font = new Font("Segoe UI", 14F);
-            btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(462, 209);
-            btnDelete.Margin = new Padding(3, 2, 3, 2);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(82, 33);
-            btnDelete.TabIndex = 15;
-            btnDelete.Text = "Xóa";
-            btnDelete.UseVisualStyleBackColor = false;
-            btnDelete.Click += btnDelete_Click;
-            // 
-            // btnEdit
-            // 
-            btnEdit.Anchor = AnchorStyles.Bottom;
-            btnEdit.BackColor = Color.FromArgb(42, 52, 65);
-            btnEdit.FlatStyle = FlatStyle.Flat;
-            btnEdit.Font = new Font("Segoe UI", 14F);
-            btnEdit.ForeColor = Color.White;
-            btnEdit.Location = new Point(354, 209);
-            btnEdit.Margin = new Padding(3, 2, 3, 2);
-            btnEdit.Name = "btnEdit";
-            btnEdit.Size = new Size(82, 33);
-            btnEdit.TabIndex = 14;
-            btnEdit.Text = "Sữa";
-            btnEdit.UseVisualStyleBackColor = false;
-            btnEdit.Click += btnEdit_Click;
             // 
             // btnAdd
             // 
@@ -220,10 +185,10 @@
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Font = new Font("Segoe UI", 14F);
             btnAdd.ForeColor = Color.White;
-            btnAdd.Location = new Point(252, 209);
+            btnAdd.Location = new Point(314, 142);
             btnAdd.Margin = new Padding(3, 2, 3, 2);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(82, 33);
+            btnAdd.Size = new Size(121, 33);
             btnAdd.TabIndex = 13;
             btnAdd.Text = "Thêm";
             btnAdd.UseVisualStyleBackColor = false;
@@ -233,7 +198,7 @@
             // 
             txtWage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtWage.Font = new Font("Segoe UI", 14F);
-            txtWage.Location = new Point(745, 93);
+            txtWage.Location = new Point(813, 53);
             txtWage.Margin = new Padding(3, 2, 3, 2);
             txtWage.Name = "txtWage";
             txtWage.Size = new Size(200, 32);
@@ -251,10 +216,11 @@
             // cmbPosition
             // 
             cmbPosition.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cmbPosition.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbPosition.Font = new Font("Segoe UI", 14F);
             cmbPosition.FormattingEnabled = true;
             cmbPosition.Items.AddRange(new object[] { "staff", "chef", "cashier" });
-            cmbPosition.Location = new Point(745, 50);
+            cmbPosition.Location = new Point(813, 12);
             cmbPosition.Margin = new Padding(3, 2, 3, 2);
             cmbPosition.Name = "cmbPosition";
             cmbPosition.Size = new Size(200, 33);
@@ -273,42 +239,22 @@
             // 
             txtName.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtName.Font = new Font("Segoe UI", 14F);
-            txtName.Location = new Point(745, 5);
+            txtName.Location = new Point(190, 5);
             txtName.Margin = new Padding(3, 2, 3, 2);
             txtName.Name = "txtName";
-            txtName.Size = new Size(200, 32);
+            txtName.Size = new Size(210, 32);
             txtName.TabIndex = 8;
-            // 
-            // txtID
-            // 
-            txtID.Font = new Font("Segoe UI", 14F);
-            txtID.Location = new Point(190, 5);
-            txtID.Margin = new Padding(3, 2, 3, 2);
-            txtID.Name = "txtID";
-            txtID.Size = new Size(210, 32);
-            txtID.TabIndex = 7;
             // 
             // label6
             // 
             label6.Anchor = AnchorStyles.Top;
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 14F);
-            label6.Location = new Point(522, 50);
+            label6.Location = new Point(556, 12);
             label6.Name = "label6";
             label6.Size = new Size(84, 25);
             label6.TabIndex = 6;
             label6.Text = "Chức vụ:";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14F);
-            label1.Location = new Point(18, 8);
-            label1.Name = "label1";
-            label1.Size = new Size(166, 25);
-            label1.TabIndex = 1;
-            label1.Text = "Mã nhân viên(ID): ";
-            label1.Click += label1_Click;
             // 
             // label4
             // 
@@ -325,7 +271,7 @@
             label5.Anchor = AnchorStyles.Top;
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 14F);
-            label5.Location = new Point(522, 95);
+            label5.Location = new Point(556, 53);
             label5.Name = "label5";
             label5.Size = new Size(128, 25);
             label5.TabIndex = 5;
@@ -336,7 +282,7 @@
             label3.Anchor = AnchorStyles.Top;
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 14F);
-            label3.Location = new Point(522, 11);
+            label3.Location = new Point(18, 8);
             label3.Name = "label3";
             label3.Size = new Size(133, 25);
             label3.TabIndex = 3;
@@ -345,8 +291,23 @@
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(20, 20);
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { editToolStripMenuItem, deleteToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(61, 4);
+            contextMenuStrip1.Size = new Size(150, 48);
+            // 
+            // editToolStripMenuItem
+            // 
+            editToolStripMenuItem.Name = "editToolStripMenuItem";
+            editToolStripMenuItem.Size = new Size(149, 22);
+            editToolStripMenuItem.Text = "Sửa nhân viên";
+            editToolStripMenuItem.Click += editToolStripMenuItem_Click;
+            // 
+            // deleteToolStripMenuItem
+            // 
+            deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            deleteToolStripMenuItem.Size = new Size(149, 22);
+            deleteToolStripMenuItem.Text = "Xóa nhân viên";
+            deleteToolStripMenuItem.Click += deleteToolStripMenuItem_Click;
             // 
             // errorProvider
             // 
@@ -356,7 +317,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1066, 529);
+            ClientSize = new Size(1134, 708);
             Controls.Add(panel3);
             Margin = new Padding(3, 2, 3, 2);
             Name = "ManageEployee";
@@ -366,6 +327,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvEmployee).EndInit();
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
+            contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
             ResumeLayout(false);
         }
@@ -373,12 +335,10 @@
         #endregion
         private Panel panel3;
         private DataGridView dgvEmployee;
-        private Label label1;
         private Label label3;
         private Label label2;
         private Panel panel4;
         private TextBox txtName;
-        private TextBox txtID;
         private Label label6;
         private Label label4;
         private Label label5;
@@ -388,10 +348,10 @@
         private TextBox txtPhoneNum;
         private Button btnCancel;
         private Button btnUpdate;
-        private Button btnDelete;
-        private Button btnEdit;
         private Button btnAdd;
         private ContextMenuStrip contextMenuStrip1;
         private ErrorProvider errorProvider;
+        private ToolStripMenuItem editToolStripMenuItem;
+        private ToolStripMenuItem deleteToolStripMenuItem;
     }
 }
