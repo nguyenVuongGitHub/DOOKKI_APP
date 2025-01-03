@@ -447,7 +447,7 @@
             dateTimePicker.Enabled = false;
             dateTimePicker.Font = new Font("Segoe UI", 14.25F);
             dateTimePicker.Format = DateTimePickerFormat.Short;
-            dateTimePicker.Location = new Point(157, 215);
+            dateTimePicker.Location = new Point(145, 215);
             dateTimePicker.Margin = new Padding(3, 2, 3, 2);
             dateTimePicker.Name = "dateTimePicker";
             dateTimePicker.Size = new Size(297, 33);
@@ -457,7 +457,7 @@
             // 
             txtTimeWork.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtTimeWork.Font = new Font("Segoe UI", 14.25F);
-            txtTimeWork.Location = new Point(157, 162);
+            txtTimeWork.Location = new Point(145, 162);
             txtTimeWork.Margin = new Padding(3, 2, 3, 2);
             txtTimeWork.Name = "txtTimeWork";
             txtTimeWork.Size = new Size(297, 33);
@@ -467,7 +467,7 @@
             // 
             txtPhone.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtPhone.Font = new Font("Segoe UI", 14.25F);
-            txtPhone.Location = new Point(157, 109);
+            txtPhone.Location = new Point(145, 109);
             txtPhone.Margin = new Padding(3, 2, 3, 2);
             txtPhone.Name = "txtPhone";
             txtPhone.Size = new Size(297, 33);
@@ -508,7 +508,7 @@
             CmbEmployeeID.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             CmbEmployeeID.Font = new Font("Segoe UI", 14.25F);
             CmbEmployeeID.FormattingEnabled = true;
-            CmbEmployeeID.Location = new Point(157, 6);
+            CmbEmployeeID.Location = new Point(145, 6);
             CmbEmployeeID.Margin = new Padding(3, 2, 3, 2);
             CmbEmployeeID.Name = "CmbEmployeeID";
             CmbEmployeeID.Size = new Size(297, 33);
@@ -529,7 +529,7 @@
             // 
             txtName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtName.Font = new Font("Segoe UI", 14.25F);
-            txtName.Location = new Point(157, 56);
+            txtName.Location = new Point(145, 56);
             txtName.Margin = new Padding(3, 2, 3, 2);
             txtName.Name = "txtName";
             txtName.Size = new Size(297, 33);
