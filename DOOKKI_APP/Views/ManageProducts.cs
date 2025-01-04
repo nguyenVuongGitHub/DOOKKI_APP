@@ -22,9 +22,11 @@ namespace DOOKKI_APP.Views
         private readonly CategoryController _categoryController;
         private readonly IServiceProvider _serviceProvider;
         private PageChanging<Product> _pageChanging;
+        DookkiContext _context;
         public ManageProducts(DookkiContext context, IServiceProvider serviceProvider)
         {
             InitializeComponent();
+            _context = context;
             _productController = new ProductController(context);
             _serviceProvider = serviceProvider;
             _pageChanging = new PageChanging<Product>(_productController.Products.ToList());
@@ -226,7 +228,7 @@ namespace DOOKKI_APP.Views
                 btnUpdate.Enabled = true;
 
                 txtName.Text = selectedRow.Cells[1].Value?.ToString();
-                dtpk_Mfg.Value = DateTime.ParseExact(selectedRow.Cells[2].Value?.ToString(),"dd/MM/yyyy",CultureInfo.InvariantCulture);
+                dtpk_Mfg.Value = DateTime.ParseExact(selectedRow.Cells[2].Value?.ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 dtpk_Exp.Value = DateTime.ParseExact(selectedRow.Cells[3].Value?.ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 txtUnitInStock.Text = selectedRow.Cells[4].Value?.ToString();
                 cbCategory.Text = selectedRow.Cells[5].Value?.ToString();
@@ -290,7 +292,7 @@ namespace DOOKKI_APP.Views
                                select p).SingleOrDefault();
                 if (product != null)
                 {
-                    if(CheckValidate())
+                    if (CheckValidate())
                     {
 
                         product.Name = txtName.Text;
@@ -323,17 +325,14 @@ namespace DOOKKI_APP.Views
         {
             try
             {
-                int pageOffset = GetPageSize() * (_pageChanging.CurrentPageIndex - 1);
                 if (dgvProducts.SelectedRows.Count > 0)
                 {
-                    int rowIndexOnPage = dgvProducts.SelectedRows[0].Index;
-                    int actualIndex = rowIndexOnPage + pageOffset;
+                    string name = dgvProducts.SelectedRows[0].Cells[1].Value.ToString();
+                    string mfg = dgvProducts.SelectedRows[0].Cells[2].Value.ToString();
+                    string exp = dgvProducts.SelectedRows[0].Cells[3].Value.ToString();
 
-                    var products = _productController.GetModel().ToList();
-
-                    var product = (from p in _productController.GetModel()
-                                   where p.Id == products.ElementAt(actualIndex).Id
-                                   select p).SingleOrDefault();
+                    var product = _productController.GetModel().ToList()
+                        .FirstOrDefault(p => p.Name == name && p.Mfg.ToString("dd/MM/yyyy") == mfg && p.Exp.ToString("dd/MM/yyyy") == exp); 
                     if (product != null)
                     {
                         DialogResult dr = MessageBox.Show($"Xác nhận xóa sản phẩm {product.Name}?", "Thông báo xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -372,7 +371,21 @@ namespace DOOKKI_APP.Views
 
         private void btnImportExcel_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Đang phát triển chức năng.");
+            openFileDialog1.Filter = "Excel Files|*.xlsx";
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = openFileDialog1.FileName;
+                bool result = ImportFile.Instance.ImportFileProducts(_context, fileName);
+                if (result)
+                {
+                    MessageBox.Show("Import thành công");
+                    LoadPageProduct();
+                }
+                else
+                {
+                    MessageBox.Show("Import thất bại");
+                }
+            }
         }
     }
 }
