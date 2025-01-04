@@ -39,13 +39,15 @@ namespace DOOKKI_APP.Controllers
         }
         public void DisplayToGirdView(DataGridView gridView, int pageNumber, int pageSize)
         {
-            var productsPaged = _products 
+            var productsPaged = _products
+                    .Where(p => p.IsActive == true)
+                    .OrderBy(p => p.CategoryId)
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
                     .ToList();
 
             var dataSource = productsPaged
-                .Where(p=>p.IsActive == true)
+
                 .Select((p, index) => new
                 {
                     STT = index + 1 + ((pageNumber - 1) * pageSize), // Calculating the row number
@@ -56,6 +58,7 @@ namespace DOOKKI_APP.Controllers
                     CategoryId = _categoryController.GetModel()
                                     .FirstOrDefault(c => c.Id == p.CategoryId)?.Name
                 })
+                
                 .ToList();
 
 
