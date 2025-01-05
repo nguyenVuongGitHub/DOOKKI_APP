@@ -85,13 +85,16 @@
             // 
             btnLogin.Anchor = AnchorStyles.None;
             btnLogin.AutoSize = true;
+            btnLogin.BackColor = Color.FromArgb(42, 52, 65);
+            btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.Font = new Font("Segoe UI", 16F);
+            btnLogin.ForeColor = Color.White;
             btnLogin.Location = new Point(149, 377);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(217, 40);
+            btnLogin.Size = new Size(217, 42);
             btnLogin.TabIndex = 5;
             btnLogin.Text = "Đăng nhập";
-            btnLogin.UseVisualStyleBackColor = true;
+            btnLogin.UseVisualStyleBackColor = false;
             btnLogin.Click += btnLogin_Click;
             // 
             // txtPassword

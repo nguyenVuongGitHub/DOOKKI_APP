@@ -39,6 +39,7 @@ namespace DOOKKI_APP.Views
 
                 if (userName.IsNullOrEmpty() || password.IsNullOrEmpty())
                 {
+                    MessageBox.Show("Vui lòng nhập tên tài khoản và mật khẩu");
                     return;
                 }
 
