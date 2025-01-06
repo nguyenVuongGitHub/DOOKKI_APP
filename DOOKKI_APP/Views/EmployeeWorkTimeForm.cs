@@ -176,12 +176,16 @@ namespace DOOKKI_APP.Views
             {
                 return;
             }
-
+            string selectedText = CmbEmployeeID.SelectedItem.ToString() ?? "";
+            int startIndex = selectedText.IndexOf("id:") + 3;
+            int endIndex = selectedText.IndexOf(")", startIndex);
+            string idText = selectedText.Substring(startIndex, endIndex - startIndex);
+            int employeeID = int.Parse(idText);
             var newWorkTime = new DayWork
             {
                 TimeWork = int.Parse(txtTimeWork.Text),
                 Day = DateOnly.FromDateTime(dateTimePicker.Value),
-                EmployeeId = int.Parse(CmbEmployeeID.SelectedValue.ToString())
+                EmployeeId = employeeID
             };
 
             _context.DayWorks.Add(newWorkTime);
@@ -205,7 +209,11 @@ namespace DOOKKI_APP.Views
             }
 
             DataGridViewRow selectedRow = dgvWorkTime.SelectedRows[0];
-
+            string selectedText = CmbEmployeeID.SelectedItem.ToString() ?? "";
+            int startIndex = selectedText.IndexOf("id:") + 3;
+            int endIndex = selectedText.IndexOf(")", startIndex);
+            string idText = selectedText.Substring(startIndex, endIndex - startIndex);
+            int employeeID = int.Parse(idText);
             var id = int.Parse(selectedRow.Cells[1].Value.ToString());
             var workTime = _context.DayWorks.FirstOrDefault(dw => dw.Id == id);
 
@@ -213,7 +221,7 @@ namespace DOOKKI_APP.Views
             {
                 workTime.TimeWork = int.Parse(txtTimeWork.Text);
                 workTime.Day = DateOnly.FromDateTime(dateTimePicker.Value);
-                workTime.EmployeeId = int.Parse(CmbEmployeeID.SelectedValue.ToString());
+                workTime.EmployeeId = employeeID;
 
                 _context.SaveChanges();
                 MessageBox.Show("Thời gian làm việc được cập nhật thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -520,7 +528,7 @@ namespace DOOKKI_APP.Views
 
         private void FillEmployeeDetails(Employee employee)
         {
-            CmbEmployeeID.SelectedValue = employee.Id;
+            CmbEmployeeID.SelectedIndex = FindIndexById(employee.Id);
             txtName.Text = employee.Name;
             txtPhone.Text = employee.Phone;
         }
@@ -565,16 +573,28 @@ namespace DOOKKI_APP.Views
                 txtName.Text = selectedRow.Cells[2].Value.ToString();
                 dateTimePicker.Value = DateTime.Parse(selectedRow.Cells[3].Value?.ToString());
                 txtTimeWork.Text = selectedRow.Cells[4].Value.ToString();
-
+                
                 var id = int.Parse(selectedRow.Cells[1].Value.ToString());
                 var workTime = _context.DayWorks.FirstOrDefault(dw => dw.Id == id);
                 var employee = _context.Employees.FirstOrDefault(s => s.Id == workTime.EmployeeId);
-                CmbEmployeeID.SelectedValue = employee.Id;
+                CmbEmployeeID.SelectedIndex = FindIndexById(employee.Id);
                 txtPhone.Text = employee.Phone;
 
             }
         }
-
+        int FindIndexById(int id)
+        {
+            for (int i = 0; i < CmbEmployeeID.Items.Count; i++)
+            {
+                string item = CmbEmployeeID.Items[i].ToString();
+                if (item.Contains($"id:{id}"))
+                {
+                    return i;  // Trả về index khi tìm thấy
+                }
+            }
+            return -1;  // Trả về -1 nếu không tìm thấy
+        }
+        
         private void dgvWorkTime_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
