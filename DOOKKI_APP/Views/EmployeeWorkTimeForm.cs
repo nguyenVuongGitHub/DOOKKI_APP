@@ -62,8 +62,8 @@ namespace DOOKKI_APP.Views
         {
             cmbPageSize.SelectedIndex = 1;
             CmbEmployeeID.SelectedIndex = -1;
-            cmbFilterMonth.SelectedIndex = 1;
-            txtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            cmbFilterMonth.SelectedIndex = 0;
+            txtDate.Text = "Tất cả các ngày";
             txtName.Text = string.Empty;
             txtPhone.Text = string.Empty;
             txtPhone.Text = string.Empty;

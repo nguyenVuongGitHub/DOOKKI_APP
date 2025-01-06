@@ -35,6 +35,8 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             panel1 = new Panel();
             panel6 = new Panel();
             label4 = new Label();
@@ -57,8 +59,8 @@
             sửaToolStripMenuItem = new ToolStripMenuItem();
             panel3 = new Panel();
             panel2 = new Panel();
+            btnAddWorkTime = new Guna.UI2.WinForms.Guna2Button();
             btnUpdateWorkTime = new Guna.UI2.WinForms.Guna2Button();
-            btnAddWorkTime = new Button();
             panel4 = new Panel();
             label1 = new Label();
             dateTimePicker = new DateTimePicker();
@@ -366,8 +368,8 @@
             // 
             // panel2
             // 
-            panel2.Controls.Add(btnUpdateWorkTime);
             panel2.Controls.Add(btnAddWorkTime);
+            panel2.Controls.Add(btnUpdateWorkTime);
             panel2.Dock = DockStyle.Bottom;
             panel2.Location = new Point(0, 518);
             panel2.Margin = new Padding(3, 2, 3, 2);
@@ -375,10 +377,29 @@
             panel2.Size = new Size(466, 48);
             panel2.TabIndex = 1;
             // 
+            // btnAddWorkTime
+            // 
+            btnAddWorkTime.BackColor = Color.FromArgb(42, 52, 65);
+            btnAddWorkTime.CustomizableEdges = customizableEdges3;
+            btnAddWorkTime.DisabledState.BorderColor = Color.DarkGray;
+            btnAddWorkTime.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnAddWorkTime.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnAddWorkTime.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnAddWorkTime.FillColor = Color.FromArgb(42, 52, 65);
+            btnAddWorkTime.Font = new Font("Segoe UI", 14.25F);
+            btnAddWorkTime.ForeColor = Color.White;
+            btnAddWorkTime.Location = new Point(367, 7);
+            btnAddWorkTime.Name = "btnAddWorkTime";
+            btnAddWorkTime.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnAddWorkTime.Size = new Size(87, 38);
+            btnAddWorkTime.TabIndex = 3;
+            btnAddWorkTime.Text = "Thêm";
+            btnAddWorkTime.Click += btnAddWorkTime_Click;
+            // 
             // btnUpdateWorkTime
             // 
             btnUpdateWorkTime.BackColor = Color.FromArgb(42, 52, 65);
-            btnUpdateWorkTime.CustomizableEdges = customizableEdges3;
+            btnUpdateWorkTime.CustomizableEdges = customizableEdges5;
             btnUpdateWorkTime.DisabledState.BorderColor = Color.DarkGray;
             btnUpdateWorkTime.DisabledState.CustomBorderColor = Color.DarkGray;
             btnUpdateWorkTime.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -389,27 +410,11 @@
             btnUpdateWorkTime.ForeColor = Color.White;
             btnUpdateWorkTime.Location = new Point(263, 7);
             btnUpdateWorkTime.Name = "btnUpdateWorkTime";
-            btnUpdateWorkTime.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnUpdateWorkTime.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnUpdateWorkTime.Size = new Size(87, 38);
             btnUpdateWorkTime.TabIndex = 2;
             btnUpdateWorkTime.Text = "Sửa";
             btnUpdateWorkTime.Click += btnUpdateWorkTime_Click;
-            // 
-            // btnAddWorkTime
-            // 
-            btnAddWorkTime.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAddWorkTime.BackColor = Color.FromArgb(42, 52, 65);
-            btnAddWorkTime.FlatStyle = FlatStyle.Flat;
-            btnAddWorkTime.Font = new Font("Segoe UI", 14.25F);
-            btnAddWorkTime.ForeColor = Color.White;
-            btnAddWorkTime.Location = new Point(367, 7);
-            btnAddWorkTime.Margin = new Padding(3, 2, 3, 2);
-            btnAddWorkTime.Name = "btnAddWorkTime";
-            btnAddWorkTime.Size = new Size(87, 38);
-            btnAddWorkTime.TabIndex = 0;
-            btnAddWorkTime.Text = "Thêm";
-            btnAddWorkTime.UseVisualStyleBackColor = false;
-            btnAddWorkTime.Click += btnAddWorkTime_Click;
             // 
             // panel4
             // 
@@ -582,7 +587,6 @@
         private Panel panel1;
         private DataGridView dgvWorkTime;
         private Panel panel2;
-        private Button btnAddWorkTime;
         private Panel panel3;
         private Label lblEmplyeeID;
         private ComboBox CmbEmployeeID;
@@ -617,5 +621,6 @@
         private Guna.UI2.WinForms.Guna2Button btnUpdateWorkTime;
         private Label label4;
         private Guna.UI2.WinForms.Guna2TextBox txtDate;
+        private Guna.UI2.WinForms.Guna2Button btnAddWorkTime;
     }
 }
