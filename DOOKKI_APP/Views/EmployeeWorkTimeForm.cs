@@ -41,24 +41,29 @@ namespace DOOKKI_APP.Views
 
         private void LoadEmployeeIDs()
         {
-            var employees = _context.Employees
+            var employees = _context.Employees.ToList()
+            .Where(e => e.IsActive == true)
             .OrderBy(e => e.Id)
             .Select(e => new
             {
-                e.Id
+                e.Id,
+                e.Name
             })
             .ToList();
-
-            CmbEmployeeID.DataSource = employees;
-            CmbEmployeeID.ValueMember = "Id";              
-            CmbEmployeeID.DisplayMember = "Id";
+            foreach(var employee in employees)
+            {
+                CmbEmployeeID.Items.Add($"{employee.Name} (id:{employee.Id})");
+            }
+            //CmbEmployeeID.DataSource = employees;
+            //CmbEmployeeID.ValueMember = "Id";              
+            //CmbEmployeeID.DisplayMember = "Id";
         }
         private void InitializeFields()
         {
             cmbPageSize.SelectedIndex = 1;
             CmbEmployeeID.SelectedIndex = -1;
-            cmbFilterMonth.SelectedIndex = 1;
-            txtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            cmbFilterMonth.SelectedIndex = 0;
+            txtDate.Text = "Tất cả các ngày";
             txtName.Text = string.Empty;
             txtPhone.Text = string.Empty;
             txtPhone.Text = string.Empty;
@@ -171,12 +176,16 @@ namespace DOOKKI_APP.Views
             {
                 return;
             }
-
+            string selectedText = CmbEmployeeID.SelectedItem.ToString() ?? "";
+            int startIndex = selectedText.IndexOf("id:") + 3;
+            int endIndex = selectedText.IndexOf(")", startIndex);
+            string idText = selectedText.Substring(startIndex, endIndex - startIndex);
+            int employeeID = int.Parse(idText);
             var newWorkTime = new DayWork
             {
                 TimeWork = int.Parse(txtTimeWork.Text),
                 Day = DateOnly.FromDateTime(dateTimePicker.Value),
-                EmployeeId = int.Parse(CmbEmployeeID.SelectedValue.ToString())
+                EmployeeId = employeeID
             };
 
             _context.DayWorks.Add(newWorkTime);
@@ -200,7 +209,11 @@ namespace DOOKKI_APP.Views
             }
 
             DataGridViewRow selectedRow = dgvWorkTime.SelectedRows[0];
-
+            string selectedText = CmbEmployeeID.SelectedItem.ToString() ?? "";
+            int startIndex = selectedText.IndexOf("id:") + 3;
+            int endIndex = selectedText.IndexOf(")", startIndex);
+            string idText = selectedText.Substring(startIndex, endIndex - startIndex);
+            int employeeID = int.Parse(idText);
             var id = int.Parse(selectedRow.Cells[1].Value.ToString());
             var workTime = _context.DayWorks.FirstOrDefault(dw => dw.Id == id);
 
@@ -208,13 +221,14 @@ namespace DOOKKI_APP.Views
             {
                 workTime.TimeWork = int.Parse(txtTimeWork.Text);
                 workTime.Day = DateOnly.FromDateTime(dateTimePicker.Value);
-                workTime.EmployeeId = int.Parse(CmbEmployeeID.SelectedValue.ToString());
+                workTime.EmployeeId = employeeID;
 
                 _context.SaveChanges();
                 MessageBox.Show("Thời gian làm việc được cập nhật thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadWorkTimeData();
                 ClearFields();
                 btnUpdateWorkTime.Enabled = false;
+                btnAddWorkTime.Enabled = true;
             }
         }
 
@@ -448,7 +462,11 @@ namespace DOOKKI_APP.Views
             if (CmbEmployeeID.SelectedItem != null)
             {
                 Console.WriteLine($"Selected Employee ID: {CmbEmployeeID.SelectedValue}");
-                int employeeID = int.Parse(CmbEmployeeID.SelectedValue.ToString());
+                string selectedText = CmbEmployeeID.SelectedItem.ToString() ?? "";
+                int startIndex = selectedText.IndexOf("id:") + 3;
+                int endIndex = selectedText.IndexOf(")", startIndex);
+                string idText = selectedText.Substring(startIndex, endIndex - startIndex);
+                int employeeID = int.Parse(idText);
                 var employee = _context.Employees.FirstOrDefault(e => e.Id == employeeID);
 
                 if (employee != null)
@@ -510,7 +528,7 @@ namespace DOOKKI_APP.Views
 
         private void FillEmployeeDetails(Employee employee)
         {
-            CmbEmployeeID.SelectedValue = employee.Id;
+            CmbEmployeeID.SelectedIndex = FindIndexById(employee.Id);
             txtName.Text = employee.Name;
             txtPhone.Text = employee.Phone;
         }
@@ -549,21 +567,34 @@ namespace DOOKKI_APP.Views
             if (dgvWorkTime.SelectedRows.Count > 0)
             {
                 btnUpdateWorkTime.Enabled = true;
+                btnAddWorkTime.Enabled = false;
                 DataGridViewRow selectedRow = dgvWorkTime.SelectedRows[0];
 
                 txtName.Text = selectedRow.Cells[2].Value.ToString();
                 dateTimePicker.Value = DateTime.Parse(selectedRow.Cells[3].Value?.ToString());
                 txtTimeWork.Text = selectedRow.Cells[4].Value.ToString();
-
+                
                 var id = int.Parse(selectedRow.Cells[1].Value.ToString());
                 var workTime = _context.DayWorks.FirstOrDefault(dw => dw.Id == id);
                 var employee = _context.Employees.FirstOrDefault(s => s.Id == workTime.EmployeeId);
-                CmbEmployeeID.SelectedValue = employee.Id;
+                CmbEmployeeID.SelectedIndex = FindIndexById(employee.Id);
                 txtPhone.Text = employee.Phone;
 
             }
         }
-
+        int FindIndexById(int id)
+        {
+            for (int i = 0; i < CmbEmployeeID.Items.Count; i++)
+            {
+                string item = CmbEmployeeID.Items[i].ToString();
+                if (item.Contains($"id:{id}"))
+                {
+                    return i;  // Trả về index khi tìm thấy
+                }
+            }
+            return -1;  // Trả về -1 nếu không tìm thấy
+        }
+        
         private void dgvWorkTime_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)

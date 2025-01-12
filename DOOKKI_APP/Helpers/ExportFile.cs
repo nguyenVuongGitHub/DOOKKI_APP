@@ -422,14 +422,19 @@ namespace DOOKKI_APP.Helpers
 
                 // Export data
                 int row = 2;
+                decimal sum = 0;
                 foreach (var item in dashboard.GrossRevenueList)
                 {
                     sheet.Range["A" + row].Text = item.Date.ToString();
                     sheet.Range["B" + row].NumberValue = (int)item.TotalAmount;
+                    sum += item.TotalAmount;
                     row++;
                 }
-                
-                sheet.Range["B2:B" + (row - 1)].NumberFormat = "#,###";
+
+                sheet.Range["A" + row].Text = "Tổng cộng";
+                sheet.Range["B" + row].NumberValue = (int)sum;
+
+                sheet.Range["B2:B" + row].NumberFormat = "#,###";
 
                 // Save file
                 string filePath = Path.Combine(OutputFileDirectory, "Dashboard_" + startDate.Month +"_"+ startDate.Year +"_to_"+ date.Month + "_" + date.Year + ".Xlsm");

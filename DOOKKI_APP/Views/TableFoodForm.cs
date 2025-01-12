@@ -156,7 +156,11 @@ namespace DOOKKI_APP.Views
         private void btnCharge_Click(object sender, EventArgs e)
         {
             Table table = lsvOrder.Tag as Table;
-
+            if(table == null)
+            {
+                MessageBox.Show("Vui lòng chọn bàn");
+                return;
+            }
             int orderID = OrderControllerSingleton.Instance.GetIDUncheckOrderByTableID(table.Id);
             DialogResult result = MessageBox.Show("Bạn có chắc thanh toán hóa đơn cho bàn " + table.Name, "Thông báo", MessageBoxButtons.OKCancel);
 

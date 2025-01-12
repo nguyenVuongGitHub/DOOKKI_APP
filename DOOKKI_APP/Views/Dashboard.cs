@@ -27,8 +27,8 @@ namespace DOOKKI_APP.Views
             _controller = new DashboardController(_context);
 
             LoadComboBoxChoice();
-            dtpFromDate.Value = new DateTime(DateTime.Today.Year, 1, 1);
-            dtpToDate.Value = new DateTime(DateTime.Today.Year, 12, 31);
+            dtpFromDate.Value = new DateTime(DateTime.Today.Year - 1, 1, 1);
+            dtpToDate.Value = new DateTime(DateTime.Today.Year - 1, 12, 31);
 
             LoadData();
         }
@@ -59,8 +59,9 @@ namespace DOOKKI_APP.Views
             cbChoice.Items.Add("Last 7 Days");
             cbChoice.Items.Add("This Month");
             cbChoice.Items.Add("This Year");
+            cbChoice.Items.Add("Last Year");
 
-            cbChoice.SelectedIndex = 4;
+            cbChoice.SelectedIndex = 5;
         }
 
         private void DisableCustomData()
@@ -114,10 +115,17 @@ namespace DOOKKI_APP.Views
                 LoadData();
                 DisableCustomData();
             }
-            else
+            else if(cbChoice.SelectedIndex == 4)
             {
                 dtpFromDate.Value = new DateTime(DateTime.Today.Year, 1, 1);
                 dtpToDate.Value = new DateTime(DateTime.Today.Year, 12, 31);
+                LoadData();
+                DisableCustomData();
+            }
+            else
+            {
+                dtpFromDate.Value = new DateTime(DateTime.Today.Year-1, 1, 1);
+                dtpToDate.Value = new DateTime(DateTime.Today.Year-1, 12, 31);
                 LoadData();
                 DisableCustomData();
             }

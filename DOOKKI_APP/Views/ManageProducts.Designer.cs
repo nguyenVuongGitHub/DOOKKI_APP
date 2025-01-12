@@ -40,6 +40,7 @@
             btnNextPage = new Button();
             lbTotalPages = new Label();
             panel1 = new Panel();
+            btnImportExcel = new Button();
             btnUpdate = new Guna.UI2.WinForms.Guna2Button();
             btnInsert = new Button();
             dtpk_Exp = new DateTimePicker();
@@ -62,7 +63,7 @@
             panel3 = new Panel();
             cbNumberOfPages = new ComboBox();
             label8 = new Label();
-            btnImportExcel = new Button();
+            openFileDialog1 = new OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
             panel1.SuspendLayout();
             contextMenuStrip.SuspendLayout();
@@ -103,7 +104,7 @@
             dgvProducts.ReadOnly = true;
             dgvProducts.RowHeadersVisible = false;
             dgvProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvProducts.Size = new Size(977, 275);
+            dgvProducts.Size = new Size(1114, 394);
             dgvProducts.TabIndex = 0;
             dgvProducts.MouseDown += dgvProducts_MouseDown;
             // 
@@ -112,7 +113,7 @@
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 14F);
-            label1.Location = new Point(691, 6);
+            label1.Location = new Point(828, 6);
             label1.Name = "label1";
             label1.Size = new Size(88, 25);
             label1.TabIndex = 1;
@@ -122,7 +123,7 @@
             // 
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtSearch.Font = new Font("Segoe UI", 14F);
-            txtSearch.Location = new Point(785, 3);
+            txtSearch.Location = new Point(922, 3);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(200, 32);
             txtSearch.TabIndex = 2;
@@ -163,7 +164,7 @@
             lbTotalPages.Anchor = AnchorStyles.None;
             lbTotalPages.AutoSize = true;
             lbTotalPages.Font = new Font("Segoe UI", 14F);
-            lbTotalPages.Location = new Point(785, 9);
+            lbTotalPages.Location = new Point(947, 11);
             lbTotalPages.Name = "lbTotalPages";
             lbTotalPages.Size = new Size(59, 25);
             lbTotalPages.TabIndex = 5;
@@ -189,8 +190,23 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(997, 222);
+            panel1.Size = new Size(1134, 222);
             panel1.TabIndex = 6;
+            // 
+            // btnImportExcel
+            // 
+            btnImportExcel.AutoSize = true;
+            btnImportExcel.BackColor = Color.FromArgb(42, 52, 65);
+            btnImportExcel.FlatStyle = FlatStyle.Flat;
+            btnImportExcel.Font = new Font("Segoe UI", 14F);
+            btnImportExcel.ForeColor = Color.White;
+            btnImportExcel.Location = new Point(967, 174);
+            btnImportExcel.Name = "btnImportExcel";
+            btnImportExcel.Size = new Size(155, 37);
+            btnImportExcel.TabIndex = 12;
+            btnImportExcel.Text = "Nhập file excel";
+            btnImportExcel.UseVisualStyleBackColor = false;
+            btnImportExcel.Click += btnImportExcel_Click;
             // 
             // btnUpdate
             // 
@@ -204,7 +220,7 @@
             btnUpdate.FillColor = Color.FromArgb(42, 52, 65);
             btnUpdate.Font = new Font("Segoe UI", 14F);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(655, 174);
+            btnUpdate.Location = new Point(837, 174);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnUpdate.Size = new Size(110, 37);
@@ -219,7 +235,7 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 14F);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(546, 174);
+            btnInsert.Location = new Point(728, 174);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(88, 37);
             btnInsert.TabIndex = 7;
@@ -241,7 +257,7 @@
             cbCategory.DropDownStyle = ComboBoxStyle.DropDownList;
             cbCategory.Font = new Font("Segoe UI", 14F);
             cbCategory.FormattingEnabled = true;
-            cbCategory.Location = new Point(720, 124);
+            cbCategory.Location = new Point(902, 124);
             cbCategory.Name = "cbCategory";
             cbCategory.Size = new Size(220, 33);
             cbCategory.TabIndex = 9;
@@ -258,7 +274,7 @@
             // txtUnitInStock
             // 
             txtUnitInStock.Font = new Font("Segoe UI", 14F);
-            txtUnitInStock.Location = new Point(720, 73);
+            txtUnitInStock.Location = new Point(902, 73);
             txtUnitInStock.Name = "txtUnitInStock";
             txtUnitInStock.Size = new Size(220, 32);
             txtUnitInStock.TabIndex = 7;
@@ -275,7 +291,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 14F);
-            label7.Location = new Point(546, 128);
+            label7.Location = new Point(728, 128);
             label7.Name = "label7";
             label7.Size = new Size(47, 25);
             label7.TabIndex = 5;
@@ -285,7 +301,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 14F);
-            label6.Location = new Point(546, 73);
+            label6.Location = new Point(728, 73);
             label6.Name = "label6";
             label6.Size = new Size(174, 25);
             label6.TabIndex = 4;
@@ -327,7 +343,7 @@
             label2.Font = new Font("Segoe UI", 20F);
             label2.Location = new Point(0, 0);
             label2.Name = "label2";
-            label2.Size = new Size(997, 37);
+            label2.Size = new Size(1134, 37);
             label2.TabIndex = 0;
             label2.Text = "Kho hàng";
             label2.TextAlign = ContentAlignment.MiddleCenter;
@@ -365,7 +381,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 222);
             panel2.Name = "panel2";
-            panel2.Size = new Size(997, 367);
+            panel2.Size = new Size(1134, 486);
             panel2.TabIndex = 7;
             // 
             // panel4
@@ -375,7 +391,7 @@
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(0, 0);
             panel4.Name = "panel4";
-            panel4.Size = new Size(997, 41);
+            panel4.Size = new Size(1134, 41);
             panel4.TabIndex = 7;
             // 
             // panel3
@@ -387,9 +403,9 @@
             panel3.Controls.Add(btnPrePage);
             panel3.Controls.Add(lbTotalPages);
             panel3.Dock = DockStyle.Bottom;
-            panel3.Location = new Point(0, 325);
+            panel3.Location = new Point(0, 444);
             panel3.Name = "panel3";
-            panel3.Size = new Size(997, 42);
+            panel3.Size = new Size(1134, 42);
             panel3.TabIndex = 6;
             // 
             // cbNumberOfPages
@@ -400,7 +416,7 @@
             cbNumberOfPages.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbNumberOfPages.ForeColor = Color.White;
             cbNumberOfPages.FormattingEnabled = true;
-            cbNumberOfPages.Location = new Point(362, 6);
+            cbNumberOfPages.Location = new Point(431, 6);
             cbNumberOfPages.Name = "cbNumberOfPages";
             cbNumberOfPages.Size = new Size(121, 33);
             cbNumberOfPages.TabIndex = 6;
@@ -411,32 +427,21 @@
             label8.Anchor = AnchorStyles.None;
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 14F);
-            label8.Location = new Point(273, 9);
+            label8.Location = new Point(342, 9);
             label8.Name = "label8";
             label8.Size = new Size(83, 25);
             label8.TabIndex = 3;
             label8.Text = "Số trang";
             // 
-            // btnImportExcel
+            // openFileDialog1
             // 
-            btnImportExcel.AutoSize = true;
-            btnImportExcel.BackColor = Color.FromArgb(42, 52, 65);
-            btnImportExcel.FlatStyle = FlatStyle.Flat;
-            btnImportExcel.Font = new Font("Segoe UI", 14F);
-            btnImportExcel.ForeColor = Color.White;
-            btnImportExcel.Location = new Point(785, 174);
-            btnImportExcel.Name = "btnImportExcel";
-            btnImportExcel.Size = new Size(155, 37);
-            btnImportExcel.TabIndex = 12;
-            btnImportExcel.Text = "Nhập file excel";
-            btnImportExcel.UseVisualStyleBackColor = false;
-            btnImportExcel.Click += btnImportExcel_Click;
+            openFileDialog1.FileName = "openFileDialog1";
             // 
             // ManageProducts
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(997, 589);
+            ClientSize = new Size(1134, 708);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "ManageProducts";
@@ -488,5 +493,6 @@
         private Label label8;
         private ComboBox cbNumberOfPages;
         private Button btnImportExcel;
+        private OpenFileDialog openFileDialog1;
     }
 }
